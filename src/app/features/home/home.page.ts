@@ -1,27 +1,63 @@
-import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  effect,
+  ElementRef,
+  inject,
+} from '@angular/core';
 import { visibleHomeSections } from '../../../content/selectors';
 import { SITE_CONTENT } from '../../core/content';
 import { LangService } from '../../core/i18n/lang.service';
+import { SectionSpy } from '../../core/navigation/section-spy';
 import { SeoService } from '../../core/seo/seo.service';
-import { SectionHeading } from '../../shared/ui/section-heading/section-heading';
 import { personJsonLd } from './person-json-ld';
+import { Contact } from './sections/contact/contact';
+import { Ecosystem } from './sections/ecosystem/ecosystem';
+import { Expertise } from './sections/expertise/expertise';
+import { Hero } from './sections/hero/hero';
+import { Projects } from './sections/projects/projects';
+import { Technology } from './sections/technology/technology';
 
 /**
- * Home page. Stage 2: hero text + section skeleton driven by `visibleHomeSections`.
- * Section content arrives in Stage 3.
+ * Home page: hero + the sections that have content, in the order given by `visibleHomeSections`
+ * (the same list drives the navigation, so a hidden section never leaves a dead menu link).
  */
 @Component({
   selector: 'app-home-page',
-  imports: [SectionHeading],
+  imports: [Hero, Expertise, Ecosystem, Technology, Projects, Contact],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './home.page.html',
-  styleUrl: './home.page.scss',
+  template: `
+    <app-hero [sections]="sections" />
+
+    @for (id of sections; track id) {
+      <section class="section" [id]="id" [attr.aria-labelledby]="id + '-title'">
+        @switch (id) {
+          @case ('expertise') {
+            <app-expertise />
+          }
+          @case ('ecosystem') {
+            <app-ecosystem />
+          }
+          @case ('technology') {
+            <app-technology />
+          }
+          @case ('projects') {
+            <app-projects />
+          }
+          @case ('contact') {
+            <app-contact />
+          }
+        }
+      </section>
+    }
+  `,
 })
 export class HomePage {
   private readonly langService = inject(LangService);
   private readonly content = inject(SITE_CONTENT);
   protected readonly t = this.langService.t;
-  protected readonly site = this.content.site;
   protected readonly sections = visibleHomeSections(this.content);
 
   constructor() {
@@ -33,8 +69,15 @@ export class HomePage {
         title: this.t().meta.homeTitle,
         description: this.t().meta.homeDescription,
         path: '',
-        jsonLd: personJsonLd(this.site, lang),
+        jsonLd: personJsonLd(this.content.site, lang),
       });
     });
+
+    const host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+    const spy = inject(SectionSpy);
+    const destroyRef = inject(DestroyRef);
+    afterNextRender(() =>
+      spy.observe([...host.querySelectorAll<HTMLElement>('app-hero, section[id]')], destroyRef),
+    );
   }
 }

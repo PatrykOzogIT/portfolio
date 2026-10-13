@@ -1,0 +1,91 @@
+@use 'breakpoints' as bp;
+
+:host {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  margin-inline: auto;
+
+  @include bp.down(lg) {
+    max-width: 440px;
+  }
+
+  // Phones: smaller, simplified, a touch quieter — decoration must not push content down much.
+  @include bp.down(md) {
+    max-width: 320px;
+    opacity: 0.85;
+
+    .optional {
+      display: none;
+    }
+  }
+}
+
+svg {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 500 / 460;
+  overflow: visible;
+}
+
+.layer {
+  transition: transform 600ms var(--ease);
+}
+
+.ctx {
+  fill: rgb(255 255 255 / 0.015);
+  stroke: rgb(255 255 255 / 0.08);
+  stroke-dasharray: 3 5;
+}
+
+.mod {
+  fill: var(--surface-2);
+  stroke: rgb(255 255 255 / 0.1);
+}
+
+.mod-hl {
+  fill: var(--accent);
+  opacity: 0;
+  transition: opacity 400ms var(--ease);
+  pointer-events: none;
+}
+
+.wire {
+  fill: none;
+  stroke: rgb(255 255 255 / 0.13);
+  stroke-width: 1.25;
+}
+
+// A short dash travelling along a connector, then a pause (pathLength = 100).
+.signal {
+  fill: none;
+  stroke: var(--accent-strong);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 6 200;
+  stroke-dashoffset: 6;
+  opacity: 0;
+  animation: signal 7.2s linear infinite;
+}
+
+@keyframes signal {
+  0% {
+    stroke-dashoffset: 6;
+    opacity: 0;
+  }
+  4%,
+  36% {
+    opacity: 0.95;
+  }
+  40%,
+  100% {
+    stroke-dashoffset: -100;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signal {
+    display: none;
+  }
+}

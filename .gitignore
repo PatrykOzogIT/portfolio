@@ -8,8 +8,34 @@
 
 # Node
 /node_modules
-npm-debug.log
+npm-debug.log*
 yarn-error.log
+.npm/
+
+# Angular
+/.angular/
+
+# Generated content (npm run content)
+/src/content/generated/
+
+# Tests
+/coverage
+/test-results/
+/playwright-report/
+__screenshots__/
+
+# Environment and secrets — never commit credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Private documents — the CV is deliberately not published with the site
+/public/cv/
+*.pdf
 
 # IDEs and editors
 .idea/
@@ -26,26 +52,19 @@ yarn-error.log
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-!.vscode/mcp.json
 .history/*
 
 # Miscellaneous
-/.angular/cache
 .sass-cache/
 /connect.lock
-/coverage
 /libpeerconnection.log
 testem.log
 /typings
-__screenshots__/
 
 # System files
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# Generated content (npm run content)
-/src/content/generated/
-
-
-# Local tooling (Claude Code launch configs)
+# Local tooling (Claude Code)
 /.claude/

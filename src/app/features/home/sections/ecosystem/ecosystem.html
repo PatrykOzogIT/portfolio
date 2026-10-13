@@ -1,0 +1,152 @@
+<div class="container">
+  <app-section-heading
+    headingId="ecosystem-title"
+    [eyebrow]="t().ecosystem.eyebrow"
+    [title]="t().ecosystem.title"
+    [lead]="t().ecosystem.lead"
+  >
+    <p class="note">{{ t().ecosystem.note }}</p>
+  </app-section-heading>
+
+  <div class="layout">
+    <div class="map-wrap">
+      <div class="map">
+        <div
+          class="cols"
+          role="tablist"
+          [attr.aria-label]="t().ecosystem.systems"
+          (keydown)="onKeydown($event)"
+        >
+          <!-- Shared REST band behind the API row: communication without implying pairwise topology. -->
+          <div class="rail" aria-hidden="true"></div>
+          @for (system of systems; track system.id; let i = $index) {
+            <button
+              type="button"
+              role="tab"
+              class="sys"
+              [id]="'eco-tab-' + system.id"
+              [attr.data-sys]="system.id"
+              [style.grid-column]="i + 1"
+              [attr.aria-selected]="active() === system.id"
+              [attr.aria-controls]="'eco-panel-' + system.id"
+              [tabindex]="active() === system.id ? 0 : -1"
+              (click)="select(system.id)"
+            >
+              <span class="sys-head">
+                <span class="sys-icon"><svg [appIcon]="icons[system.id]" class="icon"></svg></span>
+                <span class="sys-text">
+                  <span class="sys-name">{{ system.name }}</span>
+                  <span class="sys-role">{{ system.role[lang()] }}</span>
+                </span>
+              </span>
+              <span class="box fe">
+                <span class="box-k mono">{{ t().ecosystem.frontend }}</span>
+                <span class="box-v">Angular</span>
+              </span>
+              <span class="box api">
+                <span class="box-k mono">{{ t().ecosystem.api }}</span>
+                <span class="box-v">NestJS</span>
+              </span>
+            </button>
+          }
+        </div>
+
+        <div class="db">
+          <span class="db-icon"><svg appIcon="database" class="icon"></svg></span>
+          <span>
+            <span class="db-title">{{ t().ecosystem.sharedData }}</span>
+            <span class="db-sub mono">MySQL / MariaDB</span>
+          </span>
+        </div>
+      </div>
+
+      <ul class="legend" role="list">
+        <li>
+          <svg viewBox="0 0 28 14" aria-hidden="true">
+            <rect x="2" y="1" width="10" height="5" rx="1.5" />
+            <rect x="2" y="9" width="10" height="4" rx="1.5" />
+            <path d="M7 6v3" />
+          </svg>
+          {{ t().ecosystem.legendApps }}
+        </li>
+        <li>
+          <svg viewBox="0 0 28 14" aria-hidden="true">
+            <rect x="1" y="2" width="26" height="10" rx="4" stroke-dasharray="2 3" />
+          </svg>
+          {{ t().ecosystem.legendRest }}
+        </li>
+        <li>
+          <svg viewBox="0 0 28 14" aria-hidden="true">
+            <path d="M14 0v14" stroke-dasharray="3 3" />
+          </svg>
+          {{ t().ecosystem.legendData }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Phone-only sticky switcher: a pointer convenience mirroring the tabs above (hidden from AT). -->
+    <div #switcher class="switcher" aria-hidden="true">
+      @for (system of systems; track system.id) {
+        <button
+          type="button"
+          tabindex="-1"
+          class="switch"
+          [attr.data-sys]="system.id"
+          [class.is-active]="active() === system.id"
+          (click)="selectFromSwitcher(system.id, switcher, panels)"
+        >
+          {{ system.name }}
+        </button>
+      }
+    </div>
+
+    <div #panels class="panels">
+      @for (system of systems; track system.id) {
+        <div
+          class="panel"
+          role="tabpanel"
+          [id]="'eco-panel-' + system.id"
+          [attr.aria-labelledby]="'eco-tab-' + system.id"
+          [attr.data-sys]="system.id"
+          [class.is-active]="active() === system.id"
+          [attr.inert]="active() === system.id ? null : ''"
+        >
+          <div class="panel-head">
+            <span class="sys-icon"><svg [appIcon]="icons[system.id]" class="icon"></svg></span>
+            <div>
+              <p class="panel-full mono">{{ system.fullName[lang()] }}</p>
+              <h3 class="panel-name">{{ system.name }}</h3>
+            </div>
+          </div>
+          <p class="panel-summary">{{ system.summary[lang()] }}</p>
+
+          <h4 class="mono">{{ t().ecosystem.areas }}</h4>
+          <ul class="areas" role="list">
+            @for (area of system.areas[lang()]; track $index) {
+              <li>{{ area }}</li>
+            }
+          </ul>
+
+          <h4 class="mono">{{ t().ecosystem.technologies }}</h4>
+          <ul class="chip-list" role="list">
+            @for (tech of system.technologies; track tech) {
+              <li class="chip">{{ technologies[tech].label }}</li>
+            }
+          </ul>
+
+          @if (system.responsibilities.length) {
+            <h4 class="mono">{{ t().ecosystem.role }}</h4>
+            <dl class="role">
+              @for (r of system.responsibilities; track r.area) {
+                <div>
+                  <dt>{{ t().ecosystem.responsibilityAreas[r.area] }}</dt>
+                  <dd>{{ r.description[lang()] }}</dd>
+                </div>
+              }
+            </dl>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

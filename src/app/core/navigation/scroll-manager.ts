@@ -6,7 +6,7 @@ import { isLangSwitch } from '../i18n/lang-url';
 const INSTANT: ScrollOptions = { behavior: 'instant' };
 
 /**
- * Scroll behaviour after navigation (the router's built-in restoration is disabled in app.config;
+ * Scroll behavior after navigation (the router's built-in restoration is disabled in app.config;
  * the router still records positions and emits `Scroll` events once the new view is rendered):
  * - back / forward → restore the saved position,
  * - language switch → keep the current position (same page, other language),

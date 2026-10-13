@@ -1,0 +1,148 @@
+@use 'breakpoints' as bp;
+
+// Layout rules:
+//   phone            → media on top
+//   tablet (md–lg)   → one column: every card has media beside the text
+//   desktop (lg+)    → two columns: wide cards side by side, standard cards media on top
+
+@mixin horizontal {
+  .inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  }
+
+  .media {
+    aspect-ratio: auto;
+    min-height: 100%;
+    border-bottom: 0;
+    border-right: 1px solid var(--border);
+  }
+
+  .body {
+    justify-content: center;
+    padding: clamp(24px, 3vw, 40px);
+  }
+}
+
+:host {
+  display: block;
+  min-width: 0;
+  height: 100%;
+
+  @media (min-width: 768px) and (max-width: 1023.98px) {
+    @include horizontal;
+  }
+}
+
+:host(.wide) {
+  @include bp.up(lg) {
+    @include horizontal;
+  }
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+
+  @include bp.hover {
+    &:hover .media > * {
+      transform: scale(1.02);
+    }
+
+    &:hover .details .icon {
+      transform: translateX(3px);
+    }
+  }
+
+  &:focus-within {
+    border-color: var(--border-strong);
+  }
+}
+
+.media {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+
+  > * {
+    transition: transform 600ms var(--ease);
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: clamp(20px, 2.4vw, 28px);
+}
+
+.title {
+  margin: 0;
+}
+
+// The title link covers the whole card.
+.stretched {
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+  }
+
+  &:focus-visible {
+    outline: none;
+
+    &::after {
+      outline: 2px solid var(--accent);
+      outline-offset: -2px;
+    }
+  }
+}
+
+.description {
+  color: var(--text-2);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: auto;
+  padding-top: var(--space-2);
+}
+
+.details {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: auto;
+  color: var(--accent-strong);
+  font-weight: 600;
+  font-size: 0.925rem;
+
+  .icon {
+    width: 16px;
+    height: 16px;
+    transition: transform var(--t-base) var(--ease);
+  }
+}
+
+// Buttons stay clickable above the stretched link.
+.raised {
+  position: relative;
+  z-index: 2;
+}

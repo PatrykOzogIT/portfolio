@@ -8,7 +8,13 @@
     <ul role="list">
       @for (item of nav.items(); track item.id) {
         <li>
-          <a class="nav-link" [routerLink]="['/', lang()]" [fragment]="item.id">{{ item.label }}</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/', lang()]"
+            [fragment]="item.id"
+            [attr.aria-current]="nav.active() === item.id ? 'true' : null"
+            >{{ item.label }}</a
+          >
         </li>
       }
     </ul>
@@ -24,6 +30,7 @@
         size="sm"
         [routerLink]="['/', lang()]"
         fragment="contact"
+        [attr.aria-current]="nav.active() === 'contact' ? 'true' : null"
       >
         {{ t().nav.contact }}
       </a>

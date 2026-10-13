@@ -38,15 +38,43 @@ export interface SiteConfig {
   readonly cv: Readonly<Record<Lang, CvFile | null>>;
   /** Default social preview image, relative to /public. */
   readonly ogImage: string | null;
+  /** Portrait shown next to the name (hero) and in the contact section; `null` hides both. */
+  readonly photo: Photo | null;
+}
+
+export interface Photo {
+  /** Path relative to /public — square, at least 800×800 px. */
+  readonly src: string;
+  readonly width: number;
+  readonly height: number;
+  readonly alt: Localized;
 }
 
 /* ------------------------------------------------------------ technology */
 
-export type TechGroup = 'frontend' | 'backend' | 'data' | 'engineering';
-
 export interface Tech {
   readonly label: string;
-  readonly group: TechGroup;
+}
+
+/** A group in the Technology section. Tools only — capabilities belong to the expertise section. */
+export interface TechStackGroup {
+  readonly id: string;
+  readonly title: Localized;
+  readonly technologies: readonly TechId[];
+  /** Short extra context (what the tools are used for), never a skill rating. */
+  readonly note?: Localized;
+}
+
+/* ------------------------------------------------------------- expertise */
+
+export type ExpertiseIcon = 'architecture' | 'fullstack' | 'process' | 'modernization';
+
+export interface ExpertiseArea {
+  readonly id: string;
+  readonly icon: ExpertiseIcon;
+  readonly title: Localized;
+  readonly description: Localized;
+  readonly points: Localized<readonly string[]>;
 }
 
 /* ------------------------------------------------------------- ecosystem */
@@ -134,6 +162,8 @@ export type ProjectSectionsLoader = () => Promise<ProjectSections>;
 export interface SiteContent {
   readonly site: SiteConfig;
   readonly technologies: Readonly<Record<TechId, Tech>>;
+  readonly techStack: readonly TechStackGroup[];
+  readonly expertise: readonly ExpertiseArea[];
   readonly ecosystem: readonly EcosystemSystem[];
   readonly projects: readonly ProjectMeta[];
   readonly projectSections: Readonly<Record<string, Localized<ProjectSectionsLoader>>>;

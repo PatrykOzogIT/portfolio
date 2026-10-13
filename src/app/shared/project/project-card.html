@@ -1,0 +1,52 @@
+@let p = project();
+
+<article class="card card--interactive inner">
+  <div class="media">
+    @if (p.coverImage; as cover) {
+      <img
+        [ngSrc]="'/' + cover.src"
+        [width]="cover.width"
+        [height]="cover.height"
+        [alt]="cover.alt[lang()]"
+        sizes="(min-width: 1024px) 50vw, 100vw"
+      />
+    } @else {
+      <app-project-art [slug]="p.slug" [title]="p.title.en" [accentHue]="p.accentHue" />
+    }
+  </div>
+
+  <div class="body">
+    <h3 class="h3 title">
+      <a class="stretched" [routerLink]="link()">{{ title() }}</a>
+    </h3>
+    <p class="description">{{ p.shortDescription[lang()] }}</p>
+
+    @if (p.technologies.length) {
+      <ul class="chip-list" role="list">
+        @for (id of p.technologies; track id) {
+          <li class="chip">{{ technologies[id].label }}</li>
+        }
+      </ul>
+    }
+
+    <div class="actions">
+      <span class="details" aria-hidden="true">
+        {{ t().projects.details }}
+        <svg appIcon="arrow-right" class="icon"></svg>
+      </span>
+      @if (p.demoUrl; as demo) {
+        <a class="raised" appButton appExternal variant="primary" size="sm" [href]="demo">
+          {{ t().project.demo }}
+          <app-new-tab-hint />
+        </a>
+      }
+      @if (p.githubUrl; as github) {
+        <a class="raised" appButton appExternal size="sm" [href]="github">
+          <svg appIcon="github" class="icon"></svg>
+          GitHub
+          <app-new-tab-hint />
+        </a>
+      }
+    </div>
+  </div>
+</article>

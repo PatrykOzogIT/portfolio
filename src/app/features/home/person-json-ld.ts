@@ -9,6 +9,7 @@ export function personJsonLd(site: SiteConfig, lang: Lang): Record<string, unkno
     name: site.person.name,
     jobTitle: site.person.jobTitle,
     ...(site.siteUrl ? { url: `${site.siteUrl}/${lang}` } : {}),
+    ...(site.siteUrl && site.photo ? { image: `${site.siteUrl}/${site.photo.src}` } : {}),
     ...(sameAs.length ? { sameAs } : {}),
     knowsAbout: ['Software Architecture', 'Angular', 'NestJS', 'TypeScript', 'ERP', 'WMS', 'B2B'],
   };

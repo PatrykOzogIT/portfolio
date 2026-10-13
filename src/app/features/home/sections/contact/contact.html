@@ -1,0 +1,78 @@
+<div class="container">
+  <div class="card panel" [class.with-photo]="!!photo">
+    @if (photo) {
+      <img
+        class="portrait"
+        [ngSrc]="'/' + photo.src"
+        [width]="photo.width"
+        [height]="photo.height"
+        [alt]="photo.alt[lang()]"
+      />
+    }
+    <div class="content">
+      <app-section-heading
+        headingId="contact-title"
+        [eyebrow]="t().contact.eyebrow"
+        [title]="t().contact.title"
+        [lead]="t().contact.lead + (channels.cv.length ? ' ' + t().contact.cvHint : '')"
+      />
+
+      @if (channels.email; as email) {
+        <div class="email">
+          <a class="email-link" [href]="'mailto:' + email">
+            <svg appIcon="mail" class="icon"></svg>
+            <span>
+              <span class="email-label mono">{{ t().contact.emailLabel }}</span>
+              <span class="email-address">{{ email }}</span>
+            </span>
+          </a>
+          <button appButton type="button" class="copy" (click)="copyEmail()">
+            <svg [appIcon]="copyState() === 'copied' ? 'check' : 'copy'" class="icon"></svg>
+            {{ t().contact.copy }}
+          </button>
+        </div>
+
+        <!-- Confirmation for everyone: visible text and a polite live region. -->
+        <p
+          class="status"
+          role="status"
+          [class.is-visible]="copyState() !== 'idle'"
+          [class.is-error]="copyState() === 'failed'"
+        >
+          @switch (copyState()) {
+            @case ('copied') {
+              {{ t().contact.copied }}
+            }
+            @case ('failed') {
+              {{ t().contact.copyFailed }}
+            }
+          }
+        </p>
+      }
+
+      <div class="links">
+        @if (channels.linkedin; as linkedin) {
+          <a appButton appExternal [href]="linkedin">
+            <svg appIcon="linkedin" class="icon"></svg>
+            {{ t().contact.linkedin }}
+            <app-new-tab-hint />
+          </a>
+        }
+        @if (channels.github; as github) {
+          <a appButton appExternal [href]="github">
+            <svg appIcon="github" class="icon"></svg>
+            {{ t().contact.github }}
+            <app-new-tab-hint />
+          </a>
+        }
+        @for (cv of channels.cv; track cv.lang) {
+          <a appButton [href]="'/' + cv.path" [attr.hreflang]="cv.lang" download>
+            <svg appIcon="download" class="icon"></svg>
+            {{ t().contact.cv }}
+            <span class="cv-lang">({{ t().contact.cvLanguage[cv.lang] }})</span>
+          </a>
+        }
+      </div>
+    </div>
+  </div>
+</div>

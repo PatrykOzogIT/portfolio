@@ -1,7 +1,7 @@
 import type { EcosystemSystem } from './model';
 
 /**
- * Commercial ecosystem — anonymised. Three separate applications (Angular frontend + NestJS API each),
+ * Commercial ecosystem — anonymized. Three separate applications (Angular frontend + NestJS API each),
  * sharing one MySQL/MariaDB database and communicating backend-to-backend over REST.
  */
 export const ECOSYSTEM: readonly EcosystemSystem[] = [
@@ -22,10 +22,10 @@ export const ECOSYSTEM: readonly EcosystemSystem[] = [
         'Synchronizacja danych z pozostałymi systemami',
       ],
       en: [
-        'Product catalogue',
+        'Product catalog',
         'Order placement and handling',
         'B2B customer-specific business logic',
-        'Data synchronisation with the other systems',
+        'Data synchronization with the other systems',
       ],
     },
     technologies: ['angular', 'typescript', 'nestjs', 'mysql', 'mariadb'],

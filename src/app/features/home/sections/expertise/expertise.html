@@ -1,0 +1,25 @@
+<div class="container">
+  <app-section-heading
+    headingId="expertise-title"
+    [eyebrow]="t().expertise.eyebrow"
+    [title]="t().expertise.title"
+    [lead]="t().expertise.lead"
+  />
+
+  <ul class="grid" role="list">
+    @for (area of areas; track area.id) {
+      <li class="card item">
+        <span class="icon-box"><svg [appIcon]="icons[area.icon]" class="icon"></svg></span>
+        <h3 class="h3">{{ area.title[lang()] }}</h3>
+        <p class="description">{{ area.description[lang()] }}</p>
+        <ul class="points" role="list">
+          @for (point of area.points[lang()]; track $index) {
+            <li>{{ point }}</li>
+          }
+        </ul>
+      </li>
+    }
+  </ul>
+
+  <p class="credential mono">{{ t().expertise.certificate }}</p>
+</div>

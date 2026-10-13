@@ -2,6 +2,7 @@ import { computed, inject } from '@angular/core';
 import { visibleHomeSections, type HomeSectionId } from '../../content/selectors';
 import { SITE_CONTENT } from '../core/content';
 import { LangService } from '../core/i18n/lang.service';
+import { SectionSpy } from '../core/navigation/section-spy';
 
 export interface NavItem {
   readonly id: HomeSectionId;
@@ -22,5 +23,7 @@ export function injectNavItems() {
       sections.filter((id) => id !== 'contact').map((id) => ({ id, label: t().nav[id] })),
     ),
     hasContact: sections.includes('contact'),
+    /** Section currently being read (home page only), for aria-current. */
+    active: inject(SectionSpy).active,
   };
 }

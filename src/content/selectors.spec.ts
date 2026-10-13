@@ -27,12 +27,15 @@ const site: SiteConfig = {
   email: null,
   cv: { pl: null, en: null },
   ogImage: null,
+  photo: null,
 };
 
 function content(overrides: Partial<SiteContent> = {}): SiteContent {
   return {
     site,
     technologies: {} as SiteContent['technologies'],
+    techStack: [],
+    expertise: [],
     ecosystem: [],
     projects: [],
     projectSections: {},
@@ -137,8 +140,24 @@ describe('contactChannels', () => {
 });
 
 describe('visibleHomeSections', () => {
-  it('hides projects, ecosystem and contact when there is no data for them', () => {
-    expect(visibleHomeSections(content())).toEqual(['expertise', 'technology']);
+  it('hides every section without data', () => {
+    expect(visibleHomeSections(content())).toEqual([]);
+  });
+
+  it('shows expertise and technology when they have content', () => {
+    const full = content({
+      expertise: [
+        {
+          id: 'a',
+          icon: 'architecture',
+          title: { pl: '', en: '' },
+          description: { pl: '', en: '' },
+          points: { pl: [], en: [] },
+        },
+      ],
+      techStack: [{ id: 'f', title: { pl: '', en: '' }, technologies: [] }],
+    });
+    expect(visibleHomeSections(full)).toEqual(['expertise', 'technology']);
   });
 
   it('shows projects only when at least one is published', () => {

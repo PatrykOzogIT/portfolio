@@ -124,9 +124,9 @@ export type HomeSectionId = (typeof HOME_SECTION_IDS)[number];
 /** Home sections that have content, in display order. Drives both the page and the navigation. */
 export function visibleHomeSections(content: SiteContent): HomeSectionId[] {
   const visible: Record<HomeSectionId, boolean> = {
-    expertise: true,
+    expertise: content.expertise.length > 0,
     ecosystem: content.ecosystem.length > 0,
-    technology: true,
+    technology: content.techStack.length > 0,
     projects: publishedProjects(content.projects).length > 0,
     contact: hasContactChannel(content.site),
   };

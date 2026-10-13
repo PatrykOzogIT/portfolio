@@ -17,7 +17,7 @@ export interface PageSeo {
   readonly jsonLd?: Record<string, unknown> | null;
 }
 
-const OG_LOCALES: Record<Lang, string> = { pl: 'pl_PL', en: 'en_GB' };
+const OG_LOCALES: Record<Lang, string> = { pl: 'pl_PL', en: 'en_US' };
 /** Language served to visitors whose language matches neither PL nor EN. */
 const X_DEFAULT_LANG: Lang = 'en';
 

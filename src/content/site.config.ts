@@ -12,12 +12,19 @@ export const SITE_CONFIG: SiteConfig = {
   },
   links: {
     github: 'https://github.com/PatrykOzogIT',
-    linkedin: null,
+    linkedin: 'https://www.linkedin.com/in/patryk-ozog/',
   },
-  email: null,
+  email: 'patrykozog.it@gmail.com',
   cv: {
-    pl: null, // e.g. { path: 'cv/patryk-ozog-cv-pl.pdf' }
+    pl: null,
     en: null,
   },
   ogImage: null,
+  // e.g. { src: 'images/patryk-ozog.jpg', width: 800, height: 800, alt: { pl: '…', en: '…' } }
+  photo: {
+    src: 'images/photo.png',
+    width: 400,
+    height: 400,
+    alt: { pl: 'Zdjęcie portretowe: Patryk Ożóg', en: 'Portrait of Patryk Ożóg' },
+  },
 };

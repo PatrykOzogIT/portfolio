@@ -1,0 +1,128 @@
+@use 'breakpoints' as bp;
+
+:host {
+  position: relative;
+  display: block;
+  isolation: isolate;
+  overflow: clip; // the glow must never widen the page on phones
+  padding-block: clamp(40px, 7vw, 104px) clamp(64px, 8vw, 120px);
+
+  // Soft light behind the visual.
+  &::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    width: min(900px, 120vw);
+    aspect-ratio: 1;
+    right: -20%;
+    top: -30%;
+    background: radial-gradient(
+      closest-side,
+      rgb(139 147 255 / 0.13),
+      rgb(92 200 230 / 0.04) 55%,
+      transparent
+    );
+  }
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-7);
+  align-items: center;
+
+  @include bp.up(lg) {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: var(--space-6);
+  }
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-2);
+
+  &::before {
+    content: '';
+    flex: none;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px rgb(139 147 255 / 0.15);
+  }
+}
+
+.name {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 22px);
+  margin-top: 20px;
+}
+
+.avatar {
+  flex: none;
+  width: clamp(56px, 4vw + 36px, 76px);
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  box-shadow: 0 0 0 4px rgb(139 147 255 / 0.12);
+  background: var(--surface-2);
+}
+
+.lead {
+  margin-top: var(--space-5);
+  max-width: 34em;
+}
+
+.keywords {
+  margin-top: 20px;
+  color: var(--text-3);
+  font-size: 0.74rem;
+}
+
+.actions {
+  margin-top: 36px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+
+  @include bp.down(sm) {
+    > [appButton] {
+      flex: 1 1 100%;
+    }
+  }
+}
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  margin-left: var(--space-2);
+  color: var(--text-2);
+  font-weight: 500;
+  transition: color var(--t-base) var(--ease);
+
+  .icon {
+    width: 16px;
+    height: 16px;
+    transition: transform var(--t-base) var(--ease);
+  }
+
+  &:hover {
+    color: var(--text);
+
+    .icon {
+      transform: translateX(3px);
+    }
+  }
+
+  @include bp.down(sm) {
+    margin-left: 0;
+  }
+}

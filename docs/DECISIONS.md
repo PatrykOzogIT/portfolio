@@ -5,7 +5,7 @@ Short records of the decisions behind the portfolio. Newest at the bottom.
 ## 1. Static site generation, no server runtime
 Angular `@angular/ssr` with `outputMode: "static"`. Content changes only at build time, so SSR would add a
 Node process and hosting constraints without any benefit. Output is plain HTML per route; any static
-host or nginx works. Incremental hydration is enabled for heavy interactive sections.
+host or nginx works.
 
 ## 2. Custom typed i18n instead of `@angular/localize`
 Most text comes from data (projects, ecosystem), which `@angular/localize` does not cover — two translation
@@ -58,8 +58,37 @@ After navigating to another page focus moves to the `<h1>`; after a section link
 After a language switch focus stays on the switch. Native `<dialog>` for the mobile menu provides focus
 trapping, Escape and an inert background.
 
-## 12. Scroll behaviour
+## 12. Scroll behavior
 The router's built-in scroll handling cannot keep the position on a language switch, so it is disabled and
 `ScrollManager` handles the router's `Scroll` events: back/forward restores the position, a language switch
 keeps it, a `#fragment` scrolls to the section (smoothly, offset by the sticky header), any other new page
 starts at the top (instantly).
+
+## 13. Ecosystem map drawn with CSS, not measured in JS
+The map uses CSS subgrid: header / frontend / API rows line up across the three systems, the shared REST band
+sits in the API row of the same grid and the data-layer links are pseudo-elements of fixed geometry.
+Everything is present in the prerendered HTML — no layout measurement, no shift after hydration.
+The systems are a WAI-ARIA tablist (arrow keys, Home/End); all panels are rendered for indexing and share
+one grid cell, so switching never changes the page height. On phones a sticky switcher mirrors the tabs.
+The REST band deliberately shows communication without pairs or direction, and the "My role" block stays
+hidden until responsibilities are confirmed.
+
+## 14. Expertise vs. technology
+Expertise describes capabilities; the Technology section lists tools with a short context line and never
+ratings. Content that would repeat between the two is kept in one place only.
+
+## 15. Project cards
+Placeholder art (no cover image) is a deterministic SVG generated from the slug in the design-system style,
+never an imitation screenshot. One link per card (stretched title link); GitHub / demo buttons sit above it.
+Phone: media on top; tablet: media beside text; desktop: two columns, wide cards side by side.
+
+## 16. Component style budget
+Per-component style budget raised to 10 kB warning / 14 kB error: the ecosystem map is intentionally the
+richest component (≈ 8.4 kB). Splitting it artificially would not reduce what the page downloads.
+Incremental hydration is configured but no `@defer` hydration triggers are used yet — to be measured in Stage 5.
+
+## 17. Portrait
+One configured photo is shown in two places: small next to the name in the hero (decorative, empty alt —
+the name is right beside it) and larger in the contact section (with alt text). The hero visual stays, so the
+first screen keeps its engineering character. `photo: null` hides both. Responsive variants of the photo
+will come from the image pipeline planned for Stage 4.

@@ -22,7 +22,12 @@
       <ul class="list" role="list">
         @for (item of nav.items(); track item.id) {
           <li>
-            <a [routerLink]="['/', lang()]" [fragment]="item.id" (click)="close()">
+            <a
+              [routerLink]="['/', lang()]"
+              [fragment]="item.id"
+              [attr.aria-current]="nav.active() === item.id ? 'true' : null"
+              (click)="close()"
+            >
               {{ item.label }}
               <svg appIcon="arrow-right" class="icon"></svg>
             </a>
@@ -30,7 +35,12 @@
         }
         @if (nav.hasContact) {
           <li>
-            <a [routerLink]="['/', lang()]" fragment="contact" (click)="close()">
+            <a
+              [routerLink]="['/', lang()]"
+              fragment="contact"
+              [attr.aria-current]="nav.active() === 'contact' ? 'true' : null"
+              (click)="close()"
+            >
               {{ t().nav.contact }}
               <svg appIcon="arrow-right" class="icon"></svg>
             </a>

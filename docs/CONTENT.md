@@ -19,6 +19,11 @@ cv: {
   en: { path: 'cv/patryk-ozog-cv-en.pdf' },
 },
 ogImage: 'og/default.png',                  // 1200×630, in /public/og/
+photo: {                                    // portrait: hero (next to the name) + contact section
+  src: 'images/patryk-ozog.jpg',            // square, ≥ 800×800, neutral / dark background
+  width: 800, height: 800,
+  alt: { pl: '…', en: '…' },
+},
 ```
 
 ## Projects — `src/content/projects/<slug>/`
@@ -89,6 +94,12 @@ a project that would be left alone in a row is widened. The grid never has holes
 ## Ecosystem — `src/content/ecosystem.ts`
 
 `responsibilities` stays empty until confirmed — the "My role" block is hidden while it is empty.
+
+## Expertise and technology — `src/content/expertise.ts`, `tech-stack.ts`
+
+`expertise.ts`: four areas of what I do (title, description, points — PL and EN).
+`tech-stack.ts`: groups of tools (keys from `technologies.ts`) with an optional short note. No ratings.
+An empty list hides the section and its menu item.
 
 ## UI texts — `src/content/i18n/pl.ts`, `en.ts`
 

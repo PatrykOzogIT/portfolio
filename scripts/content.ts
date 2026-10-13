@@ -51,6 +51,12 @@ function validateSite() {
     fail('site', `Invalid email: ${s.email}`);
   for (const lang of LANGS) checkPublicFile('site', s.cv[lang]?.path);
   checkPublicFile('site', s.ogImage);
+  if (s.photo) {
+    checkPublicFile('site', s.photo.src);
+    if (!(s.photo.width > 0 && s.photo.height > 0)) fail('site', 'photo needs width and height.');
+    for (const lang of LANGS)
+      if (!s.photo.alt[lang]?.trim()) fail('site', `photo needs alt text (${lang}).`);
+  }
 }
 
 /* -------------------------------------------------------------- projects */
