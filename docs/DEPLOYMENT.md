@@ -67,7 +67,7 @@ upload contains production content only. Upload the **contents** of `dist/portfo
    restrict it to `domains/patryk-ozog.pl/public_html`. The hosting account also serves other domains;
    with this account the workflow cannot reach them even if misconfigured.
 2. In GitHub: **Settings → Secrets and variables → Actions**
-   - *Secrets*: `FTP_SERVER` = `ftp.patryk-ozog.pl` (verified: FTPS with a valid certificate), `FTP_USERNAME`
+   - *Secrets*: `FTP_SERVER` = `s4.jchost04.pl` (the hosting server's own name — see below), `FTP_USERNAME`
      (full login, usually `name@patryk-ozog.pl`), `FTP_PASSWORD`.
    - *Variables*: `FTP_SERVER_DIR` = `./` (the dedicated account starts in `public_html`).
 3. **Dry run:** set the variable `DEPLOY_ENABLED` = `true`, then *Actions → CI / Deploy → Run workflow*
@@ -76,8 +76,10 @@ upload contains production content only. Upload the **contents** of `dist/portfo
 5. Optionally remove the hosting's placeholder files from `public_html` (e.g. its default `index.html` is
    replaced anyway; leftover images or folders are not used by the site).
 
-If the FTPS connection fails with a certificate error (the host's certificate is issued for the server's
-own name, not for `ftp.patryk-ozog.pl`), either use that server name as `FTP_SERVER` (preferred) or set the
-variable `FTP_SECURITY` = `loose`. Plain FTP is not used — the password would travel unencrypted.
+Why `s4.jchost04.pl` and not `ftp.patryk-ozog.pl`: the FTP server picks the `*.patryk-ozog.pl`
+certificate only when the client sends the host name (SNI). The deployment tool does not, so the server
+presents its default certificate, issued for `s4.jchost04.pl` — connecting by that name passes strict
+certificate verification. Keep `FTP_SECURITY` unset (`strict`); `loose` would disable verification.
+Plain FTP is never used — the password would travel unencrypted.
 
 To pause deployments, set `DEPLOY_ENABLED` to anything other than `true`.
