@@ -106,6 +106,18 @@ export const pl = {
     allProjects: 'Wszystkie projekty',
     previous: 'Poprzedni projekt',
     next: 'Następny projekt',
+    eyebrow: 'Projekt',
+    navigation: 'Nawigacja między projektami',
+    gallery: 'Galeria',
+  },
+  gallery: {
+    label: 'Zrzuty ekranu aplikacji',
+    slide: 'Zdjęcie {n} z {total}',
+    previous: 'Poprzednie zdjęcie',
+    next: 'Następne zdjęcie',
+    open: 'Powiększ zdjęcie',
+    close: 'Zamknij podgląd',
+    viewer: 'Podgląd zdjęć',
   },
   notFound: {
     title: 'Nie znaleziono strony',

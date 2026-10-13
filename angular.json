@@ -32,6 +32,11 @@
                 "input": "public"
               },
               {
+                "glob": "**/*.webp",
+                "input": ".image-cache",
+                "output": "img"
+              },
+              {
                 "glob": "inter-latin{,-ext}-wght-normal.woff2",
                 "input": "node_modules/@fontsource-variable/inter/files",
                 "output": "fonts"

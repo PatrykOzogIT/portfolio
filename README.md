@@ -36,6 +36,7 @@ adapts automatically to the content that is actually published.
 | Language | TypeScript (strict, strict templates) |
 | Styling | SCSS with design tokens as CSS custom properties, self-hosted Inter and JetBrains Mono |
 | Content | Typed TypeScript modules + Markdown compiled with `marked` at build time |
+| Images | `sharp` at build time → responsive WebP variants, served through a custom NgOptimizedImage loader |
 | Testing | Vitest (unit and component tests), Node test runner for build scripts |
 | Tooling | Prettier, `tsx` for build scripts |
 
@@ -97,7 +98,7 @@ See [`docs/CONTENT.md`](docs/CONTENT.md).
 - [x] Concept and design system
 - [x] Application foundation — routing, i18n, SEO, content pipeline
 - [x] Home page — hero, expertise, ecosystem, technology, projects, contact
-- [ ] Project pages — gallery, lightbox, image pipeline (AVIF / WebP)
+- [x] Project pages — gallery, lightbox, responsive image pipeline
 - [ ] Polish — motion, accessibility audit, performance, end-to-end tests
 - [ ] Deployment — hosting, domain, HTTPS, CI/CD
 

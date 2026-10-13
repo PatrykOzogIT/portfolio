@@ -91,6 +91,21 @@ Section titles shown on the page come from the UI dictionary (`i18n/*.ts`), so t
 Order always follows `order`. A featured project takes a full row; other projects are paired two per row;
 a project that would be left alone in a row is widened. The grid never has holes.
 
+## Images
+
+Put source images in `/public` (PNG or JPG; the larger the better — up to 1920 px wide is used) and
+reference them from the content with their real `width` and `height`.
+
+On every build the pipeline converts each image used by the site (portrait, project covers and galleries of
+**published** projects) to WebP in several widths (96–1920 px, never upscaled) and the browser downloads the
+smallest one that fits. The build fails if declared dimensions do not match the file — this prevents layout
+shift and distortion. Variants live in the git-ignored `.image-cache/` and are regenerated only when the
+source changes.
+
+Gallery behaviour follows the number of images: none → no gallery, one → a single image, two or more →
+a carousel. Every image can be enlarged in a full-screen viewer. Screenshots are never cropped, so any
+proportion works (desktop, tablet or phone screenshots).
+
 ## Ecosystem — `src/content/ecosystem.ts`
 
 `responsibilities` stays empty until confirmed — the "My role" block is hidden while it is empty.

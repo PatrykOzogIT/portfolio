@@ -67,7 +67,7 @@ describe('Project page', () => {
     const root = harness.routeNativeElement!;
     expect(text(root.querySelector('h1'))).toBe('Projekt alpha');
     const headings = [...root.querySelectorAll('section h2')].map(text);
-    expect(headings).toEqual(['O projekcie']);
+    expect(headings).toEqual(['01 O projekcie']);
     expect(text(root.querySelector('.prose'))).toBe('O projekcie alpha');
   });
 
@@ -85,7 +85,7 @@ describe('Project page', () => {
     expect(text(pager)).toContain('Projekt beta');
     expect(text(pager)).not.toContain('Projekt secret');
     expect(text(pager)).not.toContain('Poprzedni projekt');
-    expect(text(pager?.querySelector('.pager-count'))).toBe('1 / 2');
+    expect(text(root.querySelector('.position'))).toBe('1 / 2');
   });
 
   it('treats an unpublished project as not found', async () => {

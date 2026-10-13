@@ -7,6 +7,7 @@ import {
   withRouterConfig,
 } from '@angular/router';
 import { routes } from './app.routes';
+import { provideResponsiveImages } from './core/images/image-loader';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,5 +23,6 @@ export const appConfig: ApplicationConfig = {
       withRouterConfig({ paramsInheritanceStrategy: 'always' }),
     ),
     provideClientHydration(withIncrementalHydration()),
+    provideResponsiveImages(),
   ],
 };

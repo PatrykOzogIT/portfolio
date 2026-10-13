@@ -1,0 +1,76 @@
+@if (images().length === 1) {
+  @let image = images()[0]!;
+  <figure class="single">
+    <button type="button" class="frame" (click)="open(0)">
+      <img
+        [ngSrc]="'/' + image.src"
+        fill
+        ngSrcset="320w, 480w, 640w, 960w, 1280w, 1600w, 1920w"
+        sizes="(min-width: 1280px) 1136px, 100vw"
+        [alt]="image.alt[lang()]"
+      />
+      <span class="zoom" aria-hidden="true"><svg appIcon="maximize" class="icon"></svg></span>
+      <span class="visually-hidden">{{ t().gallery.open }}</span>
+    </button>
+    @if (image.caption) {
+      <figcaption>{{ image.caption[lang()] }}</figcaption>
+    }
+  </figure>
+} @else if (images().length > 1) {
+  <div
+    class="carousel"
+    role="region"
+    aria-roledescription="carousel"
+    [attr.aria-label]="t().gallery.label"
+  >
+    <div #track class="track" tabindex="0" (scroll)="onScroll(track)" (keydown)="onKeydown($event)">
+      @for (image of images(); track image.src; let i = $index) {
+        <figure
+          class="slide"
+          role="group"
+          aria-roledescription="slide"
+          [attr.aria-label]="slideLabel(i)"
+        >
+          <button type="button" class="frame" [tabindex]="i === index() ? 0 : -1" (click)="open(i)">
+            <img
+              [ngSrc]="'/' + image.src"
+              fill
+              ngSrcset="320w, 480w, 640w, 960w, 1280w, 1600w, 1920w"
+              sizes="(min-width: 1280px) 1136px, 100vw"
+              [alt]="image.alt[lang()]"
+            />
+            <span class="zoom" aria-hidden="true"><svg appIcon="maximize" class="icon"></svg></span>
+            <span class="visually-hidden">{{ t().gallery.open }}</span>
+          </button>
+          @if (image.caption) {
+            <figcaption>{{ image.caption[lang()] }}</figcaption>
+          }
+        </figure>
+      }
+    </div>
+
+    <div class="controls">
+      <button
+        type="button"
+        class="round"
+        [attr.aria-label]="t().gallery.previous"
+        [disabled]="index() === 0"
+        (click)="go(-1)"
+      >
+        <svg appIcon="chevron-left" class="icon"></svg>
+      </button>
+      <p class="counter mono" aria-live="polite">{{ index() + 1 }} / {{ images().length }}</p>
+      <button
+        type="button"
+        class="round"
+        [attr.aria-label]="t().gallery.next"
+        [disabled]="index() === images().length - 1"
+        (click)="go(1)"
+      >
+        <svg appIcon="chevron-right" class="icon"></svg>
+      </button>
+    </div>
+  </div>
+}
+
+<app-lightbox [images]="images()" (closed)="followViewer($event)" />

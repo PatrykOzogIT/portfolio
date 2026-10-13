@@ -6,6 +6,8 @@
         [ngSrc]="'/' + photo.src"
         [width]="photo.width"
         [height]="photo.height"
+        ngSrcset="96w, 160w, 320w, 480w, 640w"
+        sizes="(min-width: 768px) 260px, 96px"
         [alt]="photo.alt[lang()]"
       />
     }

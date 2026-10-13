@@ -1,12 +1,19 @@
 @let meta = page().meta;
 @let nb = page().neighbours;
 
-<article class="container project">
-  <header class="intro">
-    <a class="back" appButton variant="ghost" [routerLink]="['/', lang()]" fragment="projects">
+<article class="project">
+  <header class="container intro">
+    <a class="back" [routerLink]="['/', lang()]" fragment="projects">
       <svg appIcon="arrow-left" class="icon"></svg>
       {{ t().project.allProjects }}
     </a>
+
+    <p class="eyebrow mono">
+      {{ t().project.eyebrow }}
+      @if (nb.total > 1) {
+        <span class="position">{{ nb.position }} / {{ nb.total }}</span>
+      }
+    </p>
     <h1 class="display">{{ title() }}</h1>
     <p class="lead">{{ description() }}</p>
 
@@ -19,7 +26,7 @@
       </ul>
     }
 
-    @if (meta.githubUrl || meta.demoUrl) {
+    @if (meta.demoUrl || meta.githubUrl) {
       <div class="links">
         @if (meta.demoUrl; as demo) {
           <a appButton appExternal variant="primary" [href]="demo">
@@ -38,35 +45,79 @@
     }
   </header>
 
-  @for (section of sections(); track section.key) {
-    <section class="block" [attr.aria-labelledby]="'section-' + section.key">
-      <h2 class="h3" [id]="'section-' + section.key">{{ t().project.sections[section.key] }}</h2>
-      <div class="prose" [innerHTML]="section.html"></div>
-    </section>
-  }
+  <div class="container">
+    <div class="cover">
+      @if (meta.coverImage; as cover) {
+        <img
+          [ngSrc]="'/' + cover.src"
+          fill
+          priority
+          ngSrcset="320w, 480w, 640w, 960w, 1280w, 1600w, 1920w"
+          sizes="(min-width: 1280px) 1136px, 100vw"
+          [alt]="cover.alt[lang()]"
+        />
+      } @else {
+        <app-project-art [slug]="meta.slug" [title]="meta.title.en" [accentHue]="meta.accentHue" />
+      }
+    </div>
+  </div>
+
+  <div class="container body">
+    @for (section of sections(); track section.key) {
+      <section class="block" [attr.aria-labelledby]="'section-' + section.key">
+        <h2 class="block-title" [id]="'section-' + section.key">
+          <span class="num mono" aria-hidden="true">{{ section.number }}</span>
+          {{ t().project.sections[section.key] }}
+        </h2>
+        <div class="prose" [innerHTML]="section.html"></div>
+      </section>
+    }
+
+    @if (meta.images?.length) {
+      <section class="block block--wide" aria-labelledby="section-gallery">
+        <h2 class="block-title" id="section-gallery">
+          <span class="num mono" aria-hidden="true">{{ galleryNumber() }}</span>
+          {{ t().project.gallery }}
+        </h2>
+        <app-gallery [images]="meta.images!" />
+      </section>
+    }
+  </div>
 
   @if (nb.previous || nb.next) {
-    <nav class="pager" [attr.aria-label]="t().project.allProjects">
+    <nav class="container pager" [attr.aria-label]="t().project.navigation">
       @if (nb.previous; as prev) {
         <a
-          class="pager-link card card--interactive"
+          class="pager-card card card--interactive"
           [routerLink]="['/', lang(), 'projects', prev.slug]"
         >
-          <span class="mono text-3">{{ t().project.previous }}</span>
-          <span class="pager-title">{{ prev.title[lang()] }}</span>
+          <svg appIcon="arrow-left" class="icon"></svg>
+          <span>
+            <span class="pager-label mono">{{ t().project.previous }}</span>
+            <span class="pager-title">{{ prev.title[lang()] }}</span>
+          </span>
         </a>
       } @else {
-        <span></span>
+        <span class="pager-spacer"></span>
       }
-      <span class="pager-count mono text-3">{{ nb.position }} / {{ nb.total }}</span>
+
+      <a class="pager-all" [routerLink]="['/', lang()]" fragment="projects">
+        {{ t().project.allProjects }}
+      </a>
+
       @if (nb.next; as next) {
         <a
-          class="pager-link pager-link--next card card--interactive"
+          class="pager-card pager-card--next card card--interactive"
           [routerLink]="['/', lang(), 'projects', next.slug]"
         >
-          <span class="mono text-3">{{ t().project.next }}</span>
-          <span class="pager-title">{{ next.title[lang()] }}</span>
+          <span>
+            <span class="pager-label mono">{{ t().project.next }}</span>
+            <span class="pager-title">{{ next.title[lang()] }}</span>
+          </span>
+          <svg appIcon="arrow-right" class="icon"></svg>
         </a>
+      } @else {
+        <span class="pager-spacer"></span>
       }
     </nav>
   }

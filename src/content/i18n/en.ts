@@ -105,6 +105,18 @@ export const en: Dictionary = {
     allProjects: 'All projects',
     previous: 'Previous project',
     next: 'Next project',
+    eyebrow: 'Project',
+    navigation: 'Project navigation',
+    gallery: 'Gallery',
+  },
+  gallery: {
+    label: 'Application screenshots',
+    slide: 'Image {n} of {total}',
+    previous: 'Previous image',
+    next: 'Next image',
+    open: 'Enlarge image',
+    close: 'Close viewer',
+    viewer: 'Image viewer',
   },
   notFound: {
     title: 'Page not found',

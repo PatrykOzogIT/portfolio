@@ -1,0 +1,132 @@
+@use 'breakpoints' as bp;
+
+:host {
+  display: block;
+}
+
+figure {
+  margin: 0;
+}
+
+// A frame keeps one proportion for the layout, while the screenshot inside is never cropped.
+.frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  // Keep the controls of the carousel on screen on laptop-height displays.
+  max-height: min(70vh, 720px);
+  padding: 0;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  cursor: zoom-in;
+  transition: border-color var(--t-base) var(--ease);
+
+  img {
+    object-fit: contain;
+  }
+
+  &:hover {
+    border-color: var(--border-strong);
+  }
+
+  &:hover .zoom,
+  &:focus-visible .zoom {
+    opacity: 1;
+  }
+
+  &:focus-visible {
+    outline-offset: 3px;
+    border-radius: var(--r-lg);
+  }
+}
+
+.zoom {
+  position: absolute;
+  right: var(--space-3);
+  bottom: var(--space-3);
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-md);
+  background: rgb(11 13 18 / 0.75);
+  color: var(--text);
+  opacity: 0.8;
+  transition: opacity var(--t-base) var(--ease);
+
+  .icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+figcaption {
+  margin-top: var(--space-3);
+  color: var(--text-2);
+  font-size: var(--fs-small);
+}
+
+// ---------------------------------------------------------------- carousel
+.track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  border-radius: var(--r-lg);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &:focus-visible {
+    outline-offset: 4px;
+  }
+}
+
+.slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.counter {
+  min-width: 5ch;
+  color: var(--text-2);
+  text-align: center;
+}
+
+// Round icon buttons — visually distinct from the project-to-project navigation cards.
+.round {
+  display: inline-grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  cursor: pointer;
+  transition:
+    background var(--t-base) var(--ease),
+    opacity var(--t-base) var(--ease);
+
+  &:hover:not(:disabled) {
+    background: var(--surface-3);
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+}

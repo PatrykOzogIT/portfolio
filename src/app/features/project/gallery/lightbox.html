@@ -1,0 +1,68 @@
+<dialog
+  #dialog
+  class="viewer"
+  [attr.aria-label]="t().gallery.viewer"
+  (close)="onClosed()"
+  (keydown)="onKeydown($event)"
+>
+  @if (isOpen()) {
+    <div class="bar">
+      @if (images().length > 1) {
+        <p class="counter mono" aria-live="polite">{{ index() + 1 }} / {{ images().length }}</p>
+      }
+      <button
+        type="button"
+        class="round close"
+        [attr.aria-label]="t().gallery.close"
+        (click)="close()"
+      >
+        <svg appIcon="close" class="icon"></svg>
+      </button>
+    </div>
+
+    <div #track class="track" (scroll)="onScroll(track)">
+      @for (image of images(); track image.src; let i = $index) {
+        <figure
+          class="slide"
+          [attr.aria-label]="slideLabel(i)"
+          [attr.aria-hidden]="i !== index() ? 'true' : null"
+          (click)="onSlideClick($event)"
+        >
+          <div class="frame">
+            <img
+              [ngSrc]="'/' + image.src"
+              fill
+              ngSrcset="480w, 640w, 960w, 1280w, 1600w, 1920w"
+              sizes="100vw"
+              [alt]="image.alt[lang()]"
+            />
+          </div>
+          @if (image.caption) {
+            <figcaption>{{ image.caption[lang()] }}</figcaption>
+          }
+        </figure>
+      }
+    </div>
+
+    @if (images().length > 1) {
+      <button
+        type="button"
+        class="round nav prev"
+        [attr.aria-label]="t().gallery.previous"
+        [disabled]="index() === 0"
+        (click)="go(-1)"
+      >
+        <svg appIcon="chevron-left" class="icon"></svg>
+      </button>
+      <button
+        type="button"
+        class="round nav next"
+        [attr.aria-label]="t().gallery.next"
+        [disabled]="index() === images().length - 1"
+        (click)="go(1)"
+      >
+        <svg appIcon="chevron-right" class="icon"></svg>
+      </button>
+    }
+  }
+</dialog>

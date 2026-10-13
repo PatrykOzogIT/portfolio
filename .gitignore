@@ -15,8 +15,9 @@ yarn-error.log
 # Angular
 /.angular/
 
-# Generated content (npm run content)
+# Generated content and responsive image variants (npm run content)
 /src/content/generated/
+/.image-cache/
 
 # Tests
 /coverage

@@ -15,6 +15,9 @@ export const ICONS = {
   'chevron-left': { paths: ['m15 18-6-6 6-6'] },
   'chevron-right': { paths: ['m9 18 6-6-6-6'] },
   menu: { paths: ['M4 6h16', 'M4 12h16', 'M4 18h16'] },
+  maximize: {
+    paths: ['M15 3h6v6', 'M9 21H3v-6', 'M21 3l-7 7', 'M3 21l7-7'],
+  },
   close: { paths: ['M18 6 6 18', 'm6 6 12 12'] },
   check: { paths: ['M20 6 9 17l-5-5'] },
   copy: {

@@ -92,3 +92,17 @@ One configured photo is shown in two places: small next to the name in the hero 
 the name is right beside it) and larger in the contact section (with alt text). The hero visual stays, so the
 first screen keeps its engineering character. `photo: null` hides both. Responsive variants of the photo
 will come from the image pipeline planned for Stage 4.
+
+## 18. Build-time image pipeline
+`sharp` (build-time only) converts every content image to WebP in fixed widths; a generated manifest feeds a
+custom NgOptimizedImage loader, which maps any requested width to the smallest generated variant that covers
+it. Only images of published projects are processed. WebP only (no AVIF): ~97% browser support, a single
+format keeps the loader and the markup simple; AVIF could be added later with `<picture>`.
+Result for the portrait: 287 kB PNG → 1.5 kB (hero avatar) to 13 kB (largest variant).
+
+## 19. Gallery and viewer
+Native horizontal scroll snapping provides swipe on touch devices without a gesture library; buttons and
+arrow keys cover mouse and keyboard. The viewer is a native modal `<dialog>`; slides render only while it is
+open. After closing, the carousel follows the last viewed image and focus moves to it. Frames letterbox
+screenshots (`object-fit: contain`) so interfaces are never cropped. Gallery arrows are round icon buttons;
+project-to-project navigation uses large text cards, so the two are never confused.
