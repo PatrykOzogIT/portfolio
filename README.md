@@ -105,6 +105,11 @@ No admin panel and no database: content lives in `src/content/` and is versioned
 Adding a project means adding a folder with metadata and two Markdown files — no component changes.
 See [`docs/CONTENT.md`](docs/CONTENT.md).
 
+## Deployment
+
+Static files on Apache (`public/.htaccess` handles HTTPS, redirects, clean URLs, 404s, caching and security
+headers). See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
+
 ## Roadmap
 
 - [x] Concept and design system

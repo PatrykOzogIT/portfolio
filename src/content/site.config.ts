@@ -5,7 +5,7 @@ import type { SiteConfig } from './model';
  */
 export const SITE_CONFIG: SiteConfig = {
   // TODO(deployment): set once the domain is chosen, e.g. 'https://example.com'.
-  siteUrl: null,
+  siteUrl: 'https://patryk-ozog.pl',
   person: {
     name: 'Patryk Ożóg',
     jobTitle: 'Senior Full-Stack Developer',
