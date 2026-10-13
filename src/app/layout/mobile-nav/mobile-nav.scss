@@ -1,0 +1,88 @@
+@use 'breakpoints' as bp;
+
+:host {
+  display: contents;
+}
+
+.toggle {
+  display: inline-grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+
+  @include bp.up(lg) {
+    display: none;
+  }
+}
+
+.sheet {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  width: 100%;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  background: var(--bg);
+  color: var(--text);
+
+  &::backdrop {
+    background: rgb(0 0 0 / 0.5);
+  }
+
+  &[open] {
+    animation: sheet-in var(--t-slow) var(--ease);
+  }
+
+  .toggle {
+    display: inline-grid;
+  }
+}
+
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+.sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-h);
+}
+
+.sheet-title {
+  font-weight: 600;
+}
+
+.list {
+  display: grid;
+  gap: var(--space-1);
+  margin: var(--space-5) 0 0;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 60px;
+    padding: 0 var(--space-1);
+    border-bottom: 1px solid var(--border);
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+
+    .icon {
+      color: var(--text-3);
+    }
+  }
+}
+
+.sheet-foot {
+  margin-top: var(--space-6);
+}

@@ -1,0 +1,73 @@
+@let meta = page().meta;
+@let nb = page().neighbours;
+
+<article class="container project">
+  <header class="intro">
+    <a class="back" appButton variant="ghost" [routerLink]="['/', lang()]" fragment="projects">
+      <svg appIcon="arrow-left" class="icon"></svg>
+      {{ t().project.allProjects }}
+    </a>
+    <h1 class="display">{{ title() }}</h1>
+    <p class="lead">{{ description() }}</p>
+
+    @if (meta.technologies.length) {
+      <h2 class="visually-hidden">{{ t().project.technologies }}</h2>
+      <ul class="chip-list" role="list">
+        @for (id of meta.technologies; track id) {
+          <li class="chip">{{ technologies[id].label }}</li>
+        }
+      </ul>
+    }
+
+    @if (meta.githubUrl || meta.demoUrl) {
+      <div class="links">
+        @if (meta.demoUrl; as demo) {
+          <a appButton appExternal variant="primary" [href]="demo">
+            {{ t().project.demo }}
+            <app-new-tab-hint />
+          </a>
+        }
+        @if (meta.githubUrl; as github) {
+          <a appButton appExternal [href]="github">
+            <svg appIcon="github" class="icon"></svg>
+            {{ t().project.github }}
+            <app-new-tab-hint />
+          </a>
+        }
+      </div>
+    }
+  </header>
+
+  @for (section of sections(); track section.key) {
+    <section class="block" [attr.aria-labelledby]="'section-' + section.key">
+      <h2 class="h3" [id]="'section-' + section.key">{{ t().project.sections[section.key] }}</h2>
+      <div class="prose" [innerHTML]="section.html"></div>
+    </section>
+  }
+
+  @if (nb.previous || nb.next) {
+    <nav class="pager" [attr.aria-label]="t().project.allProjects">
+      @if (nb.previous; as prev) {
+        <a
+          class="pager-link card card--interactive"
+          [routerLink]="['/', lang(), 'projects', prev.slug]"
+        >
+          <span class="mono text-3">{{ t().project.previous }}</span>
+          <span class="pager-title">{{ prev.title[lang()] }}</span>
+        </a>
+      } @else {
+        <span></span>
+      }
+      <span class="pager-count mono text-3">{{ nb.position }} / {{ nb.total }}</span>
+      @if (nb.next; as next) {
+        <a
+          class="pager-link pager-link--next card card--interactive"
+          [routerLink]="['/', lang(), 'projects', next.slug]"
+        >
+          <span class="mono text-3">{{ t().project.next }}</span>
+          <span class="pager-title">{{ next.title[lang()] }}</span>
+        </a>
+      }
+    </nav>
+  }
+</article>

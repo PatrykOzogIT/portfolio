@@ -1,0 +1,140 @@
+﻿/**
+ * Content model â€” pure TypeScript, no Angular imports.
+ * Shared by the application and by the build scripts in /scripts.
+ */
+
+import type { TechId } from './technologies';
+
+export const LANGS = ['pl', 'en'] as const;
+export type Lang = (typeof LANGS)[number];
+export const DEFAULT_LANG: Lang = 'pl';
+
+/** Text available in every supported language. Missing translation = compile error. */
+export type Localized<T = string> = Readonly<Record<Lang, T>>;
+
+/* ------------------------------------------------------------------ site */
+
+export interface CvFile {
+  /** Path relative to /public, e.g. `cv/patryk-ozog-cv-pl.pdf`. */
+  readonly path: string;
+}
+
+export interface SiteConfig {
+  /**
+   * Absolute origin without trailing slash, e.g. `https://example.com`.
+   * `null` until the domain is chosen: canonical URLs, Open Graph URLs and the sitemap are then omitted.
+   */
+  readonly siteUrl: string | null;
+  readonly person: {
+    readonly name: string;
+    readonly jobTitle: string;
+  };
+  readonly links: {
+    readonly github: string | null;
+    readonly linkedin: string | null;
+  };
+  readonly email: string | null;
+  /** CV per language; `null` hides the download button for that language. */
+  readonly cv: Readonly<Record<Lang, CvFile | null>>;
+  /** Default social preview image, relative to /public. */
+  readonly ogImage: string | null;
+}
+
+/* ------------------------------------------------------------ technology */
+
+export type TechGroup = 'frontend' | 'backend' | 'data' | 'engineering';
+
+export interface Tech {
+  readonly label: string;
+  readonly group: TechGroup;
+}
+
+/* ------------------------------------------------------------- ecosystem */
+
+export type EcosystemSystemId = 'b2b' | 'erp' | 'wms';
+
+export type ResponsibilityArea =
+  | 'architecture'
+  | 'analysis'
+  | 'feature-design'
+  | 'frontend'
+  | 'backend'
+  | 'integrations'
+  | 'maintenance';
+
+export interface Responsibility {
+  readonly area: ResponsibilityArea;
+  readonly description: Localized;
+}
+
+export interface EcosystemSystem {
+  readonly id: EcosystemSystemId;
+  readonly name: string;
+  readonly fullName: Localized;
+  readonly role: Localized;
+  readonly summary: Localized;
+  readonly areas: Localized<readonly string[]>;
+  readonly technologies: readonly TechId[];
+  /** Hidden in the UI until confirmed â€” never filled with assumptions. */
+  readonly responsibilities: readonly Responsibility[];
+}
+
+/* -------------------------------------------------------------- projects */
+
+export interface ProjectImage {
+  /** Path relative to /public. */
+  readonly src: string;
+  readonly width: number;
+  readonly height: number;
+  readonly alt: Localized;
+  readonly caption?: Localized;
+}
+
+/**
+ * Project metadata. Lives in `src/content/projects/<slug>/project.ts`.
+ * Long-form text lives next to it in `pl.md` / `en.md` (see docs/CONTENT.md).
+ */
+export interface ProjectMeta {
+  /** URL segment and unique identifier: lowercase letters, digits and hyphens. */
+  readonly slug: string;
+  /** Display order (ascending). Must be unique. */
+  readonly order: number;
+  /** Only `true` projects are built, listed, routed and indexed. */
+  readonly published: boolean;
+  /** Renders a wide card; never changes the order. */
+  readonly featured?: boolean;
+  readonly title: Localized;
+  readonly shortDescription: Localized;
+  readonly technologies: readonly TechId[];
+  readonly githubUrl?: string;
+  readonly demoUrl?: string;
+  readonly coverImage?: ProjectImage;
+  readonly images?: readonly ProjectImage[];
+  /** Hue (0â€“360) for the generated placeholder artwork when there is no cover image. */
+  readonly accentHue?: number;
+}
+
+/** Keys of long-form sections, in display order. Used as `# key` headings in the Markdown files. */
+export const PROJECT_SECTION_KEYS = [
+  'about',
+  'problem',
+  'features',
+  'architecture',
+  'challenges',
+] as const;
+export type ProjectSectionKey = (typeof PROJECT_SECTION_KEYS)[number];
+
+/** Compiled (HTML) long-form sections of one project in one language. Absent key = hidden section. */
+export type ProjectSections = Readonly<Partial<Record<ProjectSectionKey, string>>>;
+
+export type ProjectSectionsLoader = () => Promise<ProjectSections>;
+
+/* ------------------------------------------------------------ aggregate */
+
+export interface SiteContent {
+  readonly site: SiteConfig;
+  readonly technologies: Readonly<Record<TechId, Tech>>;
+  readonly ecosystem: readonly EcosystemSystem[];
+  readonly projects: readonly ProjectMeta[];
+  readonly projectSections: Readonly<Record<string, Localized<ProjectSectionsLoader>>>;
+}

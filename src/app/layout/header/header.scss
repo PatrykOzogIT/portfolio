@@ -1,0 +1,131 @@
+@use 'breakpoints' as bp;
+
+:host {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: block;
+  height: var(--header-h);
+  border-bottom: 1px solid transparent;
+  transition:
+    background var(--t-slow) var(--ease),
+    border-color var(--t-slow) var(--ease);
+}
+
+:host(.is-scrolled) {
+  background: rgb(11 13 18 / 0.78);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  border-bottom-color: var(--border);
+}
+
+.inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--tap);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid var(--border-strong);
+  background: linear-gradient(180deg, var(--surface-3), var(--surface-1));
+  color: var(--accent-strong);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.brand-name {
+  display: none;
+
+  @include bp.up(sm) {
+    display: inline;
+  }
+}
+
+.nav {
+  display: none;
+  margin-left: auto;
+
+  ul {
+    display: flex;
+    gap: 2px;
+    margin: 0;
+  }
+
+  @include bp.up(lg) {
+    display: block;
+  }
+}
+
+.nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 12px;
+  border-radius: var(--r-sm);
+  color: var(--text-2);
+  font-size: 0.935rem;
+  font-weight: 500;
+  transition: color var(--t-base) var(--ease);
+
+  &:hover {
+    color: var(--text);
+  }
+
+  // Active state is driven by the scroll spy (Stage 3) through aria-current.
+  &::after {
+    content: '';
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 4px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform var(--t-slow) var(--ease);
+  }
+
+  &[aria-current='true'] {
+    color: var(--text);
+
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+
+  @include bp.up(lg) {
+    margin-left: var(--space-2);
+  }
+}
+
+.cta {
+  display: none;
+
+  @include bp.up(lg) {
+    display: inline-flex;
+  }
+}

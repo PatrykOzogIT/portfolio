@@ -1,0 +1,83 @@
+// ============================================================================
+// Design tokens — the whole visual identity lives here as CSS custom properties.
+// Changing the palette or typography means editing this file only.
+// ============================================================================
+
+:root {
+  color-scheme: dark;
+
+  // Surfaces
+  --bg: #0b0d12;
+  --surface-1: #11141b;
+  --surface-2: #171b24;
+  --surface-3: #1e2330;
+  --border: rgb(255 255 255 / 0.08);
+  --border-strong: rgb(255 255 255 / 0.16);
+
+  // Text (contrast on --bg: ~16:1, ~8:1, ~6:1)
+  --text: #e8eaf0;
+  --text-2: #a3a9b8;
+  --text-3: #8a91a1;
+
+  // Accent
+  --accent: #8b93ff;
+  --accent-strong: #a5abff;
+  --on-accent: #0b0d12;
+  --success: #5fd39a;
+
+  // Ecosystem systems
+  --sys-b2b: #5cc8e6;
+  --sys-erp: #8b93ff;
+  --sys-wms: #f2b35b;
+
+  // Typography
+  --font-sans:
+    'Inter', 'Inter Fallback', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
+
+  --fs-display: clamp(2.5rem, 1.55rem + 4.2vw, 4.6rem);
+  --fs-h2: clamp(1.875rem, 1.35rem + 2.1vw, 2.85rem);
+  --fs-h3: clamp(1.25rem, 1.15rem + 0.4vw, 1.5rem);
+  --fs-lead: clamp(1.125rem, 1.02rem + 0.4vw, 1.3rem);
+  --fs-body: clamp(1rem, 0.96rem + 0.12vw, 1.0625rem);
+  --fs-small: 0.875rem;
+  --fs-mono: 0.78rem;
+
+  // Spacing scale (4px base)
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+  --section-space: clamp(64px, 9vw, 128px);
+
+  // Radii
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 20px;
+
+  // Motion
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --t-fast: 120ms;
+  --t-base: 200ms;
+  --t-slow: 320ms;
+
+  // Layout
+  --header-h: 64px;
+  --container: 1200px;
+  --gutter: 20px;
+  --tap: 44px; // minimum touch target
+
+  @media (min-width: 768px) {
+    --gutter: 24px;
+  }
+  @media (min-width: 1280px) {
+    --gutter: 32px;
+  }
+}

@@ -1,0 +1,71 @@
+@use 'breakpoints' as bp;
+
+.project {
+  padding-block: var(--space-6) var(--section-space);
+}
+
+.back {
+  margin-left: -4px;
+}
+
+.display {
+  margin-top: var(--space-5);
+}
+
+.lead {
+  margin-top: var(--space-5);
+  max-width: 40em;
+}
+
+.chip-list {
+  margin-top: var(--space-5);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.block {
+  margin-top: var(--space-8);
+
+  .h3 {
+    margin-bottom: var(--space-4);
+  }
+}
+
+.pager {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-9);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border);
+
+  @include bp.up(md) {
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+  }
+}
+
+.pager-link {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-5);
+}
+
+.pager-link--next {
+  @include bp.up(md) {
+    text-align: right;
+  }
+}
+
+.pager-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.pager-count {
+  justify-self: center;
+}

@@ -1,0 +1,33 @@
+<div class="container inner">
+  <a class="brand" [routerLink]="['/', lang()]" [attr.aria-label]="t().a11y.homeLink">
+    <span class="brand-mark mono" aria-hidden="true">PO</span>
+    <span class="brand-name" aria-hidden="true">{{ name }}</span>
+  </a>
+
+  <nav class="nav" [attr.aria-label]="t().a11y.mainNav">
+    <ul role="list">
+      @for (item of nav.items(); track item.id) {
+        <li>
+          <a class="nav-link" [routerLink]="['/', lang()]" [fragment]="item.id">{{ item.label }}</a>
+        </li>
+      }
+    </ul>
+  </nav>
+
+  <div class="actions">
+    <app-lang-switch />
+    @if (nav.hasContact) {
+      <a
+        class="cta"
+        appButton
+        variant="primary"
+        size="sm"
+        [routerLink]="['/', lang()]"
+        fragment="contact"
+      >
+        {{ t().nav.contact }}
+      </a>
+    }
+    <app-mobile-nav />
+  </div>
+</div>

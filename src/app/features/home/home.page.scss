@@ -1,0 +1,28 @@
+.hero {
+  padding-block: clamp(40px, 7vw, 104px) clamp(64px, 8vw, 120px);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-2);
+
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px rgb(139 147 255 / 0.15);
+  }
+}
+
+.display {
+  margin-top: 20px;
+}
+
+.hero-lead {
+  margin-top: 24px;
+  max-width: 34em;
+}

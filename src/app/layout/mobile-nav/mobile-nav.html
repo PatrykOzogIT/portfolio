@@ -1,0 +1,52 @@
+﻿<button
+  class="toggle"
+  type="button"
+  aria-haspopup="dialog"
+  aria-controls="mobile-nav"
+  [attr.aria-label]="t().a11y.openMenu"
+  (click)="open()"
+>
+  <svg appIcon="menu" class="icon"></svg>
+</button>
+
+<dialog #dialog id="mobile-nav" class="sheet" [attr.aria-label]="t().a11y.mainNav">
+  <div class="container">
+    <div class="sheet-head">
+      <span class="sheet-title">{{ site.person.name }}</span>
+      <button class="toggle" type="button" [attr.aria-label]="t().a11y.closeMenu" (click)="close()">
+        <svg appIcon="close" class="icon"></svg>
+      </button>
+    </div>
+
+    <nav [attr.aria-label]="t().a11y.mainNav">
+      <ul class="list" role="list">
+        @for (item of nav.items(); track item.id) {
+          <li>
+            <a [routerLink]="['/', lang()]" [fragment]="item.id" (click)="close()">
+              {{ item.label }}
+              <svg appIcon="arrow-right" class="icon"></svg>
+            </a>
+          </li>
+        }
+        @if (nav.hasContact) {
+          <li>
+            <a [routerLink]="['/', lang()]" fragment="contact" (click)="close()">
+              {{ t().nav.contact }}
+              <svg appIcon="arrow-right" class="icon"></svg>
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
+
+    @if (site.links.github; as github) {
+      <div class="sheet-foot">
+        <a appButton appExternal block [href]="github">
+          <svg appIcon="github" class="icon"></svg>
+          GitHub
+          <app-new-tab-hint />
+        </a>
+      </div>
+    }
+  </div>
+</dialog>

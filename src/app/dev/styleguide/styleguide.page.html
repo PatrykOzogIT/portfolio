@@ -1,0 +1,90 @@
+<main class="container page">
+  <p class="mono text-3">Dev only · /_styleguide</p>
+  <h1 class="display">Design system</h1>
+  <p class="lead">
+    Tokens and primitives from <code>src/styles</code> and <code>src/app/shared/ui</code>.
+  </p>
+
+  <section class="block" aria-labelledby="sg-colors">
+    <app-section-heading headingId="sg-colors" eyebrow="Tokens" title="Colour" />
+    @for (group of [surfaces, texts, accents]; track $index) {
+      <ul class="swatches" role="list">
+        @for (token of group; track token) {
+          <li class="swatch">
+            <span class="chip-color" [style.background]="'var(' + token + ')'"></span>
+            <code>{{ token }}</code>
+          </li>
+        }
+      </ul>
+    }
+  </section>
+
+  <section class="block" aria-labelledby="sg-type">
+    <app-section-heading headingId="sg-type" eyebrow="Tokens" title="Typography" />
+    <div class="stack">
+      <p class="display">Display — Patryk Ożóg</p>
+      <p class="h2">H2 — Zintegrowany ekosystem</p>
+      <p class="h3">H3 — Obszary funkcjonalne</p>
+      <p class="lead">
+        Lead — Projektuję i rozwijam systemy biznesowe, łącząc architekturę z procesem.
+      </p>
+      <p>Body — Zażółć gęślą jaźń. The quick brown fox jumps over the lazy dog.</p>
+      <p class="text-2">Secondary text</p>
+      <p class="text-3">Tertiary text / meta</p>
+      <p class="mono">Mono label · Angular · NestJS</p>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="sg-space">
+    <app-section-heading headingId="sg-space" eyebrow="Tokens" title="Spacing" />
+    <ul class="spaces" role="list">
+      @for (s of spaces; track s) {
+        <li>
+          <span class="bar" [style.width]="'var(--space-' + s + ')'"></span>
+          <code>--space-{{ s }}</code>
+        </li>
+      }
+    </ul>
+  </section>
+
+  <section class="block" aria-labelledby="sg-buttons">
+    <app-section-heading headingId="sg-buttons" eyebrow="Primitives" title="Buttons" />
+    <div class="row">
+      <button appButton variant="primary" type="button">
+        Primary
+        <svg appIcon="arrow-right" class="icon icon--trailing"></svg>
+      </button>
+      <button appButton type="button">
+        <svg appIcon="github" class="icon"></svg>
+        Secondary
+      </button>
+      <button appButton variant="ghost" type="button">Ghost</button>
+      <button appButton variant="primary" size="sm" type="button">Small</button>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="sg-chips">
+    <app-section-heading headingId="sg-chips" eyebrow="Primitives" title="Chips & cards" />
+    <ul class="chip-list" role="list">
+      <li class="chip">Angular</li>
+      <li class="chip">NestJS</li>
+      <li class="chip">MySQL</li>
+    </ul>
+    <div class="card card--interactive demo-card">
+      <p class="h3">Card</p>
+      <p class="text-2">Surface 1, border, inner highlight; hover brightens the border.</p>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="sg-icons">
+    <app-section-heading headingId="sg-icons" eyebrow="Primitives" title="Icons" />
+    <ul class="icons" role="list">
+      @for (name of icons; track name) {
+        <li>
+          <svg [appIcon]="name" class="icon"></svg>
+          <code>{{ name }}</code>
+        </li>
+      }
+    </ul>
+  </section>
+</main>

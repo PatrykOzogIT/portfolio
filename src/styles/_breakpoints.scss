@@ -1,0 +1,31 @@
+// Breakpoints and media helpers — `@use 'breakpoints' as bp;` in component styles.
+@use 'sass:map';
+
+$values: (
+  sm: 480px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+  2xl: 1536px,
+);
+
+/// Mobile-first: from the breakpoint up.
+@mixin up($name) {
+  @media (min-width: map.get($values, $name)) {
+    @content;
+  }
+}
+
+/// Below the breakpoint.
+@mixin down($name) {
+  @media (max-width: map.get($values, $name) - 0.02px) {
+    @content;
+  }
+}
+
+/// Only for devices with a real hover (never require hover for functionality).
+@mixin hover {
+  @media (hover: hover) and (pointer: fine) {
+    @content;
+  }
+}
