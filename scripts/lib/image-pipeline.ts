@@ -32,7 +32,7 @@ const isFresh = async (output: string, sourceMtime: number) =>
  */
 export async function processImages(
   refs: readonly ImageRef[],
-  publicDir: string,
+  publicDirs: readonly string[],
   outputDir: string,
 ): Promise<PipelineResult> {
   const manifest: Record<string, number[]> = {};
@@ -44,7 +44,7 @@ export async function processImages(
   const unique = [...new Map(refs.map((r) => [r.src.replace(/^\/+/, ''), r])).entries()];
   for (const [src, ref] of unique) {
     if (!RASTER.has(extname(src).toLowerCase())) continue;
-    const input = join(publicDir, src);
+    const input = publicDirs.map((dir) => join(dir, src)).find((file) => existsSync(file))!;
     // Dimensions after EXIF orientation is applied — what the browser will actually display.
     const { info: real } = await sharp(input).rotate().toBuffer({ resolveWithObject: true });
     if (real.width !== ref.width || real.height !== ref.height) {

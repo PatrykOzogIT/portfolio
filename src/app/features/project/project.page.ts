@@ -9,6 +9,7 @@ import { ProjectArt } from '../../shared/project/project-art';
 import { Button } from '../../shared/ui/button/button';
 import { ExternalLink, NewTabHint } from '../../shared/ui/external-link/external-link';
 import { Icon } from '../../shared/ui/icon/icon';
+import { Reveal } from '../../shared/ui/reveal/reveal';
 import { Gallery } from './gallery/gallery';
 import { projectJsonLd } from './project-json-ld';
 import type { ProjectPageData } from './project.resolver';
@@ -28,6 +29,7 @@ import type { ProjectPageData } from './project.resolver';
     NewTabHint,
     ProjectArt,
     Gallery,
+    Reveal,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './project.page.html',

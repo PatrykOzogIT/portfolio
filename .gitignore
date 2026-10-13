@@ -69,3 +69,8 @@ desktop.ini
 
 # Local tooling (Claude Code)
 /.claude/
+
+# E2E test build
+/e2e/fixtures/public/
+/test-results/
+/playwright-report/

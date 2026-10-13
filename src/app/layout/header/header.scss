@@ -1,8 +1,11 @@
 @use 'breakpoints' as bp;
 
 :host {
-  position: sticky;
-  top: 0;
+  // Fixed, not sticky: Chrome scrolls a focused element inside a sticky container towards the
+  // container's natural position, so tabbing into the menu mid-page would jump to the top.
+  // The shell reserves the header height instead.
+  position: fixed;
+  inset: 0 0 auto;
   z-index: 50;
   display: block;
   height: var(--header-h);
@@ -47,13 +50,21 @@
   font-size: 0.72rem;
   letter-spacing: 0.02em;
   text-transform: none;
+
+  &::before {
+    content: 'PO';
+  }
 }
 
 .brand-name {
-  display: none;
-
-  @include bp.up(sm) {
-    display: inline;
+  // Phones: visually hidden but still the link's accessible name.
+  @include bp.down(sm) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 }
 

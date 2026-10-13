@@ -26,6 +26,7 @@ import { Header } from '../header/header';
       display: flex;
       flex-direction: column;
       min-height: 100dvh;
+      padding-top: var(--header-h); /* room for the fixed header */
     }
     main {
       flex: 1;

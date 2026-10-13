@@ -1,7 +1,9 @@
 <div class="container inner">
-  <a class="brand" [routerLink]="['/', lang()]" [attr.aria-label]="t().a11y.homeLink">
-    <span class="brand-mark mono" aria-hidden="true">PO</span>
-    <span class="brand-name" aria-hidden="true">{{ name }}</span>
+  <!-- Accessible name = the visible name (label in name); the "PO" monogram is CSS-generated graphics. -->
+  <a class="brand" [routerLink]="['/', lang()]">
+    <span class="brand-mark mono" aria-hidden="true"></span>
+    <span class="brand-name">{{ name }}</span>
+    <span class="visually-hidden"> — {{ t().a11y.homeLink }}</span>
   </a>
 
   <nav class="nav" [attr.aria-label]="t().a11y.mainNav">

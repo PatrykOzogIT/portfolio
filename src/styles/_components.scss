@@ -128,6 +128,19 @@
   }
 }
 
+// ------------------------------------------------------------------ reveal
+// See Reveal directive: only blocks below the fold, only after hydration, never with reduced motion.
+[appReveal] {
+  transition:
+    opacity 600ms var(--ease),
+    transform 600ms var(--ease);
+}
+
+.reveal-pending {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
 // ------------------------------------------------------------------- icons
 .icon {
   display: inline-block;

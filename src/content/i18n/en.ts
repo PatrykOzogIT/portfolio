@@ -15,7 +15,7 @@ export const en: Dictionary = {
     closeMenu: 'Close menu',
     newTab: '(opens in a new tab)',
     languageSwitch: 'Language',
-    homeLink: 'Patryk Ożóg — home',
+    homeLink: 'home',
   },
   languages: {
     pl: 'Polski',

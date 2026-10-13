@@ -10,7 +10,8 @@
  */
 import { existsSync } from 'node:fs';
 import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
-import { join, relative } from 'node:path';
+import { join, relative, sep } from 'node:path';
+import { parseArgs } from 'node:util';
 import { pathToFileURL } from 'node:url';
 import {
   LANGS,
@@ -24,7 +25,16 @@ import { processImages, type ImageRef } from './lib/image-pipeline';
 import { renderMarkdown, splitSections } from './lib/markdown';
 import { IMAGE_CACHE_DIR, PUBLIC_DIR, ROOT } from './lib/paths';
 
-const PROJECTS_DIR = join(ROOT, 'src/content/projects');
+/**
+ * `--fixtures <dir>` (end-to-end tests only): projects come from <dir>/projects and images may also
+ * live in <dir>/public. Production content is never mixed with fixtures.
+ */
+const { values: args } = parseArgs({ options: { fixtures: { type: 'string' } } });
+const FIXTURES_DIR = args.fixtures ? join(ROOT, args.fixtures) : null;
+const PROJECTS_DIR = FIXTURES_DIR
+  ? join(FIXTURES_DIR, 'projects')
+  : join(ROOT, 'src/content/projects');
+const PUBLIC_DIRS = FIXTURES_DIR ? [PUBLIC_DIR, join(FIXTURES_DIR, 'public')] : [PUBLIC_DIR];
 const GENERATED_DIR = join(ROOT, 'src/content/generated');
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -32,7 +42,7 @@ const errors: string[] = [];
 const fail = (scope: string, message: string) => errors.push(`[${scope}] ${message}`);
 
 function checkPublicFile(scope: string, path: string | undefined | null) {
-  if (path && !existsSync(join(PUBLIC_DIR, path)))
+  if (path && !PUBLIC_DIRS.some((dir) => existsSync(join(dir, path))))
     fail(scope, `File not found in /public: ${path}`);
 }
 
@@ -168,7 +178,13 @@ async function generate(
   );
 
   const imports = published.map(
-    ({ folder }, i) => `import { project as p${i} } from '../projects/${folder}/project';`,
+    ({ folder }, i) =>
+      `import { project as p${i} } from '${relative(
+        GENERATED_DIR,
+        join(PROJECTS_DIR, folder, 'project'),
+      )
+        .split(sep)
+        .join('/')}';`,
   );
   const loaderEntries: string[] = [];
   for (const [slug, byLang] of sections) {
@@ -234,7 +250,7 @@ const imageRefs: ImageRef[] = [
       .map((img) => ({ scope: `project:${folder}`, ...img })),
   ),
 ];
-const images = await processImages(imageRefs, PUBLIC_DIR, IMAGE_CACHE_DIR);
+const images = await processImages(imageRefs, PUBLIC_DIRS, IMAGE_CACHE_DIR);
 errors.push(...images.errors);
 exitOnErrors();
 

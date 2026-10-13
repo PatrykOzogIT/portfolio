@@ -12,6 +12,7 @@ import { SITE_CONTENT } from '../../core/content';
 import { LangService } from '../../core/i18n/lang.service';
 import { SectionSpy } from '../../core/navigation/section-spy';
 import { SeoService } from '../../core/seo/seo.service';
+import { Reveal } from '../../shared/ui/reveal/reveal';
 import { personJsonLd } from './person-json-ld';
 import { Contact } from './sections/contact/contact';
 import { Ecosystem } from './sections/ecosystem/ecosystem';
@@ -26,13 +27,13 @@ import { Technology } from './sections/technology/technology';
  */
 @Component({
   selector: 'app-home-page',
-  imports: [Hero, Expertise, Ecosystem, Technology, Projects, Contact],
+  imports: [Reveal, Hero, Expertise, Ecosystem, Technology, Projects, Contact],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-hero [sections]="sections" />
 
     @for (id of sections; track id) {
-      <section class="section" [id]="id" [attr.aria-labelledby]="id + '-title'">
+      <section appReveal class="section" [id]="id" [attr.aria-labelledby]="id + '-title'">
         @switch (id) {
           @case ('expertise') {
             <app-expertise />

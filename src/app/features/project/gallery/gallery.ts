@@ -12,7 +12,7 @@ import type { ProjectImage } from '../../../../content/model';
 import { LangService } from '../../../core/i18n/lang.service';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { Lightbox } from './lightbox';
-import { scrollToSlide, slideIndex } from './slides';
+import { SlideTracker } from './slides';
 
 /**
  * Project gallery that adapts to the number of images:
@@ -33,6 +33,7 @@ export class Gallery {
   protected readonly t = inject(LangService).t;
   protected readonly lang = inject(LangService).lang;
   protected readonly index = signal(0);
+  private readonly slides = new SlideTracker();
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly track = viewChild<ElementRef<HTMLElement>>('track');
@@ -48,7 +49,7 @@ export class Gallery {
    */
   protected followViewer(index: number): void {
     const track = this.track()?.nativeElement;
-    if (track) scrollToSlide(track, index, 'instant');
+    if (track) this.slides.goTo(track, index, 'instant');
     this.index.set(index);
     this.host.querySelectorAll<HTMLElement>('.frame')[index]?.focus({ preventScroll: true });
   }
@@ -56,12 +57,13 @@ export class Gallery {
   protected go(delta: number): void {
     const next = Math.min(Math.max(this.index() + delta, 0), this.images().length - 1);
     const track = this.track()?.nativeElement;
-    if (track) scrollToSlide(track, next);
+    if (track) this.slides.goTo(track, next);
     this.index.set(next);
   }
 
   protected onScroll(track: HTMLElement): void {
-    this.index.set(slideIndex(track));
+    const index = this.slides.onScroll(track);
+    if (index !== null) this.index.set(index);
   }
 
   protected onKeydown(event: KeyboardEvent): void {

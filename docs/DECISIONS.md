@@ -106,3 +106,37 @@ arrow keys cover mouse and keyboard. The viewer is a native modal `<dialog>`; sl
 open. After closing, the carousel follows the last viewed image and focus moves to it. Frames letterbox
 screenshots (`object-fit: contain`) so interfaces are never cropped. Gallery arrows are round icon buttons;
 project-to-project navigation uses large text cards, so the two are never confused.
+
+## 20. Reveal-on-scroll without hiding content
+Sections and project blocks fade in when scrolled into view, but content is never hidden by default:
+prerendered HTML is fully visible without JavaScript. Only after hydration, and only for blocks that are
+still below the fold (reported asynchronously by IntersectionObserver — no forced layout), the class
+`reveal-pending` is added. Disabled entirely with `prefers-reduced-motion`.
+
+## 21. Fixed (not sticky) header
+Chrome scrolls a focused element inside a `position: sticky` container towards the container's natural
+position, so tabbing into the menu or the language switch mid-page jumped to the top of the document
+(found by the end-to-end tests). The header is `position: fixed`; the shell reserves its height.
+
+## 22. End-to-end tests against the prerendered build with fixtures
+Playwright (Chromium only, desktop + phone viewport) tests the static output served like production.
+`npm run build:e2e` builds the site with fixture projects from `e2e/fixtures/` (published, unpublished,
+featured, with and without images) into `dist/e2e` — production content never contains fixtures, and
+fixture images are generated on demand instead of being committed. axe-core checks WCAG 2.2 AA on every
+page type, including the open image viewer and mobile menu (with reduced motion, so colours are measured
+after animations).
+
+## 23. Performance baseline (Lighthouse 12, home page, local server with Brotli and cache headers)
+- Desktop: Performance 100, Accessibility 100, Best Practices 100, SEO 100 — LCP 0.6 s, CLS 0.001.
+- Mobile (simulated slow 4G, 4× CPU): 94 / 100 / 100 / 100 — LCP 2.7 s, CLS 0.024.
+The mobile CLS comes from one word re-wrapping when Inter replaces the metric-matched fallback (average
+width difference 0.03%). `font-display: optional` would remove it but keep first-time visitors on slow
+connections on the fallback font for the whole visit; CLS 0.024 is 4× below the "good" threshold, so swap
+stays. Incremental hydration triggers were not needed: total blocking time is 0 ms.
+Production hosting must serve text with Brotli/gzip and fingerprinted files (`*-HASH.js/css`, fonts,
+`/img/*`) with `Cache-Control: public, max-age=31536000, immutable`; HTML with `no-cache`.
+
+## 24. Social preview image
+`npm run og-image` renders `public/og/og-image.png` (1200×630) from an HTML template with the site's fonts,
+colours, module motif and the portrait, using the Playwright browser. Language-neutral, so one image serves
+both languages; re-run after design or photo changes.

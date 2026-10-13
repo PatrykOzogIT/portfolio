@@ -19,7 +19,7 @@ export const SITE_CONFIG: SiteConfig = {
     pl: null,
     en: null,
   },
-  ogImage: null,
+  ogImage: 'og/og-image.png',
   // e.g. { src: 'images/patryk-ozog.jpg', width: 800, height: 800, alt: { pl: '…', en: '…' } }
   photo: {
     src: 'images/photo.png',

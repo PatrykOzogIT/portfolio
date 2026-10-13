@@ -14,7 +14,7 @@ import {
 import type { ProjectImage } from '../../../../content/model';
 import { LangService } from '../../../core/i18n/lang.service';
 import { Icon } from '../../../shared/ui/icon/icon';
-import { scrollToSlide, slideIndex } from './slides';
+import { SlideTracker } from './slides';
 
 /**
  * Full-screen image viewer on a native modal <dialog>: focus trap, Escape and inert page come from
@@ -37,6 +37,7 @@ export class Lightbox {
   protected readonly lang = inject(LangService).lang;
   protected readonly isOpen = signal(false);
   protected readonly index = signal(0);
+  private readonly slides = new SlideTracker();
 
   private readonly injector = inject(Injector);
   private readonly dialog = viewChild.required<ElementRef<HTMLDialogElement>>('dialog');
@@ -49,7 +50,7 @@ export class Lightbox {
     afterNextRender(
       () => {
         const track = this.track()?.nativeElement;
-        if (track) scrollToSlide(track, index, 'instant');
+        if (track) this.slides.goTo(track, index, 'instant');
       },
       { injector: this.injector },
     );
@@ -68,12 +69,13 @@ export class Lightbox {
   protected go(delta: number): void {
     const next = Math.min(Math.max(this.index() + delta, 0), this.images().length - 1);
     const track = this.track()?.nativeElement;
-    if (track) scrollToSlide(track, next);
+    if (track) this.slides.goTo(track, next);
     this.index.set(next);
   }
 
   protected onScroll(track: HTMLElement): void {
-    this.index.set(slideIndex(track));
+    const index = this.slides.onScroll(track);
+    if (index !== null) this.index.set(index);
   }
 
   protected onKeydown(event: KeyboardEvent): void {

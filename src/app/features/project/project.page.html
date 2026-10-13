@@ -64,7 +64,7 @@
 
   <div class="container body">
     @for (section of sections(); track section.key) {
-      <section class="block" [attr.aria-labelledby]="'section-' + section.key">
+      <section appReveal class="block" [attr.aria-labelledby]="'section-' + section.key">
         <h2 class="block-title" [id]="'section-' + section.key">
           <span class="num mono" aria-hidden="true">{{ section.number }}</span>
           {{ t().project.sections[section.key] }}
@@ -74,7 +74,7 @@
     }
 
     @if (meta.images?.length) {
-      <section class="block block--wide" aria-labelledby="section-gallery">
+      <section appReveal class="block block--wide" aria-labelledby="section-gallery">
         <h2 class="block-title" id="section-gallery">
           <span class="num mono" aria-hidden="true">{{ galleryNumber() }}</span>
           {{ t().project.gallery }}

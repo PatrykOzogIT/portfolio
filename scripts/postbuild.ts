@@ -7,7 +7,10 @@ import { existsSync } from 'node:fs';
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { SITE_CONFIG } from '../src/content/site.config';
-import { DIST_BROWSER_DIR } from './lib/paths';
+import { DIST_BROWSER_DIR as DEFAULT_DIST } from './lib/paths';
+
+/** Optional first argument: another build output (e.g. the end-to-end test build). */
+const DIST_BROWSER_DIR = process.argv[2] ? join(process.cwd(), process.argv[2]) : DEFAULT_DIST;
 
 interface PageEntry {
   readonly loc: string;

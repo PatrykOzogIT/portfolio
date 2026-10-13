@@ -16,7 +16,7 @@ export const pl = {
     closeMenu: 'Zamknij menu',
     newTab: '(otwiera się w nowej karcie)',
     languageSwitch: 'Wybór języka',
-    homeLink: 'Patryk Ożóg — strona główna',
+    homeLink: 'strona główna',
   },
   languages: {
     pl: 'Polski',
