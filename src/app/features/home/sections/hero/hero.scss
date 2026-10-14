@@ -37,15 +37,24 @@
   }
 }
 
+// The text column is a size container, so the top label can scale with the column width.
+.copy {
+  container-type: inline-size;
+}
+
+// Hero labels are ~15% larger than the global mono size. The top label shrinks slightly where the column is
+// narrowest (two-column layout at ~1024 px) to stay on one line; the minimum keeps each group whole at 320 px.
 .eyebrow {
   display: inline-flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
   color: var(--text-2);
+  font-size: clamp(0.85rem, 2.8cqi, 0.9rem);
 
   &::before {
     content: '';
     flex: none;
+    margin-top: calc((1lh - 6px) / 2); // centred on the first line when the label wraps
     width: 6px;
     height: 6px;
     border-radius: 50%;
@@ -54,16 +63,26 @@
   }
 }
 
+// Groups of words that never break inside: labels wrap only between groups.
+.group {
+  white-space: nowrap;
+}
+
 .name {
   display: flex;
   align-items: center;
   gap: clamp(14px, 2vw, 22px);
   margin-top: 20px;
+
+  // ~7% below the global display size; still the dominant element of the hero.
+  .display {
+    font-size: clamp(2.33rem, 1.44rem + 3.9vw, 4.28rem);
+  }
 }
 
 .avatar {
   flex: none;
-  width: clamp(56px, 4vw + 36px, 76px);
+  width: clamp(62px, 4.4vw + 40px, 84px);
   height: auto;
   aspect-ratio: 1;
   object-fit: cover;
@@ -81,7 +100,7 @@
 .keywords {
   margin-top: 20px;
   color: var(--text-3);
-  font-size: 0.74rem;
+  font-size: clamp(0.82rem, 0.77rem + 0.25vw, 0.87rem);
 }
 
 .actions {
