@@ -96,7 +96,6 @@ src/
   styles/           Design tokens, fonts, base styles, typography, global primitives
 scripts/            Content pipeline, post-build (sitemap / robots), local static server
 docs/               Architectural decisions and content guide
-design-preview/     Static visual concept from the design stage (temporary)
 ```
 
 ## Managing content

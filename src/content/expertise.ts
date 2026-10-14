@@ -82,13 +82,13 @@ export const EXPERTISE: readonly ExpertiseArea[] = [
     points: {
       pl: [
         'Utrzymanie i rozwój systemów legacy',
-        'Stopniowe zastępowanie starych modułów',
+        'Etapowa modernizacja i przygotowanie migracji',
         'Migracje danych między systemami',
         'Refaktoryzacja i debugowanie',
       ],
       en: [
         'Maintaining and evolving legacy systems',
-        'Incremental replacement of old modules',
+        'Phased modernization and migration planning',
         'Data migration between systems',
         'Refactoring and debugging',
       ],
