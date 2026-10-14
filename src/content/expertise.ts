@@ -76,8 +76,8 @@ export const EXPERTISE: readonly ExpertiseArea[] = [
     icon: 'modernization',
     title: { pl: 'Modernizacja systemów', en: 'System modernization' },
     description: {
-      pl: 'Utrzymuję starsze aplikacje PHP i stopniowo zastępuję je rozwiązaniami w Angularze, NestJS i TypeScript — łącznie z migracją danych i funkcjonalności.',
-      en: 'I maintain legacy PHP applications and gradually replace them with Angular, NestJS and TypeScript — including data and feature migration.',
+      pl: 'Modernizuję systemy PHP/Zend, projektując nowe rozwiązania w Angularze, NestJS i TypeScript oraz przygotowując kontrolowane migracje danych i procesów.',
+      en: 'I modernize legacy PHP/Zend systems by designing new solutions with Angular, NestJS and TypeScript, and preparing controlled migrations of data and business processes.',
     },
     points: {
       pl: [
@@ -102,8 +102,8 @@ export const EXPERTISE: readonly ExpertiseArea[] = [
       },
       navLabel: { pl: 'Modernizacja legacy', en: 'Legacy modernization' },
       summary: {
-        pl: 'Zaprojektowałem i przeprowadziłem migrację kluczowych danych operacyjnych firmy ze starszego systemu PHP/Zend do nowej architektury. Proces obejmował m.in. kontrahentów, produkty, stany magazynowe, zamówienia i dokumenty handlowe. Dzięki wielokrotnym migracjom testowym, raportom rozbieżności i mechanizmom weryfikacji możliwe było przygotowanie kontrolowanego przełączenia. Nowy system rozwijałem iteracyjnie, uwzględniając uwagi użytkowników i umożliwiając im testowanie na rzeczywistych danych.',
-        en: 'I designed and carried out the migration of the company’s key operational data from a legacy PHP/Zend system into a modern architecture. The process covered customers, products, inventory, orders and commercial documents. Repeated trial migrations, discrepancy reports and verification mechanisms enabled a controlled cutover. I developed the new system iteratively, incorporating user feedback and allowing testing with real migrated data.',
+        pl: 'Zaprojektowałem i przeprowadziłem migrację kluczowych danych operacyjnych firmy — m.in. kontrahentów, produktów, zamówień i dokumentów handlowych — ze starszego systemu PHP/Zend do nowej architektury. Powtarzalny i weryfikowalny proces z migracjami testowymi i raportami rozbieżności pozwolił przygotować kontrolowane przełączenie. Nowy system rozwijałem iteracyjnie z udziałem użytkowników, którzy testowali migrację na rzeczywistych danych.',
+        en: 'I designed and carried out the migration of key operational data, such as customers, products, orders and commercial documents, from a legacy PHP/Zend system to the new architecture. A repeatable, verifiable process with trial migrations and discrepancy reports prepared a controlled cutover. I developed the new system iteratively with its users, who tested the migration on real data.',
       },
       decisions: {
         pl: [

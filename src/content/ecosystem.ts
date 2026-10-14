@@ -186,20 +186,18 @@ export const ECOSYSTEM_PERSPECTIVES: readonly EcosystemPerspective[] = [
     },
     navLabel: { pl: 'Alokacja i rezerwacje', en: 'Allocation and reservations' },
     summary: {
-      pl: 'Zaprojektowałem mechanizm alokacji i rezerwacji towarów dla wielu kanałów sprzedaży, firm i magazynów. System automatycznie dobiera źródło realizacji zamówienia na podstawie konfiguracji kanału, dostępności towarów i priorytetów biznesowych, uwzględniając również produkty złożone z komponentów (BOM). Reguły zapewniają spójność rezerwacji i przypisania do lokalizacji, a dziennik ruchów magazynowych stanowi podstawę ewidencji stanów. Na jego podstawie system przygotowuje także rozliczenia międzyfirmowe do zatwierdzenia, po którym automatycznie generuje faktury.',
-      en: 'I designed a stock allocation and reservation mechanism spanning multiple sales channels, companies and warehouses. The system automatically selects where orders should be fulfilled based on channel configuration, stock availability and business priorities, including products assembled from components (BOM). Business rules maintain consistency between reservations and assigned locations, while a stock movement ledger provides the basis for inventory records. The same data supports intercompany settlements, which are prepared for approval before invoices are generated automatically.',
+      pl: 'Zaprojektowałem mechanizm alokacji i rezerwacji towarów dla wielu kanałów sprzedaży, firm i magazynów. System automatycznie dobiera źródło realizacji zamówienia według konfiguracji kanału, dostępności i priorytetów biznesowych — także dla produktów złożonych (BOM). Reguły pilnują spójności rezerwacji i lokalizacji, a dziennik ruchów magazynowych jest podstawą ewidencji stanów i rozliczeń międzyfirmowych, z których po zatwierdzeniu automatycznie powstają faktury.',
+      en: 'I designed a stock allocation and reservation mechanism spanning multiple sales channels, companies and warehouses. The system automatically selects where each order is fulfilled based on channel configuration, availability and business priorities — including products assembled from components (BOM). Business rules keep reservations and locations consistent, and a stock movement ledger underpins inventory records and intercompany settlements, invoiced automatically once approved.',
     },
     decisions: {
       pl: [
-        'Alokacja zależna od kanału sprzedaży',
-        'Priorytety biznesowe i dostępność',
+        'Alokacja według kanału, dostępności i priorytetów',
         'Obsługa produktów złożonych (BOM)',
         'Spójność rezerwacji i lokalizacji',
         'Dziennik ruchów jako podstawa ewidencji',
       ],
       en: [
-        'Sales-channel-driven allocation',
-        'Business priorities and availability',
+        'Allocation by channel, availability and priorities',
         'Support for bills of materials (BOM)',
         'Reservation and location consistency',
         'Stock movement ledger',
