@@ -340,6 +340,107 @@
   }
 }
 
+// ------------------------------------------- architecture perspectives
+// The REST band and the data layer are tabs too. They use a neutral highlight, so they never read as
+// a fourth system colour.
+.map {
+  --persp: var(--text-2);
+}
+
+// "REST" tag sitting on the band, between the first two columns (clear of the data-layer stems).
+.rest-tab {
+  position: absolute;
+  z-index: 2;
+  top: 100%;
+  left: calc(100% / 3);
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px dashed rgb(255 255 255 / 0.24);
+  background: var(--bg);
+  color: var(--text-2);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  cursor: pointer;
+
+  .icon {
+    width: 13px;
+    height: 13px;
+  }
+
+  @include bp.hover {
+    &:hover {
+      border-color: var(--persp);
+      color: var(--text);
+    }
+  }
+
+  &[aria-selected='true'] {
+    border-style: solid;
+    border-color: var(--persp);
+    background: var(--surface-2);
+    color: var(--text);
+  }
+}
+
+.map[data-active='communication'] {
+  .rail {
+    border-color: color-mix(in srgb, var(--persp) 55%, transparent);
+    background: color-mix(in srgb, var(--persp) 5%, transparent);
+  }
+
+  .box.api {
+    border-color: color-mix(in srgb, var(--persp) 40%, transparent);
+  }
+}
+
+// The data layer as a tab: same box, plus a hint that it opens details.
+.db--tab {
+  width: 100%;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  @include bp.hover {
+    &:hover {
+      border-color: color-mix(in srgb, var(--persp) 45%, transparent);
+    }
+  }
+
+  &[aria-selected='true'] {
+    border-color: color-mix(in srgb, var(--persp) 60%, transparent);
+  }
+}
+
+.db-more {
+  width: 18px;
+  height: 18px;
+  margin-left: auto;
+  color: var(--text-3);
+}
+
+// With the data layer selected, every API → database link lights up.
+.map[data-active='data'] .box.api::after {
+  opacity: 1;
+  background-image: linear-gradient(180deg, var(--persp) 0 3px, transparent 3px 8px);
+}
+
+.panel--perspective {
+  --c: var(--text-2);
+}
+
+.panel-title {
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  font-weight: 650;
+  line-height: 1.2;
+}
+
 // ------------------------------------------------------- phone switcher
 .switcher {
   display: none;
@@ -453,8 +554,16 @@
 
 // ---------------------------------------------------------------- panels
 // All panels share one grid cell: height = tallest panel, so switching never shifts the page.
+// Only the active panel sets the height (inactive ones are taken out of the flow while they fade out),
+// so a short system panel never inherits the height of a long perspective panel.
 .panels {
+  position: relative;
   display: grid;
+
+  // Opened from the examples navigation on phones: land below the sticky switcher.
+  @include bp.down(md) {
+    scroll-margin-top: 64px;
+  }
 }
 
 .panel {
@@ -473,6 +582,11 @@
     opacity 180ms var(--ease),
     transform 180ms var(--ease),
     visibility 0s linear 180ms;
+
+  &:not(.is-active) {
+    position: absolute;
+    inset: 0 0 auto;
+  }
 
   &.is-active {
     visibility: visible;
@@ -580,75 +694,6 @@
       transform: translateY(-2px);
       background: var(--c);
     }
-  }
-}
-
-// ------------------------------------------------------------------ my role
-// One block for the whole ecosystem, below the map: intro on the left, responsibilities on the right.
-.role {
-  position: relative;
-  display: grid;
-  gap: var(--space-5) var(--space-7);
-  margin-top: clamp(28px, 4vw, 48px);
-  padding: clamp(22px, 3vw, 36px);
-  border-radius: var(--r-lg);
-  background: var(--surface-1);
-  border: 1px solid var(--border);
-
-  @include bp.up(lg) {
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 2fr);
-  }
-
-  // Accent hairline, as on the system panels.
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0 0 auto;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      color-mix(in srgb, var(--accent) 80%, transparent),
-      transparent
-    );
-  }
-}
-
-.role-title {
-  font-size: var(--fs-h3);
-  font-weight: 650;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-}
-
-.role-intro p {
-  margin-top: var(--space-3);
-  color: var(--text-2);
-}
-
-.role-list {
-  display: grid;
-  gap: var(--space-5) var(--space-6);
-  margin: 0;
-
-  @include bp.up(sm) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-.role-item {
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--border);
-
-  dt {
-    color: var(--accent-strong);
-  }
-
-  dd {
-    margin: 6px 0 0;
-    color: var(--text-2);
-    font-size: 0.95rem;
-    line-height: 1.5;
   }
 }
 

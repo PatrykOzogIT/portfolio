@@ -44,7 +44,7 @@ export const pl = {
   ecosystem: {
     eyebrow: 'Doświadczenie komercyjne',
     title: 'Zintegrowany ekosystem B2B, ERP i WMS',
-    lead: 'Trzy odrębne aplikacje — każda z własnym frontendem i API — współpracujące przez wspólną warstwę danych oraz komunikację REST między backendami. Wybierz system, aby zobaczyć jego zakres.',
+    lead: 'Trzy odrębne aplikacje — każda z własnym frontendem i API — współpracujące przez wspólną warstwę danych oraz komunikację REST między backendami. Wybierz system, komunikację REST lub warstwę danych, aby zobaczyć szczegóły.',
     note: 'Opis zanonimizowany: bez nazw firm, klientów i szczegółów infrastruktury.',
     systems: 'Systemy ekosystemu',
     frontend: 'Frontend',
@@ -64,6 +64,12 @@ export const pl = {
       integrations: 'Dane, API i integracje',
       maintenance: 'Utrzymanie i modernizacja',
     },
+  },
+  caseStudy: {
+    examples: 'Przykłady z praktyki',
+    decisions: 'Najważniejsze decyzje',
+    outcome: 'Rezultat',
+    link: 'Przykład z praktyki',
   },
   technology: {
     eyebrow: 'Technologie',

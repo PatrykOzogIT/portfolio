@@ -43,7 +43,7 @@ export const en: Dictionary = {
   ecosystem: {
     eyebrow: 'Commercial experience',
     title: 'An integrated B2B, ERP and WMS ecosystem',
-    lead: 'Three separate applications — each with its own frontend and API — working together through a shared data layer and backend-to-backend REST communication. Select a system to see what it covers.',
+    lead: 'Three separate applications — each with its own frontend and API — working together through a shared data layer and backend-to-backend REST communication. Select a system, the REST communication or the data layer to see the details.',
     note: 'Anonymized: no company or client names, no infrastructure details.',
     systems: 'Ecosystem systems',
     frontend: 'Frontend',
@@ -63,6 +63,12 @@ export const en: Dictionary = {
       integrations: 'Data, APIs and integrations',
       maintenance: 'Maintenance and modernization',
     },
+  },
+  caseStudy: {
+    examples: 'Real-world examples',
+    decisions: 'Key decisions',
+    outcome: 'Outcome',
+    link: 'Real-world example',
   },
   technology: {
     eyebrow: 'Technology',

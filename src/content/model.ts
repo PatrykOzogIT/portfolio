@@ -71,12 +71,29 @@ export interface TechStackGroup {
 
 export type ExpertiseIcon = 'architecture' | 'fullstack' | 'process' | 'modernization';
 
+/** A real example from practice: what was decided and what came of it. Only confirmed facts. */
+export interface CaseStudy {
+  /** Anchor id on the page (also used by the "examples" navigation). */
+  readonly id: string;
+  /** Short mono label, e.g. "MODERNIZATION". */
+  readonly label: Localized;
+  readonly title: Localized;
+  /** Short name for the examples navigation. */
+  readonly navLabel: Localized;
+  readonly summary: Localized;
+  readonly decisions: Localized<readonly string[]>;
+  /** Optional highlighted result. */
+  readonly outcome?: Localized;
+}
+
 export interface ExpertiseArea {
   readonly id: string;
   readonly icon: ExpertiseIcon;
   readonly title: Localized;
   readonly description: Localized;
   readonly points: Localized<readonly string[]>;
+  /** Example from practice shown below the expertise cards and linked from this card. */
+  readonly caseStudy?: CaseStudy;
 }
 
 /* ------------------------------------------------------------- ecosystem */
@@ -99,6 +116,16 @@ export interface EcosystemSystem {
   readonly summary: Localized;
   readonly areas: Localized<readonly string[]>;
   readonly technologies: readonly TechId[];
+}
+
+/**
+ * Architecture perspectives on the map — not systems: the REST communication between backends and the
+ * shared data layer. Each opens a panel next to the map, like a system does.
+ */
+export type EcosystemPerspectiveId = 'communication' | 'data';
+
+export interface EcosystemPerspective extends CaseStudy {
+  readonly id: EcosystemPerspectiveId;
 }
 
 /**
@@ -187,6 +214,7 @@ export interface SiteContent {
   readonly expertise: readonly ExpertiseArea[];
   readonly ecosystem: readonly EcosystemSystem[];
   readonly ecosystemRole: EcosystemRole;
+  readonly ecosystemPerspectives: readonly EcosystemPerspective[];
   readonly projects: readonly ProjectMeta[];
   readonly projectSections: Readonly<Record<string, Localized<ProjectSectionsLoader>>>;
 }

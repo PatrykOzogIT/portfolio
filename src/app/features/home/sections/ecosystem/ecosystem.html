@@ -6,17 +6,22 @@
     [lead]="t().ecosystem.lead"
   >
     <p class="note">{{ t().ecosystem.note }}</p>
+
+    <!-- Always-visible way into the real-world examples (two on the map, one in Expertise). -->
+    <app-examples-nav [examples]="examples" (openPerspective)="showExample($event, panels)" />
   </app-section-heading>
 
   <div class="layout">
     <div class="map-wrap">
-      <div class="map">
-        <div
-          class="cols"
-          role="tablist"
-          [attr.aria-label]="t().ecosystem.systems"
-          (keydown)="onKeydown($event)"
-        >
+      <!-- One tablist: the three systems plus two architecture perspectives (REST band, data layer). -->
+      <div
+        class="map"
+        role="tablist"
+        [attr.data-active]="active()"
+        [attr.aria-label]="t().ecosystem.systems"
+        (keydown)="onKeydown($event)"
+      >
+        <div class="cols">
           <!-- Shared REST band behind the API row: communication without implying pairwise topology. -->
           <div class="rail" aria-hidden="true"></div>
           @for (system of systems; track system.id; let i = $index) {
@@ -49,15 +54,49 @@
               </span>
             </button>
           }
+          @if (perspective.communication; as p) {
+            <button
+              type="button"
+              role="tab"
+              class="rest-tab"
+              id="eco-tab-communication"
+              [attr.aria-selected]="active() === 'communication'"
+              aria-controls="eco-panel-communication"
+              [tabindex]="active() === 'communication' ? 0 : -1"
+              (click)="select('communication')"
+            >
+              <svg appIcon="refresh" class="icon"></svg>
+              REST
+              <span class="visually-hidden">— {{ p.navLabel[lang()] }}</span>
+            </button>
+          }
         </div>
 
-        <div class="db">
+        @if (perspective.data; as p) {
+          <button
+            type="button"
+            role="tab"
+            class="db db--tab"
+            id="eco-tab-data"
+            [attr.aria-selected]="active() === 'data'"
+            aria-controls="eco-panel-data"
+            [tabindex]="active() === 'data' ? 0 : -1"
+            (click)="select('data')"
+          >
+            <ng-container [ngTemplateOutlet]="dbContent" />
+            <span class="visually-hidden">— {{ p.navLabel[lang()] }}</span>
+            <svg appIcon="arrow-right" class="icon db-more"></svg>
+          </button>
+        } @else {
+          <div class="db"><ng-container [ngTemplateOutlet]="dbContent" /></div>
+        }
+        <ng-template #dbContent>
           <span class="db-icon"><svg appIcon="database" class="icon"></svg></span>
           <span>
             <span class="db-title">{{ t().ecosystem.sharedData }}</span>
             <span class="db-sub mono">MySQL / MariaDB</span>
           </span>
-        </div>
+        </ng-template>
       </div>
 
       <ul class="legend" role="list">
@@ -135,23 +174,40 @@
           </ul>
         </div>
       }
+
+      <!-- Architecture perspectives: same place and layout as a system panel, but not a system. -->
+      @for (p of perspectives; track p.id) {
+        <div
+          class="panel panel--perspective"
+          role="tabpanel"
+          [id]="'eco-panel-' + p.id"
+          [attr.aria-labelledby]="'eco-tab-' + p.id"
+          [class.is-active]="active() === p.id"
+          [attr.inert]="active() === p.id ? null : ''"
+        >
+          <div class="panel-head">
+            <span class="sys-icon"
+              ><svg [appIcon]="perspectiveIcons[p.id]" class="icon"></svg
+            ></span>
+            <div>
+              <p class="panel-full mono">{{ p.label[lang()] }}</p>
+              <h3 class="panel-title">{{ p.title[lang()] }}</h3>
+            </div>
+          </div>
+          <p class="panel-summary">{{ p.summary[lang()] }}</p>
+
+          <h4 class="mono">{{ t().caseStudy.decisions }}</h4>
+          <ul class="areas" role="list">
+            @for (d of p.decisions[lang()]; track $index) {
+              <li>{{ d }}</li>
+            }
+          </ul>
+        </div>
+      }
     </div>
   </div>
 
   @if (hasRole) {
-    <div class="role">
-      <div class="role-intro">
-        <h3 id="eco-role-title" class="role-title">{{ t().ecosystem.role }}</h3>
-        <p>{{ role.intro[lang()] }}</p>
-      </div>
-      <dl class="role-list">
-        @for (r of role.responsibilities; track r.area) {
-          <div class="role-item">
-            <dt class="mono">{{ t().ecosystem.responsibilityAreas[r.area] }}</dt>
-            <dd>{{ r.description[lang()] }}</dd>
-          </div>
-        }
-      </dl>
-    </div>
+    <app-ecosystem-role [role]="role" />
   }
 </div>

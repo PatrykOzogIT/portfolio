@@ -77,3 +77,118 @@
   color: var(--text-3);
   letter-spacing: 0.04em;
 }
+
+// Link from an area card to its example below the grid.
+.case-link {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 6px;
+  min-height: var(--tap);
+  margin-top: var(--space-4);
+  color: var(--accent-strong);
+  font-weight: 600;
+  font-size: 0.925rem;
+
+  .icon {
+    width: 16px;
+    height: 16px;
+    transform: rotate(90deg); // the example is below
+    transition: transform var(--t-base) var(--ease);
+  }
+
+  &:hover .icon {
+    transform: rotate(90deg) translateX(3px);
+  }
+}
+
+// ------------------------------------------------------------ case study
+// One example from practice: text on the left; decisions and the outcome on the right.
+.case {
+  position: relative;
+  display: grid;
+  gap: var(--space-6) var(--space-8);
+  margin-top: var(--space-5);
+  padding: clamp(22px, 3vw, 40px);
+  border-radius: var(--r-lg);
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+
+  @include bp.up(lg) {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  }
+
+  // Accent hairline, as on the other detail panels.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--accent) 80%, transparent),
+      transparent
+    );
+  }
+
+  h4 {
+    color: var(--text-3);
+    font-weight: 500;
+  }
+}
+
+.case-label {
+  color: var(--accent-strong);
+}
+
+.case-title {
+  margin-top: var(--space-3);
+  font-size: var(--fs-h3);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.case-summary {
+  margin-top: var(--space-4);
+  color: var(--text-2);
+}
+
+.case-decisions {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+  font-size: 0.95rem;
+
+  li {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    line-height: 1.45;
+
+    &::before {
+      content: '';
+      flex: none;
+      width: 6px;
+      height: 6px;
+      border-radius: 2px;
+      transform: translateY(-2px);
+      background: var(--accent);
+    }
+  }
+}
+
+// The result is what matters most here: set apart, but in the same quiet style.
+.case-outcome {
+  margin-top: var(--space-6);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--r-md);
+  border: 1px solid color-mix(in srgb, var(--success) 30%, transparent);
+  background: color-mix(in srgb, var(--success) 5%, transparent);
+
+  p {
+    margin-top: var(--space-2);
+    color: var(--text);
+  }
+}

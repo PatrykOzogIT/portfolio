@@ -5,6 +5,7 @@
 import type {
   EcosystemRole,
   Lang,
+  Localized,
   ProjectKind,
   ProjectMeta,
   SiteConfig,
@@ -125,6 +126,29 @@ export function hasContactChannel(site: SiteConfig): boolean {
 /** The "My role" block exists only with confirmed responsibilities. */
 export function hasEcosystemRole(role: EcosystemRole): boolean {
   return role.responsibilities.length > 0;
+}
+
+/** Real-world examples: architecture perspectives on the map, then case studies in Expertise. */
+export interface SolutionExample {
+  readonly id: string;
+  readonly navLabel: Localized;
+  /** 'perspective' opens a panel on the map; 'case' is an anchor in the Expertise section. */
+  readonly kind: 'perspective' | 'case';
+}
+
+export function solutionExamples(content: SiteContent): SolutionExample[] {
+  return [
+    ...content.ecosystemPerspectives.map((p) => ({
+      id: p.id,
+      navLabel: p.navLabel,
+      kind: 'perspective' as const,
+    })),
+    ...content.expertise.flatMap((a) =>
+      a.caseStudy
+        ? [{ id: a.caseStudy.id, navLabel: a.caseStudy.navLabel, kind: 'case' as const }]
+        : [],
+    ),
+  ];
 }
 
 /* ------------------------------------------------------------- home page */

@@ -17,9 +17,40 @@
             <li>{{ point }}</li>
           }
         </ul>
+        @if (area.caseStudy; as cs) {
+          <a class="case-link" [routerLink]="['/', lang()]" [fragment]="cs.id">
+            {{ t().caseStudy.link }}: {{ cs.navLabel[lang()] }}
+            <svg appIcon="arrow-right" class="icon"></svg>
+          </a>
+        }
       </li>
     }
   </ul>
+
+  <!-- Real examples from practice, next to the area they illustrate (always visible, not collapsed). -->
+  @for (cs of caseStudies; track cs.id) {
+    <article class="case" [id]="cs.id" [attr.aria-labelledby]="cs.id + '-title'">
+      <div class="case-main">
+        <p class="case-label mono">{{ cs.label[lang()] }}</p>
+        <h3 class="case-title" [id]="cs.id + '-title'">{{ cs.title[lang()] }}</h3>
+        <p class="case-summary">{{ cs.summary[lang()] }}</p>
+      </div>
+      <div class="case-side">
+        <h4 class="mono">{{ t().caseStudy.decisions }}</h4>
+        <ul class="case-decisions" role="list">
+          @for (d of cs.decisions[lang()]; track $index) {
+            <li>{{ d }}</li>
+          }
+        </ul>
+        @if (cs.outcome; as outcome) {
+          <div class="case-outcome">
+            <h4 class="mono">{{ t().caseStudy.outcome }}</h4>
+            <p>{{ outcome[lang()] }}</p>
+          </div>
+        }
+      </div>
+    </article>
+  }
 
   <p class="credential mono">{{ t().expertise.certificate }}</p>
 </div>

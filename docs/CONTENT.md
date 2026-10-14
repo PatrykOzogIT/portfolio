@@ -136,9 +136,17 @@ proportion works (desktop, tablet or phone screenshots).
 `ECOSYSTEM_ROLE` describes my role across the whole ecosystem (intro + responsibilities, PL and EN).
 Only confirmed facts; with no responsibilities the "My role" block below the map is hidden.
 
+### Architecture perspectives — `ECOSYSTEM_PERSPECTIVES`
+
+Real examples attached to the map: `communication` (the REST band) and `data` (the shared data layer). Each
+has a label, title, summary and key decisions (PL and EN) and opens a panel next to the map. Without an entry,
+the element is not clickable. Never include security implementation details or configuration.
+
 ## Expertise and technology — `src/content/expertise.ts`, `tech-stack.ts`
 
-`expertise.ts`: four areas of what I do (title, description, points — PL and EN).
+`expertise.ts`: four areas of what I do (title, description, points — PL and EN). An area can have a
+`caseStudy` — a real example shown below the cards (label, title, summary, key decisions, optional outcome)
+and linked from its card.
 `tech-stack.ts`: groups of tools (keys from `technologies.ts`) with an optional short note. No ratings.
 Order is the priority (main stack first); each technology appears once. `legacy` lists experience shown as a
 muted chip tagged "Legacy" (PHP / Zend) — visible, but not presented as the main direction.

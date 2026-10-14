@@ -1,4 +1,4 @@
-import type { EcosystemRole, EcosystemSystem } from './model';
+import type { EcosystemPerspective, EcosystemRole, EcosystemSystem } from './model';
 
 /**
  * Commercial ecosystem — anonymized. Three separate applications (Angular frontend + NestJS API each),
@@ -144,3 +144,66 @@ export const ECOSYSTEM_ROLE: EcosystemRole = {
     },
   ],
 };
+
+/**
+ * Architecture perspectives on the map (REST band, shared data layer) — real decisions, as confirmed by me.
+ * No security implementation details, configuration or internal trade-offs.
+ */
+export const ECOSYSTEM_PERSPECTIVES: readonly EcosystemPerspective[] = [
+  {
+    id: 'communication',
+    label: { pl: 'Architektura', en: 'Architecture' },
+    title: {
+      pl: 'Bezpieczna komunikacja i wspólne uprawnienia',
+      en: 'Secure communication and shared authorization',
+    },
+    navLabel: { pl: 'Bezpieczna komunikacja', en: 'Secure communication' },
+    summary: {
+      pl: 'Aplikacje B2B, ERP i WMS korzystają ze wspólnej bazy danych, zachowując odrębne sesje użytkowników. Zaprojektowałem mechanizmy bezpiecznej komunikacji między backendami oraz wspólny model uprawnień obejmujący role, indywidualne nadania i dziedziczenie. Każda usługa samodzielnie egzekwuje zasady dostępu, a interfejs użytkownika odzwierciedla przyznane uprawnienia. Dzięki temu kontrola dostępu pozostaje spójna między aplikacjami i nie zależy wyłącznie od ograniczeń interfejsu.',
+      en: 'The B2B, ERP and WMS applications share a database while maintaining separate user sessions. I designed secure backend-to-backend communication and a shared authorization model covering roles, individual permissions and inheritance. Each service enforces access rules independently, while the user interface reflects the permissions granted. This keeps access control consistent across applications without relying solely on UI restrictions.',
+    },
+    decisions: {
+      pl: [
+        'Bezpieczna komunikacja między usługami',
+        'Wspólny model uprawnień',
+        'Role, nadania i dziedziczenie',
+        'Autoryzacja egzekwowana przez backendy',
+      ],
+      en: [
+        'Secure service-to-service communication',
+        'Shared authorization model',
+        'Roles, grants and inheritance',
+        'Backend-enforced authorization',
+      ],
+    },
+  },
+  {
+    id: 'data',
+    label: { pl: 'Dane i reguły', en: 'Data and rules' },
+    title: {
+      pl: 'Automatyczna alokacja i rezerwacja towarów',
+      en: 'Automated stock allocation and reservations',
+    },
+    navLabel: { pl: 'Alokacja i rezerwacje', en: 'Allocation and reservations' },
+    summary: {
+      pl: 'Zaprojektowałem mechanizm alokacji i rezerwacji towarów dla wielu kanałów sprzedaży, firm i magazynów. System automatycznie dobiera źródło realizacji zamówienia na podstawie konfiguracji kanału, dostępności towarów i priorytetów biznesowych, uwzględniając również produkty złożone z komponentów (BOM). Reguły zapewniają spójność rezerwacji i przypisania do lokalizacji, a dziennik ruchów magazynowych stanowi podstawę ewidencji stanów. Na jego podstawie system przygotowuje także rozliczenia międzyfirmowe do zatwierdzenia, po którym automatycznie generuje faktury.',
+      en: 'I designed a stock allocation and reservation mechanism spanning multiple sales channels, companies and warehouses. The system automatically selects where orders should be fulfilled based on channel configuration, stock availability and business priorities, including products assembled from components (BOM). Business rules maintain consistency between reservations and assigned locations, while a stock movement ledger provides the basis for inventory records. The same data supports intercompany settlements, which are prepared for approval before invoices are generated automatically.',
+    },
+    decisions: {
+      pl: [
+        'Alokacja zależna od kanału sprzedaży',
+        'Priorytety biznesowe i dostępność',
+        'Obsługa produktów złożonych (BOM)',
+        'Spójność rezerwacji i lokalizacji',
+        'Dziennik ruchów jako podstawa ewidencji',
+      ],
+      en: [
+        'Sales-channel-driven allocation',
+        'Business priorities and availability',
+        'Support for bills of materials (BOM)',
+        'Reservation and location consistency',
+        'Stock movement ledger',
+      ],
+    },
+  },
+];

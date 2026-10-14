@@ -69,7 +69,7 @@ The map uses CSS subgrid: header / frontend / API rows line up across the three 
 sits in the API row of the same grid and the data-layer links are pseudo-elements of fixed geometry.
 Everything is present in the prerendered HTML — no layout measurement, no shift after hydration.
 The systems are a WAI-ARIA tablist (arrow keys, Home/End); all panels are rendered for indexing and share
-one grid cell, so switching never changes the page height. On phones a sticky switcher mirrors the tabs.
+one grid cell (see 29 for how the height follows the active panel). On phones a sticky switcher mirrors the tabs.
 The REST band deliberately shows communication without pairs or direction, and the "My role" block stays
 hidden until responsibilities are confirmed.
 
@@ -169,3 +169,17 @@ accent) and `developmentStatus` ("In development", neutral). One "status" could 
 running publicly and actively developed. `demoUrl` became `appUrl`, because a real product is not a demo;
 the button label follows `kind` ("Live Demo" vs. "Visit app"), so no per-project label is needed. `isLive`
 without `appUrl` fails content validation.
+
+## 29. Real-world examples inside the existing structure
+Three examples of real decisions, without a new section: two are architecture perspectives on the ecosystem
+map — the REST band (secure communication, shared authorization) and the shared data layer (stock allocation
+and reservations) — and one is a case study under the Expertise cards (legacy modernization), linked from the
+"System modernization" card. The perspectives are tabs in the same tablist as the systems (arrow keys run
+B2B → ERP → WMS → REST → data) and open in the same panel area, with a neutral highlight so they never read
+as a fourth system. An always-visible "Real-world examples" row under the ecosystem heading opens either
+perspective (focus moves to its tab, the panel scrolls into view) or jumps to the case study.
+Panels still share one grid cell, but inactive panels are taken out of the flow, so the height follows the
+active panel: a short system panel no longer inherits the height of a long perspective. Height changes only
+after a click, below the map, so there is no unexpected layout shift.
+The examples navigation and the "My role" block are separate components, which keeps the map's styles within
+the component style budget.

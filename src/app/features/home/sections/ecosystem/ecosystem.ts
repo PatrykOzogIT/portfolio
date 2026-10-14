@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,13 +7,19 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import type { EcosystemSystemId } from '../../../../../content/model';
-import { hasEcosystemRole } from '../../../../../content/selectors';
+import type {
+  EcosystemPerspective,
+  EcosystemPerspectiveId,
+  EcosystemSystemId,
+} from '../../../../../content/model';
+import { hasEcosystemRole, solutionExamples } from '../../../../../content/selectors';
 import { SITE_CONTENT } from '../../../../core/content';
 import { LangService } from '../../../../core/i18n/lang.service';
 import { Icon } from '../../../../shared/ui/icon/icon';
 import type { IconName } from '../../../../shared/ui/icon/icons';
 import { SectionHeading } from '../../../../shared/ui/section-heading/section-heading';
+import { EcosystemRoleBlock } from './ecosystem-role';
+import { ExamplesNav } from './examples-nav';
 
 const SYSTEM_ICONS: Record<EcosystemSystemId, IconName> = {
   b2b: 'cart',
@@ -20,17 +27,26 @@ const SYSTEM_ICONS: Record<EcosystemSystemId, IconName> = {
   wms: 'warehouse',
 };
 
+const PERSPECTIVE_ICONS: Record<EcosystemPerspectiveId, IconName> = {
+  communication: 'refresh',
+  data: 'database',
+};
+
+/** A system or an architecture perspective — everything that can be selected on the map. */
+type ViewId = EcosystemSystemId | EcosystemPerspectiveId;
+
 const DEFAULT_SYSTEM: EcosystemSystemId = 'erp';
 
 /**
  * Interactive map of the B2B / ERP / WMS ecosystem (WAI-ARIA tabs pattern).
  * The map (systems = tabs), REST band and data-layer links are pure CSS — present in the
- * prerendered HTML without layout work in JS. All panels are rendered (and indexed);
+ * prerendered HTML without layout work in JS. The REST band and the data layer are tabs too
+ * (architecture perspectives with their own panels). All panels are rendered (and indexed);
  * only the active one is visible.
  */
 @Component({
   selector: 'app-ecosystem',
-  imports: [Icon, SectionHeading],
+  imports: [Icon, SectionHeading, NgTemplateOutlet, ExamplesNav, EcosystemRoleBlock],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './ecosystem.html',
   styleUrl: './ecosystem.scss',
@@ -48,21 +64,43 @@ export class Ecosystem {
   protected readonly role = this.content.ecosystemRole;
   protected readonly hasRole = hasEcosystemRole(this.role);
 
-  protected readonly active = signal<EcosystemSystemId>(
+  protected readonly perspectives = this.content.ecosystemPerspectives;
+  protected readonly perspectiveIcons = PERSPECTIVE_ICONS;
+  protected readonly perspective: Partial<Record<EcosystemPerspectiveId, EcosystemPerspective>> =
+    Object.fromEntries(this.perspectives.map((p) => [p.id, p]));
+  protected readonly examples = solutionExamples(this.content);
+
+  /** Tab order: systems left to right, then the REST band, then the data layer below. */
+  private readonly views: readonly ViewId[] = [
+    ...this.systems.map((s) => s.id),
+    ...(['communication', 'data'] as const).filter((id) => this.perspective[id]),
+  ];
+
+  protected readonly active = signal<ViewId>(
     this.systems.some((s) => s.id === DEFAULT_SYSTEM) ? DEFAULT_SYSTEM : this.systems[0]!.id,
   );
-  protected readonly activeIndex = computed(() =>
-    this.systems.findIndex((s) => s.id === this.active()),
-  );
+  protected readonly activeIndex = computed(() => this.views.indexOf(this.active()));
 
-  protected select(id: EcosystemSystemId, focus = false): void {
+  protected select(id: ViewId, focus = false): void {
     this.active.set(id);
     if (focus) this.host.querySelector<HTMLElement>(`#eco-tab-${id}`)?.focus();
   }
 
-  /** Arrow keys / Home / End move between systems (automatic activation). */
+  /**
+   * "Real-world examples" navigation: open the perspective, move focus to its tab on the map
+   * (keyboard users continue from there) and bring the panel into view.
+   */
+  protected showExample(id: string, panels: HTMLElement): void {
+    if (!this.views.includes(id as ViewId)) return;
+    this.active.set(id as ViewId);
+    this.host.querySelector<HTMLElement>(`#eco-tab-${id}`)?.focus({ preventScroll: true });
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    panels.scrollIntoView({ block: 'start', behavior: reduced ? 'auto' : 'smooth' });
+  }
+
+  /** Arrow keys / Home / End move between systems and perspectives (automatic activation). */
   protected onKeydown(event: KeyboardEvent): void {
-    const last = this.systems.length - 1;
+    const last = this.views.length - 1;
     const i = this.activeIndex();
     const target: Record<string, number> = {
       ArrowRight: i === last ? 0 : i + 1,
@@ -75,7 +113,7 @@ export class Ecosystem {
     const next = target[event.key];
     if (next === undefined) return;
     event.preventDefault();
-    this.select(this.systems[next]!.id, true);
+    this.select(this.views[next]!, true);
   }
 
   /**

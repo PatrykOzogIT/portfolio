@@ -198,7 +198,7 @@ describe('Ecosystem', () => {
     expect(activePanel(root)).toBe('eco-panel-erp');
   });
 
-  it('switches system on click and with the arrow keys, wrapping around', async () => {
+  it('switches view on click and with the arrow keys, wrapping around through the perspectives', async () => {
     const harness = await render();
     const root = harness.routeNativeElement!;
     tabs(root)[0]!.click();
@@ -208,12 +208,54 @@ describe('Ecosystem', () => {
     const tablist = root.querySelector('[role="tablist"]')!;
     tablist.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
     harness.detectChanges();
-    expect(selected(root)).toBe('eco-tab-wms');
-    expect(document.activeElement?.id).toBe('eco-tab-wms');
+    // Systems first, then the REST band and the data layer: left of B2B is the data layer.
+    expect(selected(root)).toBe('eco-tab-data');
+    expect(document.activeElement?.id).toBe('eco-tab-data');
+    expect(activePanel(root)).toBe('eco-panel-data');
 
     tablist.dispatchEvent(new KeyboardEvent('keydown', { key: 'Home', bubbles: true }));
     harness.detectChanges();
     expect(selected(root)).toBe('eco-tab-b2b');
+  });
+
+  it('treats the REST band and the data layer as tabs with their own panels', async () => {
+    const harness = await render();
+    const root = harness.routeNativeElement!;
+    expect(tabs(root).map((t) => t.id)).toEqual([
+      'eco-tab-b2b',
+      'eco-tab-erp',
+      'eco-tab-wms',
+      'eco-tab-communication',
+      'eco-tab-data',
+    ]);
+    root.querySelector<HTMLButtonElement>('#eco-tab-communication')!.click();
+    harness.detectChanges();
+    expect(activePanel(root)).toBe('eco-panel-communication');
+    expect(root.querySelector('#eco-panel-communication h3')?.textContent).toContain(
+      'Bezpieczna komunikacja i wspólne uprawnienia',
+    );
+  });
+
+  it('links to all three examples and opens a perspective from the examples navigation', async () => {
+    const harness = await render();
+    const root = harness.routeNativeElement!;
+    Element.prototype.scrollIntoView ??= () => {};
+    const nav = root.querySelector('app-examples-nav nav')!;
+    const items = [...nav.querySelectorAll('.example')].map((e) => e.textContent?.trim());
+    expect(items).toEqual([
+      'Bezpieczna komunikacja',
+      'Alokacja i rezerwacje',
+      'Modernizacja legacy',
+    ]);
+    expect(nav.querySelector('a')?.getAttribute('href')).toBe('/pl#case-modernization');
+    expect(root.querySelector('#case-modernization h3')?.textContent).toContain(
+      'Kontrolowana modernizacja systemu legacy',
+    );
+
+    nav.querySelectorAll<HTMLButtonElement>('button')[1]!.click();
+    harness.detectChanges();
+    expect(activePanel(root)).toBe('eco-panel-data');
+    expect(document.activeElement?.id).toBe('eco-tab-data');
   });
 
   it('shows one "My role" block for the whole ecosystem, below the map', async () => {

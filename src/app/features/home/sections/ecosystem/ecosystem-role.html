@@ -1,0 +1,12 @@
+<div class="role-intro">
+  <h3 id="eco-role-title" class="role-title">{{ t().ecosystem.role }}</h3>
+  <p>{{ role().intro[lang()] }}</p>
+</div>
+<dl class="role-list">
+  @for (r of role().responsibilities; track r.area) {
+    <div class="role-item">
+      <dt class="mono">{{ t().ecosystem.responsibilityAreas[r.area] }}</dt>
+      <dd>{{ r.description[lang()] }}</dd>
+    </div>
+  }
+</dl>

@@ -93,5 +93,36 @@ export const EXPERTISE: readonly ExpertiseArea[] = [
         'Refactoring and debugging',
       ],
     },
+    caseStudy: {
+      id: 'case-modernization',
+      label: { pl: 'Modernizacja', en: 'Modernization' },
+      title: {
+        pl: 'Kontrolowana modernizacja systemu legacy',
+        en: 'Controlled legacy system modernization',
+      },
+      navLabel: { pl: 'Modernizacja legacy', en: 'Legacy modernization' },
+      summary: {
+        pl: 'Zaprojektowałem i przeprowadziłem migrację kluczowych danych operacyjnych firmy ze starszego systemu PHP/Zend do nowej architektury. Proces obejmował m.in. kontrahentów, produkty, stany magazynowe, zamówienia i dokumenty handlowe. Dzięki wielokrotnym migracjom testowym, raportom rozbieżności i mechanizmom weryfikacji możliwe było przygotowanie kontrolowanego przełączenia. Nowy system rozwijałem iteracyjnie, uwzględniając uwagi użytkowników i umożliwiając im testowanie na rzeczywistych danych.',
+        en: 'I designed and carried out the migration of the company’s key operational data from a legacy PHP/Zend system into a modern architecture. The process covered customers, products, inventory, orders and commercial documents. Repeated trial migrations, discrepancy reports and verification mechanisms enabled a controlled cutover. I developed the new system iteratively, incorporating user feedback and allowing testing with real migrated data.',
+      },
+      decisions: {
+        pl: [
+          'Migracja jako powtarzalny, weryfikowalny proces',
+          'Wielokrotne przebiegi testowe i raporty rozbieżności',
+          'Podgląd i cofanie migracji pojedynczych zamówień',
+          'Iteracyjny rozwój z udziałem użytkowników',
+        ],
+        en: [
+          'Migration as a repeatable, verifiable process',
+          'Repeated trial runs and discrepancy reports',
+          'Preview and per-order rollback',
+          'Iterative development with users involved',
+        ],
+      },
+      outcome: {
+        pl: 'Przełączenie produkcyjne odbyło się w ciągu jednej nocy, a następnego dnia użytkownicy rozpoczęli pracę w nowym systemie.',
+        en: 'The production cutover took place overnight, and users started working in the new system the following morning.',
+      },
+    },
   },
 ];
