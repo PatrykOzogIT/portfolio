@@ -50,6 +50,9 @@
 }
 
 .status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
   margin: 0;
 }
 
@@ -102,6 +105,7 @@
 // ------------------------------------------------------------------- body
 .body {
   display: grid;
+  grid-template-columns: minmax(0, 1fr); // never wider than the screen, whatever the content
   gap: clamp(48px, 6vw, 80px);
   margin-top: clamp(48px, 6vw, 88px);
 }

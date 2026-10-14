@@ -32,6 +32,19 @@
   color: var(--text);
 }
 
+// Legacy experience: visible for scanning, but visually quieter than the main stack.
+.chip--legacy {
+  gap: 8px;
+  border-style: dashed;
+  background: transparent;
+  color: var(--text-2);
+}
+
+.legacy-tag {
+  font-size: 0.66rem;
+  color: var(--text-3);
+}
+
 .group-note {
   margin-top: auto;
   padding-top: var(--space-4);

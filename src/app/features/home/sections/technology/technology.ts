@@ -24,6 +24,12 @@ import { SectionHeading } from '../../../../shared/ui/section-heading/section-he
               @for (id of group.technologies; track id) {
                 <li class="chip">{{ technologies[id].label }}</li>
               }
+              @for (id of group.legacy ?? []; track id) {
+                <li class="chip chip--legacy">
+                  <span class="legacy-tag mono">{{ t().technology.legacy }}</span>
+                  {{ technologies[id].label }}
+                </li>
+              }
             </ul>
             @if (group.note) {
               <p class="group-note">{{ group.note[lang()] }}</p>

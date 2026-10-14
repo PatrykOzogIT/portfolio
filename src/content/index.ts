@@ -1,4 +1,4 @@
-import { ECOSYSTEM } from './ecosystem';
+import { ECOSYSTEM, ECOSYSTEM_ROLE } from './ecosystem';
 import { EXPERTISE } from './expertise';
 import { PROJECT_SECTIONS, PUBLISHED_PROJECTS } from './generated/projects';
 import type { SiteContent } from './model';
@@ -13,6 +13,7 @@ export const SITE_CONTENT_DATA: SiteContent = {
   techStack: TECH_STACK,
   expertise: EXPERTISE,
   ecosystem: ECOSYSTEM,
+  ecosystemRole: ECOSYSTEM_ROLE,
   projects: PUBLISHED_PROJECTS,
   projectSections: PROJECT_SECTIONS,
 };

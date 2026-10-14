@@ -136,7 +136,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-3) var(--space-2); // tight columns keep "Visit app" + GitHub on one row in wide cards
   margin-top: auto;
   padding-top: var(--space-2);
 }

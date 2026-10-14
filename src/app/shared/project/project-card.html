@@ -20,13 +20,16 @@
       <h3 class="h3 title">
         <a class="stretched" [routerLink]="link()">{{ title() }}</a>
       </h3>
-      @if (showKind() || p.status) {
+      @if (showKind() || p.isLive || p.developmentStatus) {
         <p class="badges">
           @if (showKind()) {
             <span class="badge">{{ t().project.kind[p.kind] }}</span>
           }
-          @if (p.status; as status) {
-            <span class="badge badge--live">{{ t().project.status[status] }}</span>
+          @if (p.isLive) {
+            <span class="badge badge--live">{{ t().project.live }}</span>
+          }
+          @if (p.developmentStatus; as status) {
+            <span class="badge">{{ t().project.developmentStatus[status] }}</span>
           }
         </p>
       }
@@ -46,9 +49,9 @@
         {{ t().projects.details }}
         <svg appIcon="arrow-right" class="icon"></svg>
       </span>
-      @if (p.demoUrl; as demo) {
-        <a class="raised" appButton appExternal variant="primary" size="sm" [href]="demo">
-          {{ t().project.demo }}
+      @if (p.appUrl; as app) {
+        <a class="raised" appButton appExternal variant="primary" size="sm" [href]="app">
+          {{ t().project.appLink[p.kind] }}
           <app-new-tab-hint />
         </a>
       }

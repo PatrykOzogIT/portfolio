@@ -147,3 +147,25 @@ projects: one shared kind → "Personal projects" / "Demo projects", both kinds 
 on each card (only then — otherwise the title already says it). Hard-coding one title would mislabel either a
 real side project as a "demo" or future demo projects as "personal". An optional `status: 'in-development'`
 adds a badge to the card and the project page and `creativeWorkStatus` to its JSON-LD.
+
+## 26. "My role" in the ecosystem
+The role is described once for the whole ecosystem, in a block below the map, instead of per system: my
+responsibilities are the same across B2B, ERP and WMS, so per-system lists would repeat each other. The
+block describes responsibilities, not a job title. The intro states what is mine (the design and the
+foundation, built alone at first) and that a small team later joined the implementation, so it neither
+undersells the authorship nor implies sole authorship of today's code. The unused per-system `responsibilities`
+field was removed. The map, tabs and panels are unchanged.
+
+## 27. Technology section: priority by order, legacy as a muted chip
+No stars or ratings: the main stack is emphasized by position — Angular and TypeScript open the first group,
+NestJS and Node.js the second, which share the top row on wider screens. Every technology appears once
+(MySQL and MariaDB are one chip; SQL is implied). Database design, integrations and CI/CD are described in
+the group notes rather than as extra chips. PHP / Zend stays visible as a dashed, muted chip tagged "Legacy",
+with modernization explained in the note, so it is searchable without reading as the main direction.
+
+## 28. Live vs. in development; app link labelled by kind
+Availability and development stage are separate fields: `isLive` ("Live", the only badge with a green
+accent) and `developmentStatus` ("In development", neutral). One "status" could not say that Cookivo is both
+running publicly and actively developed. `demoUrl` became `appUrl`, because a real product is not a demo;
+the button label follows `kind` ("Live Demo" vs. "Visit app"), so no per-project label is needed. `isLive`
+without `appUrl` fails content validation.

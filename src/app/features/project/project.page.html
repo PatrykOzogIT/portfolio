@@ -16,9 +16,14 @@
     </p>
     <div class="title-row">
       <h1 class="display">{{ title() }}</h1>
-      @if (meta.status; as status) {
+      @if (meta.isLive || meta.developmentStatus) {
         <p class="status">
-          <span class="badge badge--live">{{ t().project.status[status] }}</span>
+          @if (meta.isLive) {
+            <span class="badge badge--live">{{ t().project.live }}</span>
+          }
+          @if (meta.developmentStatus; as status) {
+            <span class="badge">{{ t().project.developmentStatus[status] }}</span>
+          }
         </p>
       }
     </div>
@@ -33,11 +38,11 @@
       </ul>
     }
 
-    @if (meta.demoUrl || meta.githubUrl) {
+    @if (meta.appUrl || meta.githubUrl) {
       <div class="links">
-        @if (meta.demoUrl; as demo) {
-          <a appButton appExternal variant="primary" [href]="demo">
-            {{ t().project.demo }}
+        @if (meta.appUrl; as app) {
+          <a appButton appExternal variant="primary" [href]="app">
+            {{ t().project.appLink[meta.kind] }}
             <app-new-tab-hint />
           </a>
         }

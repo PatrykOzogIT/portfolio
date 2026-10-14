@@ -61,6 +61,8 @@ export interface TechStackGroup {
   readonly id: string;
   readonly title: Localized;
   readonly technologies: readonly TechId[];
+  /** Legacy experience: shown last, muted and tagged "Legacy" — visible, but not the main direction. */
+  readonly legacy?: readonly TechId[];
   /** Short extra context (what the tools are used for), never a skill rating. */
   readonly note?: Localized;
 }
@@ -82,13 +84,7 @@ export interface ExpertiseArea {
 export type EcosystemSystemId = 'b2b' | 'erp' | 'wms';
 
 export type ResponsibilityArea =
-  | 'architecture'
-  | 'analysis'
-  | 'feature-design'
-  | 'frontend'
-  | 'backend'
-  | 'integrations'
-  | 'maintenance';
+  'architecture' | 'analysis' | 'frontend' | 'backend' | 'integrations' | 'maintenance';
 
 export interface Responsibility {
   readonly area: ResponsibilityArea;
@@ -103,7 +99,14 @@ export interface EcosystemSystem {
   readonly summary: Localized;
   readonly areas: Localized<readonly string[]>;
   readonly technologies: readonly TechId[];
-  /** Hidden in the UI until confirmed â€” never filled with assumptions. */
+}
+
+/**
+ * My role across the whole ecosystem (not per system). Only confirmed facts;
+ * the block is hidden while `responsibilities` is empty.
+ */
+export interface EcosystemRole {
+  readonly intro: Localized;
   readonly responsibilities: readonly Responsibility[];
 }
 
@@ -126,8 +129,9 @@ export interface ProjectImage {
 export const PROJECT_KINDS = ['personal', 'demo'] as const;
 export type ProjectKind = (typeof PROJECT_KINDS)[number];
 
-export const PROJECT_STATUSES = ['in-development'] as const;
-export type ProjectStatus = (typeof PROJECT_STATUSES)[number];
+/** Stage of development — independent of whether a public version is live. */
+export const DEVELOPMENT_STATUSES = ['in-development'] as const;
+export type DevelopmentStatus = (typeof DEVELOPMENT_STATUSES)[number];
 
 export interface ProjectMeta {
   /** URL segment and unique identifier: lowercase letters, digits and hyphens. */
@@ -136,20 +140,26 @@ export interface ProjectMeta {
   readonly order: number;
   /** Only `true` projects are built, listed, routed and indexed. */
   readonly published: boolean;
-  /** Decides the label on the project page and the title of the projects section. */
+  /**
+   * Decides the label on the project page, the title of the projects section and the app link label
+   * ("Live Demo" for demos, "Visit app" for real products).
+   */
   readonly kind: ProjectKind;
-  /** Optional badge on the card and the project page; no status → no badge. */
-  readonly status?: ProjectStatus;
+  /** The public app is up and running ("Live" badge). Requires `appUrl`. */
+  readonly isLive?: boolean;
+  /** Neutral badge, e.g. "In development"; omit when the project is not actively developed. */
+  readonly developmentStatus?: DevelopmentStatus;
   /** Renders a wide card; never changes the order. */
   readonly featured?: boolean;
   readonly title: Localized;
   readonly shortDescription: Localized;
   readonly technologies: readonly TechId[];
   readonly githubUrl?: string;
-  readonly demoUrl?: string;
+  /** Public address of the running application (a demo or a real product) — no URL, no button. */
+  readonly appUrl?: string;
   readonly coverImage?: ProjectImage;
   readonly images?: readonly ProjectImage[];
-  /** Hue (0â€“360) for the generated placeholder artwork when there is no cover image. */
+  /** Hue (0–360) for the generated placeholder artwork when there is no cover image. */
   readonly accentHue?: number;
 }
 
@@ -176,6 +186,7 @@ export interface SiteContent {
   readonly techStack: readonly TechStackGroup[];
   readonly expertise: readonly ExpertiseArea[];
   readonly ecosystem: readonly EcosystemSystem[];
+  readonly ecosystemRole: EcosystemRole;
   readonly projects: readonly ProjectMeta[];
   readonly projectSections: Readonly<Record<string, Localized<ProjectSectionsLoader>>>;
 }

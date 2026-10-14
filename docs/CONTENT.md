@@ -43,20 +43,26 @@ public/projects/wms-demo/
 import type { ProjectMeta } from '../../model';
 
 export const project: ProjectMeta = {
-  slug: 'wms-demo',          // = folder name = URL: /pl/projects/wms-demo
-  order: 1,                  // display order, unique
-  published: false,          // true = built, listed, routed, in sitemap. false = does not exist publicly
-  kind: 'demo',              // 'personal' (own product / side project) or 'demo' (built to demonstrate)
-  status: 'in-development',  // optional — "In development" badge; omit when the project is finished
-  featured: false,           // wide card; never changes the order
+  slug: 'wms-demo', // = folder name = URL: /pl/projects/wms-demo
+  order: 1, // display order, unique
+  published: false, // true = built, listed, routed, in sitemap. false = does not exist publicly
+  kind: 'demo', // 'personal' (own product / side project) or 'demo' (built to demonstrate)
+  isLive: false, // optional — the public app is up and running: "Live" badge (requires appUrl)
+  developmentStatus: 'in-development', // optional — neutral "In development" badge
+  featured: false, // wide card; never changes the order
   title: { pl: '…', en: '…' },
   shortDescription: { pl: '…', en: '…' },
-  technologies: ['angular', 'nestjs', 'mysql'],   // keys from technologies.ts
+  technologies: ['angular', 'nestjs', 'mysql'], // keys from technologies.ts
   githubUrl: 'https://github.com/PatrykOzogIT/…', // optional — no URL, no button
-  demoUrl: 'https://wms.example.com',             // optional — no URL, no button
-  coverImage: { src: 'projects/wms-demo/cover.png', width: 1600, height: 1000, alt: { pl: '…', en: '…' } },
+  appUrl: 'https://wms.example.com', // optional — button "Live Demo" (demo) or "Visit app" (personal)
+  coverImage: {
+    src: 'projects/wms-demo/cover.png',
+    width: 1600,
+    height: 1000,
+    alt: { pl: '…', en: '…' },
+  },
   images: [/* same shape, optional caption: { pl, en } */],
-  accentHue: 230,            // optional — colour of the generated placeholder when there is no cover
+  accentHue: 230, // optional — colour of the generated placeholder when there is no cover
 };
 ```
 
@@ -69,30 +75,41 @@ Both languages must contain the same sections.
 
 ```md
 # about
+
 What the application is for.
 
 # problem
+
 The problem it solves and the approach taken.
 
 # features
+
 - Feature one
 - Feature two
 
 # architecture
+
 ## Sub-heading (rendered one level below the section title)
+
 Description of the technical solution.
 
 # challenges
+
 Interesting problems and how they were solved.
 ```
 
 Section titles shown on the page come from the UI dictionary (`i18n/*.ts`), so they are consistent across projects.
 
-### Section title and badges (`kind`, `status`)
+### Section title, badges and the app link (`kind`, `isLive`, `developmentStatus`)
 
 The projects section is titled after the kind of the published projects: all personal → "Personal projects",
 all demo → "Demo projects", both → "Projects" (and then each card shows its kind as a badge). The project page
-shows its kind above the title. `status` adds an "In development" badge to the card and the project page.
+shows its kind above the title.
+
+Next to the project name: `isLive` → "Live" (green dot), `developmentStatus` → "In development" (neutral).
+They are independent — a live app can still be in development, and a project in development need not be live.
+The `appUrl` button is labelled by `kind`: "Live Demo" for demos, "Visit app" / "Otwórz aplikację" for real
+products.
 
 ### Card layout rule (`featured`)
 
@@ -116,12 +133,15 @@ proportion works (desktop, tablet or phone screenshots).
 
 ## Ecosystem — `src/content/ecosystem.ts`
 
-`responsibilities` stays empty until confirmed — the "My role" block is hidden while it is empty.
+`ECOSYSTEM_ROLE` describes my role across the whole ecosystem (intro + responsibilities, PL and EN).
+Only confirmed facts; with no responsibilities the "My role" block below the map is hidden.
 
 ## Expertise and technology — `src/content/expertise.ts`, `tech-stack.ts`
 
 `expertise.ts`: four areas of what I do (title, description, points — PL and EN).
 `tech-stack.ts`: groups of tools (keys from `technologies.ts`) with an optional short note. No ratings.
+Order is the priority (main stack first); each technology appears once. `legacy` lists experience shown as a
+muted chip tagged "Legacy" (PHP / Zend) — visible, but not presented as the main direction.
 An empty list hides the section and its menu item.
 
 ## UI texts — `src/content/i18n/pl.ts`, `en.ts`

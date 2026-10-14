@@ -14,10 +14,10 @@ import { join, relative, sep } from 'node:path';
 import { parseArgs } from 'node:util';
 import { pathToFileURL } from 'node:url';
 import {
+  DEVELOPMENT_STATUSES,
   LANGS,
   PROJECT_KINDS,
   PROJECT_SECTION_KEYS,
-  PROJECT_STATUSES,
   type ProjectMeta,
   type ProjectSections,
 } from '../src/content/model';
@@ -122,10 +122,18 @@ function validateProjects(projects: readonly DiscoveredProject[]) {
     }
     if (!PROJECT_KINDS.includes(meta.kind))
       fail(scope, `kind must be one of: ${PROJECT_KINDS.join(', ')}.`);
-    if (meta.status !== undefined && !PROJECT_STATUSES.includes(meta.status))
-      fail(scope, `status must be one of: ${PROJECT_STATUSES.join(', ')} (or omitted).`);
+    if (
+      meta.developmentStatus !== undefined &&
+      !DEVELOPMENT_STATUSES.includes(meta.developmentStatus)
+    )
+      fail(
+        scope,
+        `developmentStatus must be one of: ${DEVELOPMENT_STATUSES.join(', ')} (or omitted).`,
+      );
+    if (meta.isLive && !meta.appUrl)
+      fail(scope, 'isLive needs appUrl — the address of the live app.');
     checkHttpsUrl(scope, 'githubUrl', meta.githubUrl);
-    checkHttpsUrl(scope, 'demoUrl', meta.demoUrl);
+    checkHttpsUrl(scope, 'appUrl', meta.appUrl);
     if (meta.accentHue !== undefined && (meta.accentHue < 0 || meta.accentHue > 360)) {
       fail(scope, 'accentHue must be between 0 and 360.');
     }

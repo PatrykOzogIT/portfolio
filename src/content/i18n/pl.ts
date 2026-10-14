@@ -38,7 +38,7 @@ export const pl = {
   expertise: {
     eyebrow: 'Specjalizacje',
     title: 'Od procesu biznesowego do działającego systemu',
-    lead: 'Przez większość kariery pracowałem samodzielnie lub w niewielkich zespołach, odpowiadając za cały zakres prac — od analizy potrzeb po wdrożenie i utrzymanie.',
+    lead: 'Od blisko 20 lat pracuję z technologiami IT, łącząc programowanie z projektowaniem architektury i analizą procesów biznesowych. Przez większość kariery działałem samodzielnie lub w niewielkich zespołach, odpowiadając za systemy na każdym etapie — od zrozumienia potrzeb użytkowników po wdrożenie i dalszy rozwój.',
     certificate: 'Certyfikat: Kierownik projektów IT',
   },
   ecosystem: {
@@ -55,21 +55,21 @@ export const pl = {
     legendData: 'Dostęp do wspólnej bazy danych',
     areas: 'Obszary funkcjonalne',
     technologies: 'Technologie',
-    role: 'Mój zakres',
+    role: 'Moja rola',
     responsibilityAreas: {
       architecture: 'Architektura',
       analysis: 'Analiza biznesowa',
-      'feature-design': 'Projektowanie funkcjonalności',
       frontend: 'Frontend',
       backend: 'Backend',
-      integrations: 'Integracje',
-      maintenance: 'Rozwój i utrzymanie',
+      integrations: 'Dane, API i integracje',
+      maintenance: 'Utrzymanie i modernizacja',
     },
   },
   technology: {
     eyebrow: 'Technologie',
     title: 'Narzędzia, z których korzystam na co dzień',
     lead: 'Pogrupowane według obszaru — z kontekstem zamiast ocen.',
+    legacy: 'Legacy',
     ai: 'W codziennej pracy korzystam z asystentów AI — przy implementacji, refaktoryzacji, debugowaniu i analizie kodu. Wymagania, projekt rozwiązania i ostateczne decyzje pozostają po mojej stronie.',
   },
   projects: {
@@ -106,7 +106,10 @@ export const pl = {
     },
     technologies: 'Technologie',
     github: 'Kod na GitHub',
-    demo: 'Live Demo',
+    appLink: {
+      personal: 'Otwórz aplikację',
+      demo: 'Live Demo',
+    },
     allProjects: 'Wszystkie projekty',
     previous: 'Poprzedni projekt',
     next: 'Następny projekt',
@@ -114,7 +117,8 @@ export const pl = {
       personal: 'Projekt własny',
       demo: 'Projekt demonstracyjny',
     },
-    status: {
+    live: 'Live',
+    developmentStatus: {
       'in-development': 'W rozwoju',
     },
     navigation: 'Nawigacja między projektami',

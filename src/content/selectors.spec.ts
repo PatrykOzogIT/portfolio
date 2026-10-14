@@ -39,6 +39,7 @@ function content(overrides: Partial<SiteContent> = {}): SiteContent {
     techStack: [],
     expertise: [],
     ecosystem: [],
+    ecosystemRole: { intro: { pl: '', en: '' }, responsibilities: [] },
     projects: [],
     projectSections: {},
     ...overrides,

@@ -21,7 +21,9 @@ export function projectJsonLd(
     keywords: meta.technologies.map((id) => TECHNOLOGIES[id].label).join(', '),
     ...(url ? { url } : {}),
     ...(meta.githubUrl ? { codeRepository: meta.githubUrl } : {}),
-    ...(meta.status === 'in-development' ? { creativeWorkStatus: 'In development' } : {}),
+    ...(meta.developmentStatus === 'in-development'
+      ? { creativeWorkStatus: 'In development' }
+      : {}),
     ...(site.siteUrl && meta.coverImage ? { image: `${site.siteUrl}/${meta.coverImage.src}` } : {}),
   };
 }

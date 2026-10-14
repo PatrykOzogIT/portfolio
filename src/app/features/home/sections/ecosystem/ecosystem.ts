@@ -7,6 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import type { EcosystemSystemId } from '../../../../../content/model';
+import { hasEcosystemRole } from '../../../../../content/selectors';
 import { SITE_CONTENT } from '../../../../core/content';
 import { LangService } from '../../../../core/i18n/lang.service';
 import { Icon } from '../../../../shared/ui/icon/icon';
@@ -44,6 +45,8 @@ export class Ecosystem {
   protected readonly systems = this.content.ecosystem;
   protected readonly technologies = this.content.technologies;
   protected readonly icons = SYSTEM_ICONS;
+  protected readonly role = this.content.ecosystemRole;
+  protected readonly hasRole = hasEcosystemRole(this.role);
 
   protected readonly active = signal<EcosystemSystemId>(
     this.systems.some((s) => s.id === DEFAULT_SYSTEM) ? DEFAULT_SYSTEM : this.systems[0]!.id,

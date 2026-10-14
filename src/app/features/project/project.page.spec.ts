@@ -24,7 +24,11 @@ const content: SiteContent = {
   projects: [
     project('alpha', 1, { kind: 'personal', githubUrl: 'https://github.com/x/alpha' }),
     project('secret', 2, { published: false }),
-    project('beta', 3, { status: 'in-development', demoUrl: 'https://beta.example.com' }),
+    project('beta', 3, {
+      isLive: true,
+      developmentStatus: 'in-development',
+      appUrl: 'https://beta.example.com',
+    }),
   ],
   projectSections: {
     alpha: {
@@ -72,7 +76,7 @@ describe('Project page', () => {
     expect(text(root.querySelector('.prose'))).toBe('O projekcie alpha');
   });
 
-  it('labels the project with its kind and shows a status badge only when set', async () => {
+  it('labels the project with its kind and shows Live / development badges only when set', async () => {
     const harness = await open('/pl/projects/alpha');
     const alpha = harness.routeNativeElement!;
     expect(text(alpha.querySelector('.eyebrow'))).toContain('Projekt własny');
@@ -81,7 +85,15 @@ describe('Project page', () => {
     await harness.navigateByUrl('/pl/projects/beta');
     const beta = harness.routeNativeElement!;
     expect(text(beta.querySelector('.eyebrow'))).toContain('Projekt demonstracyjny');
-    expect(text(beta.querySelector('.badge'))).toBe('W rozwoju');
+    expect([...beta.querySelectorAll('.status .badge')].map(text)).toEqual(['Live', 'W rozwoju']);
+    expect(beta.querySelector('.badge--live')?.textContent?.trim()).toBe('Live');
+  });
+
+  it('labels the app link by project kind: Live Demo for demos', async () => {
+    const root = (await open('/pl/projects/beta')).routeNativeElement!;
+    const app = root.querySelector<HTMLAnchorElement>('a[href="https://beta.example.com"]');
+    expect(text(app)).toContain('Live Demo');
+    expect(app?.target).toBe('_blank');
   });
 
   it('shows the GitHub link safely and hides the missing demo link', async () => {

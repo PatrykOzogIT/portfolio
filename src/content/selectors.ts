@@ -3,7 +3,7 @@
  * Pure functions used by components, prerender configuration and tests alike.
  */
 import type {
-  EcosystemSystem,
+  EcosystemRole,
   Lang,
   ProjectKind,
   ProjectMeta,
@@ -122,8 +122,9 @@ export function hasContactChannel(site: SiteConfig): boolean {
 
 /* ------------------------------------------------------------- ecosystem */
 
-export function hasResponsibilities(system: EcosystemSystem): boolean {
-  return system.responsibilities.length > 0;
+/** The "My role" block exists only with confirmed responsibilities. */
+export function hasEcosystemRole(role: EcosystemRole): boolean {
+  return role.responsibilities.length > 0;
 }
 
 /* ------------------------------------------------------------- home page */

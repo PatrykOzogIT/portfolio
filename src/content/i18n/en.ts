@@ -37,7 +37,7 @@ export const en: Dictionary = {
   expertise: {
     eyebrow: 'Expertise',
     title: 'From business process to working software',
-    lead: 'For most of my career I have worked independently or in small teams, responsible for the full scope — from understanding requirements to delivery and maintenance.',
+    lead: 'I’ve spent nearly 20 years working with IT technologies, combining software development with architecture design and business process analysis. For most of my career I have worked independently or in small teams, responsible for systems end to end — from understanding user needs to delivery, maintenance and continuous improvement.',
     certificate: 'Certified IT Project Manager (“Kierownik projektów IT”)',
   },
   ecosystem: {
@@ -58,17 +58,17 @@ export const en: Dictionary = {
     responsibilityAreas: {
       architecture: 'Architecture',
       analysis: 'Business analysis',
-      'feature-design': 'Feature design',
       frontend: 'Frontend',
       backend: 'Backend',
-      integrations: 'Integrations',
-      maintenance: 'Development and maintenance',
+      integrations: 'Data, APIs and integrations',
+      maintenance: 'Maintenance and modernization',
     },
   },
   technology: {
     eyebrow: 'Technology',
     title: 'The tools I work with every day',
     lead: 'Grouped by area — with context instead of ratings.',
+    legacy: 'Legacy',
     ai: 'I use AI assistants daily for implementation, refactoring, debugging and code analysis. Requirements, solution design and final decisions stay with me.',
   },
   projects: {
@@ -105,7 +105,10 @@ export const en: Dictionary = {
     },
     technologies: 'Technologies',
     github: 'Code on GitHub',
-    demo: 'Live demo',
+    appLink: {
+      personal: 'Visit app',
+      demo: 'Live demo',
+    },
     allProjects: 'All projects',
     previous: 'Previous project',
     next: 'Next project',
@@ -113,7 +116,8 @@ export const en: Dictionary = {
       personal: 'Personal project',
       demo: 'Demo project',
     },
-    status: {
+    live: 'Live',
+    developmentStatus: {
       'in-development': 'In development',
     },
     navigation: 'Project navigation',

@@ -111,7 +111,8 @@
 }
 
 // ------------------------------------------------------------------- badges
-// Short labels about a project (kind, status). `badge--live` adds a status dot.
+// Short labels about a project (kind, development stage). `badge--live` — a running public app — adds a
+// green dot and a faint green border; every other badge stays neutral.
 .badge {
   display: inline-flex;
   align-items: center;
@@ -127,6 +128,10 @@
   text-transform: none;
   line-height: 1.5;
   white-space: nowrap;
+
+  &--live {
+    border-color: color-mix(in srgb, var(--success) 35%, transparent);
+  }
 
   &--live::before {
     content: '';

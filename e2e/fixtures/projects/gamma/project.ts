@@ -6,12 +6,13 @@ export const project: ProjectMeta = {
   order: 3,
   published: true,
   kind: 'demo',
-  status: 'in-development',
+  isLive: true,
+  developmentStatus: 'in-development',
   featured: true,
   title: { pl: 'Gamma PL', en: 'Gamma EN' },
   shortDescription: { pl: 'Projekt testowy gamma.', en: 'Gamma test project.' },
   technologies: ['angular', 'typescript'],
-  demoUrl: 'https://example.com',
+  appUrl: 'https://example.com',
   images: [
     {
       src: 'projects/gamma/1.png',

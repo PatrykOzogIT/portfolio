@@ -132,6 +132,52 @@ describe('Home page', () => {
   });
 });
 
+describe('Project card', () => {
+  beforeEach(() => {
+    (globalThis as { IntersectionObserver?: unknown }).IntersectionObserver ??= class {
+      observe() {}
+      disconnect() {}
+    };
+  });
+
+  it('calls a real product link "Otwórz aplikację", not a demo', async () => {
+    const product = {
+      ...project,
+      kind: 'personal' as const,
+      isLive: true,
+      appUrl: 'https://app.example.com',
+    };
+    const root = (await render({ projects: [product] })).routeNativeElement!;
+    const card = root.querySelector('app-project-card')!;
+    const app = card.querySelector('a[href="https://app.example.com"]');
+    expect(app?.textContent).toContain('Otwórz aplikację');
+    expect(card.textContent).not.toContain('Live Demo');
+    expect(card.querySelector('.badge--live')?.textContent?.trim()).toBe('Live');
+  });
+});
+
+describe('Technology', () => {
+  beforeEach(() => {
+    (globalThis as { IntersectionObserver?: unknown }).IntersectionObserver ??= class {
+      observe() {}
+      disconnect() {}
+    };
+  });
+
+  it('lists legacy technologies last, as muted chips tagged Legacy', async () => {
+    const techStack = [
+      { id: 'b', title: { pl: 'B', en: 'B' }, technologies: ['nestjs'], legacy: ['php'] } as const,
+    ];
+    const root = (await render({ techStack })).routeNativeElement!;
+    const chips = [...root.querySelectorAll('#technology .chip')];
+    expect(chips.map((c) => c.textContent?.replace(/\s+/g, ' ').trim())).toEqual([
+      'NestJS',
+      'Legacy PHP / Zend',
+    ]);
+    expect(chips[1]!.classList).toContain('chip--legacy');
+  });
+});
+
 describe('Ecosystem', () => {
   beforeEach(() => {
     (globalThis as { IntersectionObserver?: unknown }).IntersectionObserver ??= class {
@@ -170,8 +216,19 @@ describe('Ecosystem', () => {
     expect(selected(root)).toBe('eco-tab-b2b');
   });
 
-  it('hides the "My role" block until responsibilities are confirmed', async () => {
+  it('shows one "My role" block for the whole ecosystem, below the map', async () => {
     const root = (await render()).routeNativeElement!;
-    expect(root.querySelector('.panel .role')).toBeNull();
+    const role = root.querySelector('#ecosystem .role')!;
+    expect(role.querySelector('h3')?.textContent?.trim()).toBe('Moja rola');
+    expect(role.querySelectorAll('dt').length).toBe(
+      SITE_CONTENT_DATA.ecosystemRole.responsibilities.length,
+    );
+    expect(root.querySelector('[role="tabpanel"] .role')).toBeNull();
+  });
+
+  it('hides the "My role" block without confirmed responsibilities', async () => {
+    const ecosystemRole = { ...SITE_CONTENT_DATA.ecosystemRole, responsibilities: [] };
+    const root = (await render({ ecosystemRole })).routeNativeElement!;
+    expect(root.querySelector('#ecosystem .role')).toBeNull();
   });
 });

@@ -5,7 +5,8 @@ export const project: ProjectMeta = {
   order: 1,
   published: true,
   kind: 'personal',
-  status: 'in-development',
+  isLive: true,
+  developmentStatus: 'in-development',
   title: { pl: 'Cookivo', en: 'Cookivo' },
   shortDescription: {
     pl: 'Niekomercyjna aplikacja do planowania posiłków: kalkulator zapotrzebowania, przepisy z wartościami odżywczymi i alergenami, spiżarnia i listy zakupów. Działa produkcyjnie i jest stale rozwijana.',
@@ -23,7 +24,7 @@ export const project: ProjectMeta = {
     'ci-cd',
   ],
   githubUrl: 'https://github.com/PatrykOzogIT/Cookivo',
-  demoUrl: 'https://cookivo.pl',
+  appUrl: 'https://cookivo.pl',
   coverImage: {
     src: 'projects/cookivo/home-dark.png',
     width: 1920,

@@ -1,4 +1,4 @@
-import type { EcosystemSystem } from './model';
+import type { EcosystemRole, EcosystemSystem } from './model';
 
 /**
  * Commercial ecosystem — anonymized. Three separate applications (Angular frontend + NestJS API each),
@@ -28,8 +28,7 @@ export const ECOSYSTEM: readonly EcosystemSystem[] = [
         'Data synchronization with the other systems',
       ],
     },
-    technologies: ['angular', 'typescript', 'nestjs', 'mysql', 'mariadb'],
-    responsibilities: [],
+    technologies: ['angular', 'typescript', 'nestjs', 'mysql'],
   },
   {
     id: 'erp',
@@ -58,8 +57,7 @@ export const ECOSYSTEM: readonly EcosystemSystem[] = [
         'Business rules and automation',
       ],
     },
-    technologies: ['angular', 'typescript', 'nestjs', 'mysql', 'mariadb'],
-    responsibilities: [],
+    technologies: ['angular', 'typescript', 'nestjs', 'mysql'],
   },
   {
     id: 'wms',
@@ -88,7 +86,61 @@ export const ECOSYSTEM: readonly EcosystemSystem[] = [
         'Warehouse operator interfaces',
       ],
     },
-    technologies: ['angular', 'typescript', 'nestjs', 'mysql', 'mariadb'],
-    responsibilities: [],
+    technologies: ['angular', 'typescript', 'nestjs', 'mysql'],
   },
 ];
+
+/**
+ * My role in the ecosystem — as confirmed by me. Deliberately not a job title, and not a claim of
+ * having written the whole ecosystem alone.
+ */
+export const ECOSYSTEM_ROLE: EcosystemRole = {
+  intro: {
+    pl: 'Zaprojektowałem ten ekosystem i przez pierwsze miesiące sam go budowałem — jako następcę systemu PHP/Zend, który wcześniej w całości napisałem. Gdy projekt nabrał tempa, do implementacji dołączył niewielki zespół. Nadal odpowiadam za architekturę i dalszy rozwój, łącząc decyzje techniczne z praktycznymi potrzebami użytkowników.',
+    en: 'I designed this ecosystem and built it on my own for the first months — as the successor to a PHP/Zend system I had previously written entirely by myself. As the project gained momentum, a small team joined to help with implementation. I remain responsible for the architecture and further development, connecting technical decisions with the practical needs of its users.',
+  },
+  responsibilities: [
+    {
+      area: 'architecture',
+      description: {
+        pl: 'Zaprojektowałem szkielet systemu i postawiłem bazę danych: trzy aplikacje z osobnymi backendami, wspólna baza MySQL/MariaDB jako jedno źródło prawdy i komunikacja REST między backendami.',
+        en: 'I designed the system’s foundation and set up its database: three applications with separate backends, a shared MySQL/MariaDB database as the single source of truth, and REST communication between the backends.',
+      },
+    },
+    {
+      area: 'analysis',
+      description: {
+        pl: 'Analizuję potrzeby użytkowników i procesy biznesowe.',
+        en: 'I analyze user needs and business processes.',
+      },
+    },
+    {
+      area: 'integrations',
+      description: {
+        pl: 'Projektuję modele danych, API oraz integracje.',
+        en: 'I design data models, APIs and integrations.',
+      },
+    },
+    {
+      area: 'frontend',
+      description: {
+        pl: 'Implementuję funkcjonalności w aplikacjach Angular.',
+        en: 'I implement features in the Angular applications.',
+      },
+    },
+    {
+      area: 'backend',
+      description: {
+        pl: 'Implementuję funkcjonalności w backendach NestJS.',
+        en: 'I implement features in the NestJS backends.',
+      },
+    },
+    {
+      area: 'maintenance',
+      description: {
+        pl: 'Odpowiadam za rozwój i utrzymanie systemów oraz modernizację starszych rozwiązań PHP/Zend.',
+        en: 'I’m responsible for evolving and maintaining the systems, and for modernizing legacy PHP/Zend solutions.',
+      },
+    },
+  ],
+};
