@@ -69,7 +69,9 @@ upload contains production content only. Upload the **contents** of `dist/portfo
 2. In GitHub: **Settings → Secrets and variables → Actions**
    - *Secrets*: `FTP_SERVER` = `s4.jchost04.pl` (the hosting server's own name — see below), `FTP_USERNAME`
      (full login, usually `name@patryk-ozog.pl`), `FTP_PASSWORD`.
-   - *Variables*: `FTP_SERVER_DIR` = `./` (the dedicated account starts in `public_html`).
+   - *Variables*: `FTP_SERVER_DIR` = `public_html/`. A DirectAdmin FTP account created for the domain starts
+     in `domains/patryk-ozog.pl/` (one level above the web root), so `./` would upload next to
+     `public_html`, not into it. The variable is required — the workflow stops if it is missing.
 3. **Dry run:** set the variable `DEPLOY_ENABLED` = `true`, then *Actions → CI / Deploy → Run workflow*
    with *dry run* checked. The log lists what would be uploaded/deleted; the server is not changed.
 4. **First deployment:** *Run workflow* with *dry run* unchecked (or push to `main`).

@@ -3,8 +3,8 @@
 # Required repository settings (Settings → Secrets and variables → Actions):
 #   Secrets:   FTP_SERVER, FTP_USERNAME, FTP_PASSWORD
 #   Variables: DEPLOY_ENABLED = true        (deployment stays off until this is set)
-#              FTP_SERVER_DIR = ./          (path of the site's web root as seen by the FTP account;
-#                                            ./ for an FTP account limited to public_html)
+#              FTP_SERVER_DIR = public_html/  (web root as seen by the FTP account — required, no default;
+#                                              a DirectAdmin domain FTP account starts in domains/<domain>/)
 #              FTP_SECURITY   = strict      (optional: "loose" if the host's certificate does not match)
 # See docs/DEPLOYMENT.md.
 
@@ -103,6 +103,16 @@ jobs:
           name: site
           path: site
 
+      - name: Check the deployment target
+        env:
+          SERVER_DIR: ${{ vars.FTP_SERVER_DIR }}
+        run: |
+          if [ -z "$SERVER_DIR" ]; then
+            echo "::error::Repository variable FTP_SERVER_DIR is not set (e.g. public_html/). Refusing to guess the target folder."
+            exit 1
+          fi
+          echo "Deploying to: $SERVER_DIR"
+
       - name: Check the artifact
         run: |
           test -f site/.htaccess
@@ -120,7 +130,7 @@ jobs:
           protocol: ftps
           security: ${{ vars.FTP_SECURITY || 'strict' }}
           local-dir: ./site/
-          server-dir: ${{ vars.FTP_SERVER_DIR || './' }}
+          server-dir: ${{ vars.FTP_SERVER_DIR }}
           dry-run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
 
       - name: Smoke test the live site
