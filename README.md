@@ -7,7 +7,7 @@ The site itself is meant to demonstrate the way I work: a small, deliberate arch
 content instead of a CMS, accessibility and performance treated as requirements, and an interface that
 adapts automatically to the content that is actually published.
 
-> **Status:** feature-complete, not deployed yet. Built in stages; decisions are recorded in
+> **Live:** https://patryk-ozog.pl — deployed automatically from `main`. Built in stages; decisions are recorded in
 > [`docs/DECISIONS.md`](docs/DECISIONS.md).
 
 ## Highlights
@@ -29,25 +29,25 @@ adapts automatically to the content that is actually published.
 
 ## Quality
 
-| Lighthouse (home page) | Performance | Accessibility | Best Practices | SEO |
-| --- | --- | --- | --- | --- |
-| Desktop | 100 | 100 | 100 | 100 |
-| Mobile (slow 4G, 4× CPU) | 94 | 100 | 100 | 100 |
+| Lighthouse (home page)   | Performance | Accessibility | Best Practices | SEO |
+| ------------------------ | ----------- | ------------- | -------------- | --- |
+| Desktop                  | 100         | 100           | 100            | 100 |
+| Mobile (slow 4G, 4× CPU) | 94          | 100           | 100            | 100 |
 
 51 unit/component tests, 64 end-to-end scenarios (desktop + phone) with automated WCAG 2.2 AA checks.
 
 ## Tech stack
 
-| Area | Tools |
-| --- | --- |
-| Framework | Angular 22 — standalone components, signals, zoneless change detection, new control flow |
-| Rendering | `@angular/ssr` static output (prerendering), client hydration |
-| Language | TypeScript (strict, strict templates) |
-| Styling | SCSS with design tokens as CSS custom properties, self-hosted Inter and JetBrains Mono |
-| Content | Typed TypeScript modules + Markdown compiled with `marked` at build time |
-| Images | `sharp` at build time → responsive WebP variants, served through a custom NgOptimizedImage loader |
-| Testing | Vitest (unit and component tests), Playwright + axe-core (end-to-end, WCAG 2.2 AA), Node test runner for build scripts |
-| Tooling | Prettier, `tsx` for build scripts |
+| Area      | Tools                                                                                                                  |
+| --------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Framework | Angular 22 — standalone components, signals, zoneless change detection, new control flow                               |
+| Rendering | `@angular/ssr` static output (prerendering), client hydration                                                          |
+| Language  | TypeScript (strict, strict templates)                                                                                  |
+| Styling   | SCSS with design tokens as CSS custom properties, self-hosted Inter and JetBrains Mono                                 |
+| Content   | Typed TypeScript modules + Markdown compiled with `marked` at build time                                               |
+| Images    | `sharp` at build time → responsive WebP variants, served through a custom NgOptimizedImage loader                      |
+| Testing   | Vitest (unit and component tests), Playwright + axe-core (end-to-end, WCAG 2.2 AA), Node test runner for build scripts |
+| Tooling   | Prettier, `tsx` for build scripts                                                                                      |
 
 ## Getting started
 
@@ -59,17 +59,17 @@ npm install
 npm start          # dev server on http://localhost:4200
 ```
 
-| Command | Description |
-| --- | --- |
-| `npm start` | Validate content and start the dev server |
-| `npm run build` | Validate content, build and prerender to `dist/portfolio/browser`, generate `sitemap.xml` and `robots.txt` |
-| `npm run preview` | Serve the production build on http://localhost:4400 (behaves like static hosting) |
-| `npm test` | Unit and component tests |
-| `npm run e2e` | End-to-end tests (Playwright + axe accessibility audit) against a prerendered build with fixture projects |
-| `npm run test:scripts` | Tests of the build scripts |
-| `npm run typecheck` | Type-check the app, the tests and the scripts |
-| `npm run content` | Re-validate content and regenerate compiled Markdown (e.g. while `npm start` is running) |
-| `npm run og-image` | Re-render the social preview image after design or photo changes |
+| Command                | Description                                                                                                |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `npm start`            | Validate content and start the dev server                                                                  |
+| `npm run build`        | Validate content, build and prerender to `dist/portfolio/browser`, generate `sitemap.xml` and `robots.txt` |
+| `npm run preview`      | Serve the production build on http://localhost:4400 (behaves like static hosting)                          |
+| `npm test`             | Unit and component tests                                                                                   |
+| `npm run e2e`          | End-to-end tests (Playwright + axe accessibility audit) against a prerendered build with fixture projects  |
+| `npm run test:scripts` | Tests of the build scripts                                                                                 |
+| `npm run typecheck`    | Type-check the app, the tests and the scripts                                                              |
+| `npm run content`      | Re-validate content and regenerate compiled Markdown (e.g. while `npm start` is running)                   |
+| `npm run og-image`     | Re-render the social preview image after design or photo changes                                           |
 
 In development, `/_styleguide` shows the design system (colours, typography, spacing, primitives).
 The route is removed from production builds.
@@ -117,7 +117,13 @@ headers). See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
 - [x] Home page — hero, expertise, ecosystem, technology, projects, contact
 - [x] Project pages — gallery, lightbox, responsive image pipeline
 - [x] Polish — motion, accessibility audit, performance, end-to-end tests
-- [ ] Deployment — hosting, domain, HTTPS, CI/CD
+- [x] Deployment — hosting, domain, HTTPS, CI/CD
+
+## License
+
+The source code, design, texts and images are © Patryk Ożóg — **all rights reserved**. The repository is
+public for viewing and evaluation only; see [LICENSE](LICENSE). Third-party components keep their own
+licenses — see [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
 
 ## Author
 

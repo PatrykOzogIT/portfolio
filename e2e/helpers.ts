@@ -21,3 +21,11 @@ export async function expectNoHorizontalOverflow(page: Page): Promise<void> {
 export async function disableSmoothScroll(page: Page): Promise<void> {
   await page.addStyleTag({ content: 'html { scroll-behavior: auto !important; }' });
 }
+
+/**
+ * Waits until the prerendered page is hydrated (ScrollManager switches history scroll restoration to
+ * manual on start-up). Before that, links are plain HTML links that trigger a full page load.
+ */
+export async function waitForApp(page: Page): Promise<void> {
+  await page.waitForFunction(() => history.scrollRestoration === 'manual');
+}

@@ -53,6 +53,9 @@ ErrorDocument 404 /pl/not-found/index.html
   AddType application/manifest+json .webmanifest
   AddDefaultCharset utf-8
   AddCharset utf-8 .html .css .js .xml .txt .json .svg
+  <FilesMatch "^LICENSE$">
+    ForceType "text/plain; charset=utf-8"
+  </FilesMatch>
 </IfModule>
 
 # --- Compression (Brotli when available, gzip otherwise) ---------------------

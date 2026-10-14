@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
@@ -45,11 +45,25 @@
                 "glob": "jetbrains-mono-latin{,-ext}-500-normal.woff2",
                 "input": "node_modules/@fontsource/jetbrains-mono/files",
                 "output": "fonts"
+              },
+              {
+                "glob": "LICENSE",
+                "input": "node_modules/@fontsource-variable/inter",
+                "output": "fonts/licenses/inter"
+              },
+              {
+                "glob": "LICENSE",
+                "input": "node_modules/@fontsource/jetbrains-mono",
+                "output": "fonts/licenses/jetbrains-mono"
               }
             ],
-            "styles": ["src/styles/main.scss"],
+            "styles": [
+              "src/styles/main.scss"
+            ],
             "stylePreprocessorOptions": {
-              "includePaths": ["src/styles"]
+              "includePaths": [
+                "src/styles"
+              ]
             }
           },
           "configurations": {

@@ -1,8 +1,9 @@
 import { expect, test } from '@playwright/test';
-import { disableSmoothScroll, expectNoHorizontalOverflow } from './helpers';
+import { disableSmoothScroll, expectNoHorizontalOverflow, waitForApp } from './helpers';
 
 test('switching language keeps the page, the scroll position and the focus', async ({ page }) => {
   await page.goto('/pl/projects/alpha');
+  await waitForApp(page);
   await disableSmoothScroll(page);
   await page.evaluate(() => window.scrollTo(0, 600));
 

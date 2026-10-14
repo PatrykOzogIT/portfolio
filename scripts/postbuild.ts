@@ -7,7 +7,7 @@ import { existsSync } from 'node:fs';
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { SITE_CONFIG } from '../src/content/site.config';
-import { DIST_BROWSER_DIR as DEFAULT_DIST } from './lib/paths';
+import { DIST_BROWSER_DIR as DEFAULT_DIST, ROOT } from './lib/paths';
 
 /** Optional first argument: another build output (e.g. the end-to-end test build). */
 const DIST_BROWSER_DIR = process.argv[2] ? join(process.cwd(), process.argv[2]) : DEFAULT_DIST;
@@ -91,3 +91,16 @@ if (SITE_CONFIG.siteUrl === null) {
 
 await writeFile(join(DIST_BROWSER_DIR, 'robots.txt'), `${robots.join('\n')}\n`);
 console.log('✔ robots.txt');
+
+// Third-party notices for the published site: our notice (icons, fonts) followed by Angular's
+// generated license texts of every npm package bundled into the build.
+const generatedLicenses = join(DIST_BROWSER_DIR, '..', '3rdpartylicenses.txt');
+const notices = [
+  await readFile(join(ROOT, 'THIRD-PARTY-NOTICES.md'), 'utf8'),
+  '\n\n# Bundled npm packages (generated at build time)\n',
+  existsSync(generatedLicenses)
+    ? await readFile(generatedLicenses, 'utf8')
+    : '(not generated for this build)\n',
+];
+await writeFile(join(DIST_BROWSER_DIR, 'third-party-licenses.txt'), notices.join(''));
+console.log('✔ third-party-licenses.txt');
