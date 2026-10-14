@@ -40,6 +40,10 @@
   color: var(--text-3);
 }
 
+.status {
+  margin-top: var(--space-3);
+}
+
 .display {
   margin-top: var(--space-3);
   font-size: clamp(2.25rem, 1.5rem + 3.2vw, 4rem);

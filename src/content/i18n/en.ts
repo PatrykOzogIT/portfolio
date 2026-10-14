@@ -73,7 +73,11 @@ export const en: Dictionary = {
   },
   projects: {
     eyebrow: 'Projects',
-    title: 'Demo projects',
+    title: {
+      personal: 'Personal projects',
+      demo: 'Demo projects',
+      mixed: 'Projects',
+    },
     lead: 'Projects I can show publicly — from concept and architecture to a working application.',
     details: 'Project details',
   },
@@ -105,7 +109,13 @@ export const en: Dictionary = {
     allProjects: 'All projects',
     previous: 'Previous project',
     next: 'Next project',
-    eyebrow: 'Project',
+    kind: {
+      personal: 'Personal project',
+      demo: 'Demo project',
+    },
+    status: {
+      'in-development': 'In development',
+    },
     navigation: 'Project navigation',
     gallery: 'Gallery',
   },

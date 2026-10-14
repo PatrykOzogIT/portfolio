@@ -5,6 +5,8 @@ export const project: ProjectMeta = {
   slug: 'gamma',
   order: 3,
   published: true,
+  kind: 'demo',
+  status: 'in-development',
   featured: true,
   title: { pl: 'Gamma PL', en: 'Gamma EN' },
   shortDescription: { pl: 'Projekt testowy gamma.', en: 'Gamma test project.' },

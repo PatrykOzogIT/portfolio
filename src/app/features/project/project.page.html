@@ -9,11 +9,16 @@
     </a>
 
     <p class="eyebrow mono">
-      {{ t().project.eyebrow }}
+      {{ t().project.kind[meta.kind] }}
       @if (nb.total > 1) {
         <span class="position">{{ nb.position }} / {{ nb.total }}</span>
       }
     </p>
+    @if (meta.status; as status) {
+      <p class="status">
+        <span class="badge badge--live">{{ t().project.status[status] }}</span>
+      </p>
+    }
     <h1 class="display">{{ title() }}</h1>
     <p class="lead">{{ description() }}</p>
 

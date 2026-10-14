@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { projectCardLayout } from '../../../../../content/selectors';
+import { projectCardLayout, projectsHeadingKind } from '../../../../../content/selectors';
 import { SITE_CONTENT } from '../../../../core/content';
 import { LangService } from '../../../../core/i18n/lang.service';
 import { ProjectCard } from '../../../../shared/project/project-card';
@@ -15,13 +15,17 @@ import { SectionHeading } from '../../../../shared/ui/section-heading/section-he
       <app-section-heading
         headingId="projects-title"
         [eyebrow]="t().projects.eyebrow"
-        [title]="t().projects.title"
+        [title]="t().projects.title[headingKind]"
         [lead]="t().projects.lead"
       />
       <ul class="grid" role="list">
         @for (slot of slots; track slot.project.slug) {
           <li [class.wide]="slot.variant === 'wide'">
-            <app-project-card [project]="slot.project" [variant]="slot.variant" />
+            <app-project-card
+              [project]="slot.project"
+              [variant]="slot.variant"
+              [showKind]="headingKind === 'mixed'"
+            />
           </li>
         }
       </ul>
@@ -47,5 +51,7 @@ import { SectionHeading } from '../../../../shared/ui/section-heading/section-he
 })
 export class Projects {
   protected readonly t = inject(LangService).t;
-  protected readonly slots = projectCardLayout(inject(SITE_CONTENT).projects);
+  private readonly projects = inject(SITE_CONTENT).projects;
+  protected readonly slots = projectCardLayout(this.projects);
+  protected readonly headingKind = projectsHeadingKind(this.projects);
 }

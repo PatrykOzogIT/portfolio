@@ -122,6 +122,13 @@ export interface ProjectImage {
  * Project metadata. Lives in `src/content/projects/<slug>/project.ts`.
  * Long-form text lives next to it in `pl.md` / `en.md` (see docs/CONTENT.md).
  */
+/** `personal` — my own product (e.g. a side project), `demo` — built to demonstrate a solution. */
+export const PROJECT_KINDS = ['personal', 'demo'] as const;
+export type ProjectKind = (typeof PROJECT_KINDS)[number];
+
+export const PROJECT_STATUSES = ['in-development'] as const;
+export type ProjectStatus = (typeof PROJECT_STATUSES)[number];
+
 export interface ProjectMeta {
   /** URL segment and unique identifier: lowercase letters, digits and hyphens. */
   readonly slug: string;
@@ -129,6 +136,10 @@ export interface ProjectMeta {
   readonly order: number;
   /** Only `true` projects are built, listed, routed and indexed. */
   readonly published: boolean;
+  /** Decides the label on the project page and the title of the projects section. */
+  readonly kind: ProjectKind;
+  /** Optional badge on the card and the project page; no status → no badge. */
+  readonly status?: ProjectStatus;
   /** Renders a wide card; never changes the order. */
   readonly featured?: boolean;
   readonly title: Localized;

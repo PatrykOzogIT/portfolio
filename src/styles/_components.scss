@@ -110,6 +110,34 @@
   letter-spacing: 0.02em;
 }
 
+// ------------------------------------------------------------------- badges
+// Short labels about a project (kind, status). `badge--live` adds a status dot.
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  color: var(--text-2);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.5;
+  white-space: nowrap;
+
+  &--live::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--success);
+    box-shadow: 0 0 0 3px rgb(95 211 154 / 0.18);
+  }
+}
+
 // -------------------------------------------------------------------- cards
 .card {
   position: relative;

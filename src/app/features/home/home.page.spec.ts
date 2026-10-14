@@ -10,6 +10,7 @@ const project: ProjectMeta = {
   slug: 'demo',
   order: 1,
   published: true,
+  kind: 'demo',
   title: { pl: 'Demo PL', en: 'Demo EN' },
   shortDescription: { pl: 'Opis', en: 'Description' },
   technologies: ['angular'],
@@ -64,6 +65,23 @@ describe('Home page', () => {
     expect(harness.routeNativeElement!.querySelector('app-project-card h3')?.textContent).toContain(
       'Demo PL',
     );
+  });
+
+  it('names the projects section after their kind and badges cards only when kinds are mixed', async () => {
+    const own = { ...project, slug: 'own', order: 2, kind: 'personal' as const };
+    const single = (await render({ projects: [project] })).routeNativeElement!;
+    expect(single.querySelector('#projects-title')?.textContent).toContain(
+      'Projekty demonstracyjne',
+    );
+    expect(single.querySelector('app-project-card .badge')).toBeNull();
+
+    TestBed.resetTestingModule();
+    const mixed = (await render({ projects: [project, own] })).routeNativeElement!;
+    expect(mixed.querySelector('#projects-title')?.textContent?.trim()).toBe('Projekty');
+    const badges = [...mixed.querySelectorAll('app-project-card .badge')].map((b) =>
+      b.textContent?.trim(),
+    );
+    expect(badges).toEqual(['Projekt demonstracyjny', 'Projekt własny']);
   });
 
   it('hides contact channels that are not configured', async () => {

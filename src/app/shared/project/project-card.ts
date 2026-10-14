@@ -25,6 +25,8 @@ import { ProjectArt } from './project-art';
 export class ProjectCard {
   readonly project = input.required<ProjectMeta>();
   readonly variant = input<ProjectCardVariant>('standard');
+  /** Kind badge — only needed when the section lists projects of different kinds. */
+  readonly showKind = input(false);
 
   private readonly langService = inject(LangService);
   protected readonly t = this.langService.t;

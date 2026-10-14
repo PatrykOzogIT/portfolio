@@ -5,6 +5,7 @@ export const project: ProjectMeta = {
   slug: 'alpha',
   order: 1,
   published: true,
+  kind: 'personal',
   title: { pl: 'Alpha PL', en: 'Alpha EN' },
   shortDescription: { pl: 'Projekt testowy alpha.', en: 'Alpha test project.' },
   technologies: ['angular', 'nestjs'],

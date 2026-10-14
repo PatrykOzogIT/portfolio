@@ -74,7 +74,11 @@ export const pl = {
   },
   projects: {
     eyebrow: 'Projekty',
-    title: 'Projekty demonstracyjne',
+    title: {
+      personal: 'Projekty własne',
+      demo: 'Projekty demonstracyjne',
+      mixed: 'Projekty',
+    },
     lead: 'Projekty, które mogę pokazać publicznie — od koncepcji, przez architekturę, po działającą aplikację.',
     details: 'Szczegóły projektu',
   },
@@ -106,7 +110,13 @@ export const pl = {
     allProjects: 'Wszystkie projekty',
     previous: 'Poprzedni projekt',
     next: 'Następny projekt',
-    eyebrow: 'Projekt',
+    kind: {
+      personal: 'Projekt własny',
+      demo: 'Projekt demonstracyjny',
+    },
+    status: {
+      'in-development': 'W rozwoju',
+    },
     navigation: 'Nawigacja między projektami',
     gallery: 'Galeria',
   },

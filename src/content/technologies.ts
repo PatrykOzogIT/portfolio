@@ -23,6 +23,10 @@ export const TECHNOLOGIES = {
   sql: { label: 'SQL' },
   git: { label: 'Git' },
   'ci-cd': { label: 'CI/CD' },
+  postgresql: { label: 'PostgreSQL' },
+  prisma: { label: 'Prisma' },
+  docker: { label: 'Docker' },
+  playwright: { label: 'Playwright' },
 } as const satisfies Record<string, Tech>;
 
 export type TechId = keyof typeof TECHNOLOGIES;

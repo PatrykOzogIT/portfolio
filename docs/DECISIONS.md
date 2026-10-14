@@ -140,3 +140,10 @@ Production hosting must serve text with Brotli/gzip and fingerprinted files (`*-
 `npm run og-image` renders `public/og/og-image.png` (1200×630) from an HTML template with the site's fonts,
 colours, module motif and the portrait, using the Playwright browser. Language-neutral, so one image serves
 both languages; re-run after design or photo changes.
+
+## 25. Project kind and status
+Every project declares `kind: 'personal' | 'demo'`. The projects section is titled from the published
+projects: one shared kind → "Personal projects" / "Demo projects", both kinds → "Projects", with a kind badge
+on each card (only then — otherwise the title already says it). Hard-coding one title would mislabel either a
+real side project as a "demo" or future demo projects as "personal". An optional `status: 'in-development'`
+adds a badge to the card and the project page and `creativeWorkStatus` to its JSON-LD.

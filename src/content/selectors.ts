@@ -2,7 +2,14 @@
  * Visibility and ordering rules — the ONLY place that decides what is shown.
  * Pure functions used by components, prerender configuration and tests alike.
  */
-import type { EcosystemSystem, Lang, ProjectMeta, SiteConfig, SiteContent } from './model';
+import type {
+  EcosystemSystem,
+  Lang,
+  ProjectKind,
+  ProjectMeta,
+  SiteConfig,
+  SiteContent,
+} from './model';
 
 /* -------------------------------------------------------------- projects */
 
@@ -76,6 +83,15 @@ export function projectCardLayout(projects: readonly ProjectMeta[]): ProjectCard
   }
   if (pending) slots.push({ project: pending, variant: 'wide' });
   return slots;
+}
+
+/**
+ * Title of the projects section: the shared kind when all published projects have the same one,
+ * `mixed` otherwise. Cards show their kind only in the mixed case (otherwise the title says it).
+ */
+export function projectsHeadingKind(projects: readonly ProjectMeta[]): ProjectKind | 'mixed' {
+  const kinds = new Set(publishedProjects(projects).map((p) => p.kind));
+  return kinds.size === 1 ? [...kinds][0] : 'mixed';
 }
 
 /* --------------------------------------------------------------- contact */

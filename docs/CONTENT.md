@@ -46,6 +46,8 @@ export const project: ProjectMeta = {
   slug: 'wms-demo',          // = folder name = URL: /pl/projects/wms-demo
   order: 1,                  // display order, unique
   published: false,          // true = built, listed, routed, in sitemap. false = does not exist publicly
+  kind: 'demo',              // 'personal' (own product / side project) or 'demo' (built to demonstrate)
+  status: 'in-development',  // optional — "In development" badge; omit when the project is finished
   featured: false,           // wide card; never changes the order
   title: { pl: '…', en: '…' },
   shortDescription: { pl: '…', en: '…' },
@@ -85,6 +87,12 @@ Interesting problems and how they were solved.
 ```
 
 Section titles shown on the page come from the UI dictionary (`i18n/*.ts`), so they are consistent across projects.
+
+### Section title and badges (`kind`, `status`)
+
+The projects section is titled after the kind of the published projects: all personal → "Personal projects",
+all demo → "Demo projects", both → "Projects" (and then each card shows its kind as a badge). The project page
+shows its kind above the title. `status` adds an "In development" badge to the card and the project page.
 
 ### Card layout rule (`featured`)
 

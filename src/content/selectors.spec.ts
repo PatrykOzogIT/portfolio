@@ -4,6 +4,7 @@ import {
   findPublishedProject,
   projectCardLayout,
   projectNeighbours,
+  projectsHeadingKind,
   publishedProjects,
   visibleHomeSections,
 } from './selectors';
@@ -13,6 +14,7 @@ function project(slug: string, order: number, extra: Partial<ProjectMeta> = {}):
     slug,
     order,
     published: true,
+    kind: 'demo',
     title: { pl: slug, en: slug },
     shortDescription: { pl: '', en: '' },
     technologies: [],
@@ -129,6 +131,20 @@ describe('projectCardLayout', () => {
 
   it('ignores unpublished projects', () => {
     expect(variants([project('a', 1), project('x', 2, { published: false })])).toEqual(['a:wide']);
+  });
+});
+
+describe('projectsHeadingKind', () => {
+  it('uses the shared kind when all published projects have it', () => {
+    const own = [project('a', 1, { kind: 'personal' }), project('b', 2, { kind: 'personal' })];
+    expect(projectsHeadingKind(own)).toBe('personal');
+    expect(projectsHeadingKind([project('a', 1)])).toBe('demo');
+  });
+
+  it('is mixed for different kinds, ignoring unpublished projects', () => {
+    const a = project('a', 1, { kind: 'personal' });
+    expect(projectsHeadingKind([a, project('b', 2)])).toBe('mixed');
+    expect(projectsHeadingKind([a, project('x', 2, { published: false })])).toBe('personal');
   });
 });
 

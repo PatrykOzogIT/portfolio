@@ -11,6 +11,7 @@ function project(slug: string, order: number, extra: Partial<ProjectMeta> = {}):
     slug,
     order,
     published: true,
+    kind: 'demo',
     title: { pl: `Projekt ${slug}`, en: `Project ${slug}` },
     shortDescription: { pl: 'Opis', en: 'Description' },
     technologies: ['angular', 'nestjs'],
@@ -21,9 +22,9 @@ function project(slug: string, order: number, extra: Partial<ProjectMeta> = {}):
 const content: SiteContent = {
   ...SITE_CONTENT_DATA,
   projects: [
-    project('alpha', 1, { githubUrl: 'https://github.com/x/alpha' }),
+    project('alpha', 1, { kind: 'personal', githubUrl: 'https://github.com/x/alpha' }),
     project('secret', 2, { published: false }),
-    project('beta', 3, { demoUrl: 'https://beta.example.com' }),
+    project('beta', 3, { status: 'in-development', demoUrl: 'https://beta.example.com' }),
   ],
   projectSections: {
     alpha: {
@@ -69,6 +70,18 @@ describe('Project page', () => {
     const headings = [...root.querySelectorAll('section h2')].map(text);
     expect(headings).toEqual(['01 O projekcie']);
     expect(text(root.querySelector('.prose'))).toBe('O projekcie alpha');
+  });
+
+  it('labels the project with its kind and shows a status badge only when set', async () => {
+    const harness = await open('/pl/projects/alpha');
+    const alpha = harness.routeNativeElement!;
+    expect(text(alpha.querySelector('.eyebrow'))).toContain('Projekt własny');
+    expect(alpha.querySelector('.badge')).toBeNull();
+
+    await harness.navigateByUrl('/pl/projects/beta');
+    const beta = harness.routeNativeElement!;
+    expect(text(beta.querySelector('.eyebrow'))).toContain('Projekt demonstracyjny');
+    expect(text(beta.querySelector('.badge'))).toBe('W rozwoju');
   });
 
   it('shows the GitHub link safely and hides the missing demo link', async () => {

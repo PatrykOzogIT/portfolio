@@ -15,7 +15,9 @@ import { parseArgs } from 'node:util';
 import { pathToFileURL } from 'node:url';
 import {
   LANGS,
+  PROJECT_KINDS,
   PROJECT_SECTION_KEYS,
+  PROJECT_STATUSES,
   type ProjectMeta,
   type ProjectSections,
 } from '../src/content/model';
@@ -118,6 +120,10 @@ function validateProjects(projects: readonly DiscoveredProject[]) {
       if (!meta.title[lang]?.trim()) fail(scope, `Missing title (${lang}).`);
       if (!meta.shortDescription[lang]?.trim()) fail(scope, `Missing shortDescription (${lang}).`);
     }
+    if (!PROJECT_KINDS.includes(meta.kind))
+      fail(scope, `kind must be one of: ${PROJECT_KINDS.join(', ')}.`);
+    if (meta.status !== undefined && !PROJECT_STATUSES.includes(meta.status))
+      fail(scope, `status must be one of: ${PROJECT_STATUSES.join(', ')} (or omitted).`);
     checkHttpsUrl(scope, 'githubUrl', meta.githubUrl);
     checkHttpsUrl(scope, 'demoUrl', meta.demoUrl);
     if (meta.accentHue !== undefined && (meta.accentHue < 0 || meta.accentHue > 360)) {
