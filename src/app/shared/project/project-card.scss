@@ -88,6 +88,15 @@
   padding: clamp(20px, 2.4vw, 28px);
 }
 
+// Title with badges on the right; badges wrap below the title when there is no room.
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+}
+
 .title {
   margin: 0;
 }

@@ -16,19 +16,21 @@
   </div>
 
   <div class="body">
-    @if (showKind() || p.status) {
-      <p class="badges">
-        @if (showKind()) {
-          <span class="badge">{{ t().project.kind[p.kind] }}</span>
-        }
-        @if (p.status; as status) {
-          <span class="badge badge--live">{{ t().project.status[status] }}</span>
-        }
-      </p>
-    }
-    <h3 class="h3 title">
-      <a class="stretched" [routerLink]="link()">{{ title() }}</a>
-    </h3>
+    <div class="head">
+      <h3 class="h3 title">
+        <a class="stretched" [routerLink]="link()">{{ title() }}</a>
+      </h3>
+      @if (showKind() || p.status) {
+        <p class="badges">
+          @if (showKind()) {
+            <span class="badge">{{ t().project.kind[p.kind] }}</span>
+          }
+          @if (p.status; as status) {
+            <span class="badge badge--live">{{ t().project.status[status] }}</span>
+          }
+        </p>
+      }
+    </div>
     <p class="description">{{ p.shortDescription[lang()] }}</p>
 
     @if (p.technologies.length) {

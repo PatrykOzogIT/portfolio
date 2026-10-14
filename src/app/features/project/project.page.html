@@ -14,12 +14,14 @@
         <span class="position">{{ nb.position }} / {{ nb.total }}</span>
       }
     </p>
-    @if (meta.status; as status) {
-      <p class="status">
-        <span class="badge badge--live">{{ t().project.status[status] }}</span>
-      </p>
-    }
-    <h1 class="display">{{ title() }}</h1>
+    <div class="title-row">
+      <h1 class="display">{{ title() }}</h1>
+      @if (meta.status; as status) {
+        <p class="status">
+          <span class="badge badge--live">{{ t().project.status[status] }}</span>
+        </p>
+      }
+    </div>
     <p class="lead">{{ description() }}</p>
 
     @if (meta.technologies.length) {
