@@ -186,6 +186,8 @@ export interface ProjectMeta {
   readonly appUrl?: string;
   readonly coverImage?: ProjectImage;
   readonly images?: readonly ProjectImage[];
+  /** One notable feature, shown as a compact note on the card (title + one sentence). */
+  readonly highlight?: { readonly title: Localized; readonly text: Localized };
   /** Hue (0–360) for the generated placeholder artwork when there is no cover image. */
   readonly accentHue?: number;
 }

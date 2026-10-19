@@ -36,6 +36,16 @@
     </div>
     <p class="description">{{ p.shortDescription[lang()] }}</p>
 
+    @if (p.highlight; as h) {
+      <p class="highlight">
+        <svg appIcon="sparkles" class="icon"></svg>
+        <span>
+          <span class="highlight-title">{{ h.title[lang()] }}</span>
+          {{ h.text[lang()] }}
+        </span>
+      </p>
+    }
+
     @if (p.technologies.length) {
       <ul class="chip-list" role="list">
         @for (id of p.technologies; track id) {

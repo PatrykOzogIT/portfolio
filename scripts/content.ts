@@ -132,6 +132,13 @@ function validateProjects(projects: readonly DiscoveredProject[]) {
       );
     if (meta.isLive && !meta.appUrl)
       fail(scope, 'isLive needs appUrl — the address of the live app.');
+    for (const lang of LANGS) {
+      if (
+        meta.highlight &&
+        !(meta.highlight.title[lang]?.trim() && meta.highlight.text[lang]?.trim())
+      )
+        fail(scope, `highlight needs a title and a text (${lang}).`);
+    }
     checkHttpsUrl(scope, 'githubUrl', meta.githubUrl);
     checkHttpsUrl(scope, 'appUrl', meta.appUrl);
     if (meta.accentHue !== undefined && (meta.accentHue < 0 || meta.accentHue > 360)) {

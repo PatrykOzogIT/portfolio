@@ -23,14 +23,16 @@ Wartości odżywcze nie są wpisywane ręcznie. Wynikają ze składników przepi
   - cel: redukcja, łagodna redukcja, utrzymanie albo masa;
   - podział na makroskładniki.
 - **Przepisy**:
-  - publiczne lub prywatne;
+  - prywatne, publiczne, dla gospodarstwa domowego albo dla wybranych grup znajomych;
   - podprzepisy, np. sos użyty w kilku daniach;
   - wartości odżywcze i alergeny liczone ze składników;
   - tryb gotowania krok po kroku;
   - zdjęcia.
-- **Katalog składników**: około 350 pozycji z wartościami na 100 g, 14 alergenami UE i przelicznikami jednostek kuchennych.
+- **Import przepisów ze zdjęć (AI)**: 1–3 zdjęcia przepisu z książki, odręcznej notatki lub zrzutu ekranu zamieniane w edytowalny szkic; użytkownik sprawdza go i zapisuje.
+- **Katalog składników**: ponad 550 pozycji z baz USDA i Ciqual, z wartościami na 100 g, 14 alergenami UE i przelicznikami jednostek kuchennych; nowe składniki są nadal dodawane.
 - **Planer tygodniowy**: gotowanie na kilka dni naprzód i porcje dopasowane do każdego domownika.
 - **Gospodarstwo domowe**: zaproszenia do wspólnego planowania i alergie domowników brane pod uwagę przy propozycjach.
+- **Grupy znajomych**: dołączanie do grupy po akceptacji jej właściciela i udostępnianie przepisów wybranym grupom.
 - **Spiżarnia** z datami ważności.
 - **Listy zakupów** z planu albo z pojedynczego przepisu, z odjęciem zapasów ze spiżarni.
 - **Cenniki** i szacowanie kosztu zakupów.
@@ -57,6 +59,24 @@ Interfejs zbudowany jest na Angular Material 3 z własnym motywem. Tłumaczenia 
 ## Backend
 
 NestJS z podziałem na moduły domenowe, m.in. przepisy, składniki, planer, spiżarnia, zakupy, ceny, gospodarstwo domowe, moderacja i konta. Dostęp do danych zapewnia Prisma, a baza to PostgreSQL. Schemat ewoluuje przez wersjonowane migracje.
+
+## Import przepisów ze zdjęć z wykorzystaniem AI
+
+Zaprojektowałem funkcję, która zamienia 1–3 zdjęcia przepisu w edytowalny formularz. To nie jest agent AI: model jest wywoływany raz, jako inteligentny parser, a dalszą weryfikację wykonuje deterministyczny kod aplikacji.
+
+1. **Odczyt** — jedno wywołanie Claude API z obrazami; wynik w strukturze wymuszonej schematem Zod (structured outputs).
+2. **Weryfikacja** — backend NestJS sprawdza dane, dopasowuje składniki do bazy PostgreSQL (wyszukiwanie rozmyte pg_trgm) i kontroluje jednostki według istniejących reguł domenowych.
+3. **Szkic** — wynik wypełnia formularz przepisu (Angular Reactive Forms); niepewne odczyty, składniki bez pewnego dopasowania i niezgodne jednostki są oznaczone.
+4. **Decyzja użytkownika** — AI przygotowuje wyłącznie szkic; przepis zapisuje użytkownik po sprawdzeniu.
+
+Rozwiązanie obejmuje też:
+
+- **koszty** — zmniejszanie zdjęć przed wysłaniem, limity wywołań i rejestr zużycia tokenów;
+- **prywatność** — zdjęcia nie są przechowywane;
+- **bezpieczeństwo** — tekst ze zdjęć jest traktowany wyłącznie jako dane, z ochroną przed prompt injection;
+- **testy** — testy backendu i Playwright bez rzeczywistych, płatnych wywołań modelu.
+
+Funkcja działa produkcyjnie, a jej dostępność zależy od konfiguracji API. Trwają pierwsze testy jakości odczytu na rzeczywistych zdjęciach.
 
 ## Środowiska
 
@@ -91,12 +111,12 @@ Rozwiązanie:
 
 ## Dane odżywcze zgodne z etykietą UE
 
-Wartości odżywcze składników pochodzą z publicznej bazy USDA FoodData Central. Amerykański standard różni się od europejskiego, dlatego własne narzędzie importu przelicza dane na standard etykiety UE:
+Wartości odżywcze składników pochodzą z dwóch publicznych baz: amerykańskiej USDA FoodData Central i francuskiej ANSES Ciqual. Każda ma własne narzędzie importu, a wynik musi być zgodny ze standardem etykiety UE:
 
-- węglowodany bez błonnika;
-- sól wyliczona z sodu.
+- **USDA** stosuje amerykański standard, więc import przelicza dane: węglowodany bez błonnika, sól wyliczona z sodu;
+- **Ciqual** podaje wartości już w standardzie UE, ale ma wartości nieliczbowe (np. „ślady”, „poniżej progu”), które import zamienia według stałych reguł, a brak danych zostawia jako brak, nigdy jako zero.
 
-Do tego dochodzą polskie nazwy, kategorie, alergeny i typowe gramatury, np. sztuki czy łyżki.
+Do tego dochodzą polskie nazwy, kategorie, alergeny i typowe gramatury, np. sztuki czy łyżki. Źródło jest zapisane przy każdym składniku, a katalog jest rozbudowywany kolejnymi paczkami.
 
 ## Przepisy złożone z przepisów
 

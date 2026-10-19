@@ -156,6 +156,30 @@ describe('Project card', () => {
   });
 });
 
+describe('Project highlight', () => {
+  beforeEach(() => {
+    (globalThis as { IntersectionObserver?: unknown }).IntersectionObserver ??= class {
+      observe() {}
+      disconnect() {}
+    };
+  });
+
+  it('shows a highlight note on the card only when the project has one', async () => {
+    const highlight = {
+      title: { pl: 'Nowość', en: 'New' },
+      text: { pl: 'Opis funkcji.', en: 'Feature text.' },
+    };
+    const root = (await render({ projects: [{ ...project, highlight }] })).routeNativeElement!;
+    const note = root.querySelector('app-project-card .highlight');
+    expect(note?.querySelector('.highlight-title')?.textContent?.trim()).toBe('Nowość');
+    expect(note?.textContent).toContain('Opis funkcji.');
+
+    TestBed.resetTestingModule();
+    const plain = (await render({ projects: [project] })).routeNativeElement!;
+    expect(plain.querySelector('app-project-card .highlight')).toBeNull();
+  });
+});
+
 describe('Technology', () => {
   beforeEach(() => {
     (globalThis as { IntersectionObserver?: unknown }).IntersectionObserver ??= class {

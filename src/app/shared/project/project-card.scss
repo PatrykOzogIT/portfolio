@@ -132,6 +132,34 @@
   color: var(--text-2);
 }
 
+// One notable feature: a quiet accent note, not a second card.
+.highlight {
+  display: flex;
+  gap: 10px;
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: var(--r-md);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  color: var(--text-2);
+  font-size: 0.9rem;
+  line-height: 1.5;
+
+  .icon {
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    color: var(--accent-strong);
+  }
+}
+
+.highlight-title {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--text);
+  font-weight: 600;
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;

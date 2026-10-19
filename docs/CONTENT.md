@@ -55,6 +55,7 @@ export const project: ProjectMeta = {
   technologies: ['angular', 'nestjs', 'mysql'], // keys from technologies.ts
   githubUrl: 'https://github.com/PatrykOzogIT/…', // optional — no URL, no button
   appUrl: 'https://wms.example.com', // optional — button "Live Demo" (demo) or "Visit app" (personal)
+  highlight: { title: { pl: '…', en: '…' }, text: { pl: '…', en: '…' } }, // optional — one notable feature, a compact note on the card
   coverImage: {
     src: 'projects/wms-demo/cover.png',
     width: 1600,

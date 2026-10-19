@@ -19,10 +19,18 @@ export const project: ProjectMeta = {
     'nestjs',
     'prisma',
     'postgresql',
+    'claude-api',
     'docker',
     'playwright',
     'ci-cd',
   ],
+  highlight: {
+    title: { pl: 'Import przepisów ze zdjęć z AI', en: 'AI-powered recipe import from photos' },
+    text: {
+      pl: 'Zamiana zdjęć przepisów w edytowalne szkice z automatycznym dopasowaniem składników i oznaczaniem danych wymagających weryfikacji.',
+      en: 'Turn recipe photos into editable drafts with automatic ingredient matching and clear flags for entries requiring review.',
+    },
+  },
   githubUrl: 'https://github.com/PatrykOzogIT/Cookivo',
   appUrl: 'https://cookivo.pl',
   coverImage: {
