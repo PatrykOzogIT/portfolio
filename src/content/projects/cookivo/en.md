@@ -62,7 +62,7 @@ NestJS split into domain modules, including recipes, ingredients, planner, pantr
 
 ## AI-powered recipe import from photos
 
-I designed a feature that turns 1–3 recipe photos into an editable form. It is not an AI agent: the model is called once, as an intelligent parser, and deterministic application code handles the verification that follows.
+I designed a feature that turns 1–3 recipe photos into an editable form. It is not an AI agent: a vision-capable large language model (LLM) is called once, as an intelligent parser, and deterministic application code handles the verification that follows.
 
 1. **Reading** — a single Claude API call with the images; the result is structured by a Zod schema (structured outputs).
 2. **Verification** — the NestJS backend checks the data, matches ingredients against PostgreSQL (pg_trgm fuzzy search) and validates units against the existing domain rules.

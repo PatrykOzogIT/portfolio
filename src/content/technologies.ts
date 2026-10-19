@@ -23,7 +23,7 @@ export const TECHNOLOGIES = {
   git: { label: 'Git' },
   'ci-cd': { label: 'CI/CD' },
   postgresql: { label: 'PostgreSQL' },
-  'claude-api': { label: 'Claude API' },
+  'claude-api': { label: 'Claude API (LLM)' },
   prisma: { label: 'Prisma' },
   docker: { label: 'Docker' },
   playwright: { label: 'Playwright' },

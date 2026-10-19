@@ -62,7 +62,7 @@ NestJS z podziałem na moduły domenowe, m.in. przepisy, składniki, planer, spi
 
 ## Import przepisów ze zdjęć z wykorzystaniem AI
 
-Zaprojektowałem funkcję, która zamienia 1–3 zdjęcia przepisu w edytowalny formularz. To nie jest agent AI: model jest wywoływany raz, jako inteligentny parser, a dalszą weryfikację wykonuje deterministyczny kod aplikacji.
+Zaprojektowałem funkcję, która zamienia 1–3 zdjęcia przepisu w edytowalny formularz. To nie jest agent AI: multimodalny model językowy (LLM) jest wywoływany raz, jako inteligentny parser, a dalszą weryfikację wykonuje deterministyczny kod aplikacji.
 
 1. **Odczyt** — jedno wywołanie Claude API z obrazami; wynik w strukturze wymuszonej schematem Zod (structured outputs).
 2. **Weryfikacja** — backend NestJS sprawdza dane, dopasowuje składniki do bazy PostgreSQL (wyszukiwanie rozmyte pg_trgm) i kontroluje jednostki według istniejących reguł domenowych.
