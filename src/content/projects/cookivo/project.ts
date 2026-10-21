@@ -9,8 +9,8 @@ export const project: ProjectMeta = {
   developmentStatus: 'in-development',
   title: { pl: 'Cookivo', en: 'Cookivo' },
   shortDescription: {
-    pl: 'Niekomercyjna aplikacja do planowania posiłków: kalkulator zapotrzebowania, przepisy z wartościami odżywczymi i alergenami, spiżarnia i listy zakupów. Działa produkcyjnie i jest stale rozwijana.',
-    en: 'A non-commercial meal-planning app: calorie and macro calculator, recipes with nutrition and allergen data, pantry and shopping lists. Live in production and under active development.',
+    pl: 'Full-stackowa aplikacja do planowania posiłków, przepisów, zakupów i zapasów domowych — z funkcjami opartymi na LLM, od odczytu paragonów po harmonogram gotowania. Niekomercyjna, działa produkcyjnie i jest stale rozwijana.',
+    en: 'A full-stack app for planning meals, recipes, shopping and household stock — with LLM-powered features, from reading receipts to scheduling cooking. Non-commercial, live in production and under active development.',
   },
   technologies: [
     'angular',
@@ -20,43 +20,69 @@ export const project: ProjectMeta = {
     'prisma',
     'postgresql',
     'claude-api',
-    'docker',
+    'zod',
     'playwright',
     'ci-cd',
   ],
   highlight: {
     title: {
-      pl: 'Import przepisów ze zdjęć (AI / LLM)',
-      en: 'Recipe import from photos (AI / LLM)',
+      pl: '10 funkcji AI (LLM) w produkcji',
+      en: '10 AI (LLM) features in production',
     },
     text: {
-      pl: 'Zamiana zdjęć przepisów w edytowalne szkice z automatycznym dopasowaniem składników i oznaczaniem danych wymagających weryfikacji.',
-      en: 'Turn recipe photos into editable drafts with automatic ingredient matching and clear flags for entries requiring review.',
+      pl: 'Odczyt przepisów, paragonów i etykiet, planer z budżetem, harmonogram gotowania — model interpretuje dane, a obliczenia i zapis zostają po stronie backendu.',
+      en: 'Reading recipes, receipts and labels, a budget-aware planner and a cooking schedule — the model interprets the data, while calculations and saving stay in the backend.',
     },
   },
   githubUrl: 'https://github.com/PatrykOzogIT/Cookivo',
   appUrl: 'https://cookivo.pl',
   coverImage: {
-    src: 'projects/cookivo/home-dark.png',
+    src: 'projects/cookivo/cover.png',
     width: 1920,
     height: 1200,
     alt: {
-      pl: 'Strona główna Cookivo w ciemnym motywie: hasło „Jedz smacznie i zgodnie z celem” i wykres makroskładników',
-      en: 'Cookivo home page in the dark theme: the headline and a macronutrient chart',
+      pl: 'Strona główna Cookivo w ciemnym motywie: hasło „Jedz smacznie i zgodnie z celem” i panel 11 modułów aplikacji z podglądem kalkulatora kalorii',
+      en: 'Cookivo home page in a dark theme: the headline and a panel of 11 app modules with a calorie calculator preview',
     },
   },
   images: [
     {
-      src: 'projects/cookivo/home.png',
-      width: 1920,
-      height: 1200,
+      src: 'projects/cookivo/features.png',
+      width: 1653,
+      height: 1489,
       alt: {
-        pl: 'Strona główna Cookivo w jasnym motywie',
-        en: 'Cookivo home page in the light theme',
+        pl: 'Siatka „Możliwości Cookivo”: 11 kart funkcji, m.in. przepisy, baza składników, plan tygodnia, lista zakupów, lodówka, koszty, paragony i asystent',
+        en: 'The “Cookivo features” grid: 11 feature cards, including recipes, the ingredient database, a weekly plan, shopping list, fridge, costs, receipts and the assistant',
       },
       caption: {
-        pl: 'Strona główna — jasny motyw (motyw podąża za ustawieniem systemu)',
-        en: 'Home page — light theme (the theme follows the system setting)',
+        pl: 'Możliwości aplikacji ze strony głównej — od przepisów po funkcje AI',
+        en: 'App features on the home page — from recipes to AI features',
+      },
+    },
+    {
+      src: 'projects/cookivo/assistant.png',
+      width: 816,
+      height: 912,
+      alt: {
+        pl: 'Prezentacja asystenta AI: przykładowa prośba „Śniadania lekkie do pracy, obiady sycące, kolacje na słodko” i propozycja planu',
+        en: 'AI assistant presentation: a sample request for light breakfasts, filling lunches and sweet suppers, and a proposed plan',
+      },
+      caption: {
+        pl: 'Asystent AI — przykład z prezentacji funkcji na stronie głównej',
+        en: 'AI assistant — an example from the feature presentation on the home page',
+      },
+    },
+    {
+      src: 'projects/cookivo/receipts.png',
+      width: 816,
+      height: 944,
+      alt: {
+        pl: 'Prezentacja importu paragonu: przykładowe pozycje z ilościami i cenami do dodania do lodówki i cennika',
+        en: 'Receipt import presentation: sample items with quantities and prices to add to the fridge and price list',
+      },
+      caption: {
+        pl: 'Import paragonu ze zdjęcia — przykład z prezentacji funkcji na stronie głównej',
+        en: 'Receipt import from a photo — an example from the feature presentation on the home page',
       },
     },
     {
@@ -81,8 +107,8 @@ export const project: ProjectMeta = {
         en: 'Ingredient catalogue: category filters, search and cards with calories, protein, fat and carbohydrates per 100 g',
       },
       caption: {
-        pl: 'Katalog składników — wartości odżywcze na 100 g, alergeny i przeliczniki kuchenne',
-        en: 'Ingredient catalogue — nutrition per 100 g, allergens and kitchen unit conversions',
+        pl: 'Katalog składników z baz USDA i Ciqual — wartości na 100 g, alergeny i przeliczniki kuchenne',
+        en: 'Ingredient catalogue from the USDA and Ciqual databases — values per 100 g, allergens and kitchen unit conversions',
       },
     },
     {
