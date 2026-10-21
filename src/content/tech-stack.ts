@@ -29,8 +29,8 @@ export const TECH_STACK: readonly TechStackGroup[] = [
     technologies: ['nestjs', 'nodejs', 'rest', 'typeorm'],
     legacy: ['php'],
     note: {
-      pl: 'Projektowanie REST API i integracji między systemami, uwierzytelnianie i autoryzacja. PHP / Zend — utrzymanie i stopniowa modernizacja systemów legacy.',
-      en: 'Designing REST APIs and integrations between systems, authentication and authorization. PHP / Zend — maintaining and gradually modernizing legacy systems.',
+      pl: 'Projektowanie REST API i integracji między systemami, uwierzytelnianie i autoryzacja. PHP / Zend — utrzymanie i etapowa modernizacja systemów legacy.',
+      en: 'Designing REST APIs and integrations between systems, authentication and authorization. PHP / Zend — maintaining and modernizing legacy systems in phases.',
     },
   },
   {
