@@ -10,14 +10,9 @@
     max-width: 440px;
   }
 
-  // Phones: smaller, simplified, a touch quieter — decoration must not push content down much.
+  // Phones: hidden. Below the buttons it is only decoration that adds scrolling before the content.
   @include bp.down(md) {
-    max-width: 320px;
-    opacity: 0.85;
-
-    .optional {
-      display: none;
-    }
+    display: none;
   }
 }
 

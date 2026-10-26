@@ -1,11 +1,10 @@
 <svg #svg viewBox="0 0 500 460" focusable="false">
   <g class="layer" data-depth="5">
     @for (wire of wires; track $index) {
-      <path class="wire" [class.optional]="wire.optional" [attr.d]="wire.d" />
+      <path class="wire" [attr.d]="wire.d" />
       @if (wire.signalDelay !== undefined) {
         <path
           class="signal"
-          [class.optional]="wire.optional"
           [attr.d]="wire.d"
           pathLength="100"
           [style.animation-delay.s]="wire.signalDelay"
@@ -17,7 +16,6 @@
     @for (box of boxes; track $index) {
       <rect
         class="ctx"
-        [class.optional]="box.optional"
         [attr.x]="box.x"
         [attr.y]="box.y"
         [attr.width]="box.width"
@@ -26,7 +24,7 @@
       />
     }
     @for (m of modules; track $index) {
-      <g [class.optional]="m.optional">
+      <g>
         <rect
           class="mod"
           [attr.x]="m.x"

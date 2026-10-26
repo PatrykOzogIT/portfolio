@@ -26,8 +26,6 @@ interface Cluster {
   readonly y: number;
   readonly cols: number;
   readonly rows: number;
-  /** Hidden on small screens (simplified composition). */
-  readonly optional?: boolean;
 }
 
 const CLUSTERS: readonly Cluster[] = [
@@ -35,7 +33,7 @@ const CLUSTERS: readonly Cluster[] = [
   { x: 300, y: 20, cols: 4, rows: 2 },
   { x: 70, y: 250, cols: 3, rows: 3 },
   { x: 319, y: 230, cols: 3, rows: 2 },
-  { x: 360, y: 380, cols: 2, rows: 1, optional: true },
+  { x: 360, y: 380, cols: 2, rows: 1 },
 ];
 
 /** `cluster-module` → colour of the small status dot. */
@@ -49,13 +47,13 @@ const DOTS: Readonly<Record<string, 'b2b' | 'erp' | 'wms'>> = {
   '4-1': 'wms',
 };
 
-const WIRES: readonly { d: string; signalDelay?: number; optional?: boolean }[] = [
+const WIRES: readonly { d: string; signalDelay?: number }[] = [
   { d: 'M164 88 H226 a8 8 0 0 0 8 -8 V76 a8 8 0 0 1 8 -8 H300', signalDelay: 0 },
   { d: 'M97 136 V185 a8 8 0 0 0 8 8 H129 a8 8 0 0 1 8 8 V250' },
   { d: 'M386 116 V230', signalDelay: 5.4 },
   { d: 'M204 317 H254 a8 8 0 0 0 8 -8 V286 a8 8 0 0 1 8 -8 H319', signalDelay: 1.8 },
-  { d: 'M386 326 V344 a8 8 0 0 0 8 8 H400 a8 8 0 0 1 8 8 V380', optional: true },
-  { d: 'M137 384 V401 a8 8 0 0 0 8 8 H360', signalDelay: 3.6, optional: true },
+  { d: 'M386 326 V344 a8 8 0 0 0 8 8 H400 a8 8 0 0 1 8 8 V380' },
+  { d: 'M137 384 V401 a8 8 0 0 0 8 8 H360', signalDelay: 3.6 },
 ];
 
 const boxes = CLUSTERS.map((c) => ({
@@ -74,7 +72,6 @@ const modules = CLUSTERS.flatMap((c, ci) =>
       cx: x + MODULE / 2,
       cy: y + MODULE / 2,
       dot: DOTS[`${ci}-${mi}`],
-      optional: c.optional,
     };
   }),
 );
