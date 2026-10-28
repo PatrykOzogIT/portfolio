@@ -1,0 +1,7 @@
+flowchart TD
+  S["Every agent run reads 5-hour and weekly<br/>utilisation from the CLI stream"] --> T{"Above threshold?"}
+  T -->|yes| PZ["Pause: new AI steps don't start,<br/>the current one finishes normally"]
+  PZ --> PR["Usage probe without a model call,<br/>at regular intervals"]
+  PR --> RS["Optional automatic resume<br/>after reset"]
+  T -->|no| Q["Queue: priorities,<br/>1–4 slots, resource locks"]
+  Q --> MC["Architect model routing<br/>by task complexity"]

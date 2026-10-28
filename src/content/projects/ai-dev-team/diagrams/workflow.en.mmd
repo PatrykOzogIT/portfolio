@@ -1,0 +1,18 @@
+flowchart TD
+  L["Linear issue"] --> Q["Analyst: triage, questions, complexity"]
+  Q -->|unclear| C["Clarifying questions or<br/>a plan with explicit assumptions"]
+  C --> P
+  Q -->|ready| P["Architect: read-only code analysis, plan<br/>manual or automatic mode"]
+  P --> A1{{"Approval 1: plan<br/>(pinned to SHA-256)"}}
+  A1 -->|rejected with category| P
+  A1 -->|data fix| DF["SQL scripts run by a human"]
+  A1 --> D["Developer in an isolated worktree"]
+  D --> V["System checks + gates + independent Reviewer<br/>(pre-existing failures = warning)"]
+  V -->|issues, max 2 auto-fixes| D
+  V --> A2{{"Approval 2: code<br/>(pinned to git tree SHA)"}}
+  A2 -->|feedback| D
+  A2 --> PUB["Commit of the exact approved tree, push, PR,<br/>pre-merge check against the current target branch"]
+  PUB --> A3{{"Approval 3: merge<br/>(production-deploy warning)"}}
+  A3 --> M["Merge PR, update Linear"]
+  classDef human fill:#1d2036,stroke:#8b93ff,color:#e8eaf0
+  class A1,A2,A3 human

@@ -2,7 +2,7 @@ import type { ProjectMeta } from '../../model';
 
 export const project: ProjectMeta = {
   slug: 'cookivo',
-  order: 1,
+  order: 2,
   published: true,
   kind: 'personal',
   isLive: true,

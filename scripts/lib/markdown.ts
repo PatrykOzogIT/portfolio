@@ -1,4 +1,5 @@
-import { Marked, type Tokens } from 'marked';
+import { Marked, type Token, type Tokens } from 'marked';
+import { IMAGE_BASE, pickWidth, variantPath } from '../../src/content/images';
 
 export interface SplitResult {
   readonly sections: ReadonlyMap<string, string>;
@@ -59,6 +60,64 @@ export function splitSections(markdown: string, allowedKeys: readonly string[]):
 }
 
 const escapeAttr = (value: string) => value.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+const escapeText = (value: string) =>
+  value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+/** A figure image as the build knows it: real size and the generated WebP widths (empty = served as-is). */
+export interface FigureImage {
+  readonly width: number;
+  readonly height: number;
+  readonly widths: readonly number[];
+}
+
+export interface RenderOptions {
+  /** Resolves an image path (relative to /public) to its size and variants; null = unknown image. */
+  readonly figure?: (src: string) => FigureImage | null;
+  /** Accessible name prefix of the zoom button, e.g. "Enlarge image". */
+  readonly zoomLabel?: string;
+}
+
+/** Prose column width — figures never render wider. */
+const FIGURE_SIZES = '(min-width: 840px) 760px, calc(100vw - 32px)';
+
+let options: RenderOptions = {};
+
+/**
+ * A standalone image paragraph becomes a figure: responsive WebP, explicit size (no layout shift),
+ * lazy loading, a caption from the image title, and a zoom button that opens the page viewer.
+ */
+function figure(src: string, alt: string, caption: string | null): string {
+  const key = src.replace(/^\/+/, '');
+  const image = options.figure?.(key);
+  if (!image) throw new Error(`Figure image not found: ${key}`);
+  const url = (w: number) => `${IMAGE_BASE}/${variantPath(key, w)}`;
+  const img = image.widths.length
+    ? `<img src="${url(pickWidth(image.widths, 960))}" srcset="${image.widths.map((w) => `${url(w)} ${w}w`).join(', ')}" sizes="${FIGURE_SIZES}"`
+    : `<img src="/${escapeAttr(key)}"`;
+  const label = options.zoomLabel ? `${options.zoomLabel}: ${alt}` : alt;
+  return (
+    `<figure class="figure"><button type="button" class="figure-zoom" data-figure="${escapeAttr(key)}" ` +
+    `data-width="${image.width}" data-height="${image.height}" aria-label="${escapeAttr(label)}">` +
+    `${img} width="${image.width}" height="${image.height}" alt="${escapeAttr(alt)}" loading="lazy" decoding="async"></button>` +
+    (caption ? `<figcaption>${escapeText(caption)}</figcaption>` : '') +
+    `</figure>`
+  );
+}
+
+const isFigureParagraph = (tokens: readonly Token[]) =>
+  tokens.length === 1 && tokens[0]!.type === 'image';
+
+/** Images used as figures in a Markdown text (standalone image paragraphs), in order. */
+export function figureSources(markdown: string): { src: string; alt: string }[] {
+  const out: { src: string; alt: string }[] = [];
+  for (const token of new Marked({ gfm: true }).lexer(markdown)) {
+    if (token.type === 'paragraph' && isFigureParagraph((token as Tokens.Paragraph).tokens)) {
+      const image = (token as Tokens.Paragraph).tokens[0] as Tokens.Image;
+      out.push({ src: image.href.replace(/^\/+/, ''), alt: image.text });
+    }
+  }
+  return out;
+}
 
 const marked = new Marked({
   gfm: true,
@@ -67,6 +126,13 @@ const marked = new Marked({
     if (token.type === 'heading') (token as Tokens.Heading).depth = Math.min(token.depth + 1, 6);
   },
   renderer: {
+    paragraph({ tokens }: Tokens.Paragraph) {
+      if (isFigureParagraph(tokens)) {
+        const image = tokens[0] as Tokens.Image;
+        return figure(image.href, image.text, image.title ?? null);
+      }
+      return `<p>${this.parser.parseInline(tokens)}</p>\n`;
+    },
     link({ href, title, tokens }: Tokens.Link) {
       const text = this.parser.parseInline(tokens);
       const external = /^https?:\/\//.test(href);
@@ -80,6 +146,11 @@ const marked = new Marked({
   },
 });
 
-export function renderMarkdown(markdown: string): string {
-  return (marked.parse(markdown, { async: false }) as string).trim();
+export function renderMarkdown(markdown: string, renderOptions: RenderOptions = {}): string {
+  options = renderOptions;
+  try {
+    return (marked.parse(markdown, { async: false }) as string).trim();
+  } finally {
+    options = {};
+  }
 }

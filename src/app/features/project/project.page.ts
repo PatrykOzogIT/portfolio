@@ -1,7 +1,19 @@
 import { NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  Injector,
+  input,
+  signal,
+  viewChild,
+} from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
-import { PROJECT_SECTION_KEYS } from '../../../content/model';
+import { PROJECT_SECTION_KEYS, type ProjectImage } from '../../../content/model';
 import { SITE_CONTENT } from '../../core/content';
 import { LangService } from '../../core/i18n/lang.service';
 import { SeoService } from '../../core/seo/seo.service';
@@ -11,6 +23,7 @@ import { ExternalLink, NewTabHint } from '../../shared/ui/external-link/external
 import { Icon } from '../../shared/ui/icon/icon';
 import { Reveal } from '../../shared/ui/reveal/reveal';
 import { Gallery } from './gallery/gallery';
+import { Lightbox } from './gallery/lightbox';
 import { projectJsonLd } from './project-json-ld';
 import type { ProjectPageData } from './project.resolver';
 
@@ -29,6 +42,7 @@ import type { ProjectPageData } from './project.resolver';
     NewTabHint,
     ProjectArt,
     Gallery,
+    Lightbox,
     Reveal,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,13 +61,50 @@ export class ProjectPage {
 
   protected readonly title = computed(() => this.page().meta.title[this.lang()]);
   protected readonly description = computed(() => this.page().meta.shortDescription[this.lang()]);
-  /** Only sections with content, in the canonical order, numbered for the reader. */
+  private readonly sanitizer = inject(DomSanitizer);
+  private readonly injector = inject(Injector);
+
+  /**
+   * Only sections with content, in the canonical order, numbered for the reader. The HTML is our own
+   * Markdown compiled at build time (never user input), so it is trusted: figures keep their
+   * lazy-loading and zoom attributes, which the default sanitizer would strip.
+   */
   protected readonly sections = computed(() =>
     PROJECT_SECTION_KEYS.flatMap((key) => {
       const html = this.page().sections[key];
-      return html ? [{ key, html }] : [];
+      return html ? [{ key, html: this.sanitizer.bypassSecurityTrustHtml(html) }] : [];
     }).map((section, i) => ({ ...section, number: String(i + 1).padStart(2, '0') })),
   );
+
+  /** Sections contain figures → the page needs its own viewer for them. */
+  protected readonly hasFigures = computed(() =>
+    Object.values(this.page().sections).some((html) => html?.includes('class="figure-zoom"')),
+  );
+
+  /** Figures inside the sections, opened in the same full-screen viewer as the gallery. */
+  protected readonly figures = signal<readonly ProjectImage[]>([]);
+  private readonly figureViewer = viewChild<Lightbox>('figureViewer');
+
+  protected onBodyClick(event: MouseEvent): void {
+    const button = (event.target as Element).closest<HTMLElement>('.prose .figure-zoom');
+    if (!button) return;
+    const all = [...document.querySelectorAll<HTMLElement>('.prose .figure-zoom')];
+    this.figures.set(
+      all.map((b) => {
+        const alt = b.querySelector('img')?.alt ?? '';
+        const caption = b.parentElement?.querySelector('figcaption')?.textContent ?? null;
+        return {
+          src: b.dataset['figure']!,
+          width: Number(b.dataset['width']),
+          height: Number(b.dataset['height']),
+          alt: { pl: alt, en: alt },
+          ...(caption ? { caption: { pl: caption, en: caption } } : {}),
+        };
+      }),
+    );
+    const index = all.indexOf(button);
+    afterNextRender(() => this.figureViewer()?.open(index), { injector: this.injector });
+  }
   protected readonly galleryNumber = computed(() =>
     String(this.sections().length + 1).padStart(2, '0'),
   );

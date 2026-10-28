@@ -183,3 +183,19 @@ active panel: a short system panel no longer inherits the height of a long persp
 after a click, below the map, so there is no unexpected layout shift.
 The examples navigation and the "My role" block are separate components, which keeps the map's styles within
 the component style budget.
+
+## 30. AI Dev Team case study: figures, diagrams, research section
+- **Figures in the text.** A case study reads better with screenshots next to the paragraph they illustrate,
+  so a standalone Markdown image becomes a figure (responsive WebP from the same pipeline, real size, lazy
+  loading, caption) with a zoom button that opens the same full-screen viewer as the gallery. The section
+  HTML is our own Markdown compiled at build time, never user input, so it is marked as trusted — the default
+  sanitizer would strip `loading` and `data-*`.
+- **Diagrams** are authored as Mermaid, or as hand-laid HTML where automatic layout drew misleading lines
+  (the architecture), and rendered once by `npm run diagrams` to PNG in the site's colours and Inter. PNGs
+  keep the fonts exact and reuse the image pipeline and viewer; the text content is also in the page.
+- **Sections `research` (highlighted) and `role`** are optional for every project.
+- **Initial bundle warning budget 350 → 380 kB** (error stays 420 kB): published project metadata is part of
+  the home page; a second project with a gallery added ~8 kB raw (~2–3 kB compressed).
+- **`MySQL` and `MySQL / MariaDB` are separate chips:** AI Dev Team runs on MySQL 8 only, the B2B/ERP/WMS
+  ecosystem on both.
+- The handoff package and other private material stay outside git (`/ai-dev-team/` is ignored).

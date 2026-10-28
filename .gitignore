@@ -74,3 +74,7 @@ desktop.ini
 /e2e/fixtures/public/
 /test-results/
 /playwright-report/
+
+# Private material from other projects (handoff packages, repository bundles) - never commit
+/ai-dev-team/
+/docs/ai-dev-team-handoff/

@@ -1,0 +1,8 @@
+flowchart TB
+  W["Praca agentów<br/>na zadaniach"] --> H["Interwencje człowieka:<br/>odrzucenia planu/kodu z kategorią,<br/>blokady agenta, ręczne zmiany,<br/>odpowiedzi na pytania"]
+  H --> R["Badania: wskaźniki samodzielności<br/>w czasie, kategorie korekt,<br/>wyniki wg wersji instrukcji"]
+  R --> D["Decyzja człowieka:<br/>nowa reguła AI, nowa wersja<br/>instrukcji roli, zmiana modelu"]
+  D --> M["Znacznik zmiany<br/>na wykresach"]
+  M --> W
+  classDef human fill:#1d2036,stroke:#8b93ff,color:#e8eaf0
+  class D human

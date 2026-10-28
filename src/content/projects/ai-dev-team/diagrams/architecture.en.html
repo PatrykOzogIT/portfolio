@@ -1,0 +1,29 @@
+<div class="arch">
+  <div class="frame"><div class="frame-title">Developer workstation (Windows)</div></div>
+  <div class="box" style="grid-column:4;grid-row:1">Angular + Material dashboard<small>signals, SSE</small></div>
+  <div class="arrow" style="grid-column:4;grid-row:2">↕</div>
+  <div class="group" style="grid-column:3/6;grid-row:3"><div class="label">NestJS — orchestrator</div>
+    <div class="row">
+      <div class="box">Task state machine</div>
+      <div class="box">Scheduler<small>queue, agent slots, resource locks</small></div>
+      <div class="box">Quality gates<small>+ checks</small></div>
+      <div class="box">SafeGit<small>allowlisted git layer</small></div>
+      <div class="box">Research<small>+ token usage</small></div>
+    </div>
+  </div>
+  <div class="box ext" style="grid-column:1;grid-row:3">Linear<small>GraphQL</small></div>
+  <div class="arrow" style="grid-column:2;grid-row:3">⟷</div>
+  <div class="arrow" style="grid-column:6;grid-row:3">→</div>
+  <div class="box ext" style="grid-column:7;grid-row:3">GitHub<small>PR, merge</small></div>
+  <div class="arrow" style="grid-column:3;grid-row:4">↕</div>
+  <div class="arrow" style="grid-column:4;grid-row:4">↓<small>scheduler starts agents</small></div>
+  <div class="arrow" style="grid-column:5;grid-row:4">↓<small>SafeGit</small></div>
+  <div class="box" style="grid-column:3;grid-row:5;align-self:start">MySQL<small>state, queue, audit</small></div>
+  <div class="group" style="grid-column:4;grid-row:5;margin:0 12px"><div class="label">Agents = separate Claude Code CLI processes</div>
+    <div class="row">
+      <div class="box">Analyst</div><div class="box">Architect</div><div class="box">Developer</div><div class="box">Reviewer</div>
+    </div>
+    <div class="box hook">PreToolUse hook<small>per-run policy, fail-closed</small></div>
+  </div>
+  <div class="box" style="grid-column:5;grid-row:5;align-self:start">Isolated git worktree<small>per task (Developer, SafeGit)</small></div>
+</div>

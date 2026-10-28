@@ -74,9 +74,15 @@
     </div>
   </div>
 
-  <div class="container body">
+  <!-- Clicks on figures inside the sections open the viewer (delegated: the HTML is compiled Markdown). -->
+  <div class="container body" (click)="onBodyClick($event)">
     @for (section of sections(); track section.key) {
-      <section appReveal class="block" [attr.aria-labelledby]="'section-' + section.key">
+      <section
+        appReveal
+        class="block"
+        [class.block--research]="section.key === 'research'"
+        [attr.aria-labelledby]="'section-' + section.key"
+      >
         <h2 class="block-title" [id]="'section-' + section.key">
           <span class="num mono" aria-hidden="true">{{ section.number }}</span>
           {{ t().project.sections[section.key] }}
@@ -95,6 +101,10 @@
       </section>
     }
   </div>
+
+  @if (hasFigures()) {
+    <app-lightbox #figureViewer [images]="figures()" />
+  }
 
   @if (nb.previous || nb.next) {
     <nav class="container pager" [attr.aria-label]="t().project.navigation">

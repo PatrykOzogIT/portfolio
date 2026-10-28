@@ -36,7 +36,7 @@ export const TECH_STACK: readonly TechStackGroup[] = [
   {
     id: 'data',
     title: { pl: 'Bazy danych', en: 'Databases' },
-    technologies: ['mysql'],
+    technologies: ['mysql-mariadb'],
     note: {
       pl: 'Projektowanie baz i modelowanie danych, migracje schematu, wspólna baza jako źródło prawdy dla kilku aplikacji.',
       en: 'Database design and data modeling, schema migrations, a shared database as the single source of truth for several applications.',

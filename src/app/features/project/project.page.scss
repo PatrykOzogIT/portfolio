@@ -118,6 +118,16 @@
   max-width: none;
 }
 
+// Research and measurement: the section the project wants read — set apart, in the site's accent.
+.block--research {
+  position: relative;
+  max-width: 820px;
+  padding: clamp(22px, 3vw, 34px);
+  border-radius: var(--r-lg);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  background: color-mix(in srgb, var(--accent) 5%, var(--surface-1));
+}
+
 .block-title {
   display: flex;
   align-items: baseline;
@@ -215,5 +225,46 @@
 .pager-spacer {
   @include bp.down(md) {
     display: none;
+  }
+}
+
+// Figures from Markdown (screenshots, diagrams) — compiled HTML, so styled through ::ng-deep, scoped to
+// this page. Full prose width, zoomable in the page viewer.
+:host ::ng-deep .prose {
+  .figure {
+    margin: 1.75em 0;
+  }
+
+  .figure-zoom {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    background: var(--surface-1);
+    overflow: hidden;
+    cursor: zoom-in;
+    transition: border-color var(--t-base) var(--ease);
+
+    &:hover {
+      border-color: var(--border-strong);
+    }
+
+    &:focus-visible {
+      outline-offset: 3px;
+    }
+  }
+
+  .figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  figcaption {
+    margin-top: var(--space-2);
+    color: var(--text-3);
+    font-size: var(--fs-small);
+    line-height: 1.5;
   }
 }

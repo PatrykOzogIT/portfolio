@@ -28,7 +28,7 @@ export const ECOSYSTEM: readonly EcosystemSystem[] = [
         'Data synchronization with the other systems',
       ],
     },
-    technologies: ['angular', 'typescript', 'nestjs', 'mysql'],
+    technologies: ['angular', 'typescript', 'nestjs', 'mysql-mariadb'],
   },
   {
     id: 'erp',
@@ -57,7 +57,7 @@ export const ECOSYSTEM: readonly EcosystemSystem[] = [
         'Business rules and automation',
       ],
     },
-    technologies: ['angular', 'typescript', 'nestjs', 'mysql'],
+    technologies: ['angular', 'typescript', 'nestjs', 'mysql-mariadb'],
   },
   {
     id: 'wms',
@@ -86,7 +86,7 @@ export const ECOSYSTEM: readonly EcosystemSystem[] = [
         'Warehouse operator interfaces',
       ],
     },
-    technologies: ['angular', 'typescript', 'nestjs', 'mysql'],
+    technologies: ['angular', 'typescript', 'nestjs', 'mysql-mariadb'],
   },
 ];
 

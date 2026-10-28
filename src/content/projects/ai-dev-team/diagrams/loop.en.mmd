@@ -1,0 +1,8 @@
+flowchart TB
+  W["Agents work<br/>on tasks"] --> H["Human interventions:<br/>plan/code rejections with a category,<br/>agent blockers, manual edits,<br/>answers to questions"]
+  H --> R["Research: autonomy metrics<br/>over time, correction categories,<br/>results per prompt version"]
+  R --> D["Human decision:<br/>new AI rule, new role<br/>instruction version, model change"]
+  D --> M["Change marker<br/>on charts"]
+  M --> W
+  classDef human fill:#1d2036,stroke:#8b93ff,color:#e8eaf0
+  class D human

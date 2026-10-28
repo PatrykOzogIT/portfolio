@@ -1,0 +1,18 @@
+flowchart TD
+  L["Zadanie w Linear"] --> Q["Analityk: ocena, pytania, złożoność"]
+  Q -->|niejasne| C["Pytania do zgłaszającego albo<br/>„plan mimo pytań” z założeniami"]
+  C --> P
+  Q -->|gotowe| P["Architekt: analiza kodu (tylko odczyt), plan<br/>tryb ręczny lub automatyczny"]
+  P --> A1{{"Akceptacja 1: plan<br/>(przypięta do SHA-256 treści)"}}
+  A1 -->|odrzucenie z kategorią| P
+  A1 -->|poprawka danych| DF["Skrypty SQL do ręcznego wykonania"]
+  A1 --> D["Programista w izolowanym worktree"]
+  D --> V["Kontrole systemu + bramki + Recenzent<br/>(błędy sprzed zmiany = ostrzeżenie)"]
+  V -->|problemy, maks. 2 auto-poprawki| D
+  V --> A2{{"Akceptacja 2: kod<br/>(przypięta do git tree SHA)"}}
+  A2 -->|uwagi| D
+  A2 --> PUB["Commit zaakceptowanego drzewa, push brancha, PR,<br/>próbne scalenie z aktualnym branchem docelowym"]
+  PUB --> A3{{"Akceptacja 3: scalenie<br/>(ostrzeżenie o wdrożeniu produkcyjnym)"}}
+  A3 --> M["Merge PR, status w Linear"]
+  classDef human fill:#1d2036,stroke:#8b93ff,color:#e8eaf0
+  class A1,A2,A3 human

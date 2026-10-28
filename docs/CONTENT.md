@@ -71,7 +71,8 @@ Unpublished projects are **not compiled into the site at all** — their text ne
 
 ### `pl.md` / `en.md`
 
-Sections are top-level `#` headings with fixed keys. Any section can be omitted — it is then hidden.
+Sections are top-level `#` headings with fixed keys: `about`, `problem`, `features`, `architecture`,
+`research`, `challenges`, `role`. Any section can be omitted — it is then hidden.
 Both languages must contain the same sections.
 
 ```md
@@ -111,6 +112,22 @@ Next to the project name: `isLive` → "Live" (green dot), `developmentStatus` �
 They are independent — a live app can still be in development, and a project in development need not be live.
 The `appUrl` button is labelled by `kind`: "Live Demo" for demos, "Visit app" / "Otwórz aplikację" for real
 products.
+
+### Figures and diagrams in the text
+
+An image alone in a paragraph becomes a figure: `![Alt text](projects/<slug>/file.png "Caption")`. It gets
+responsive WebP variants, its real size (no layout shift), lazy loading and a zoom button that opens the
+full-screen viewer. Alt text is required; the build fails on a missing file.
+
+Diagrams live in `src/content/projects/<slug>/diagrams/<name>.<lang>.mmd` (Mermaid) or `.html` (hand-laid,
+styled by `diagram.css`, where automatic layout would draw misleading lines). `npm run diagrams` renders them
+to `public/projects/<slug>/diagram-<name>.<lang>.png` in the site's colours and fonts; commit the PNGs and
+use them as figures (one per language).
+
+### Optional sections `research` and `role`
+
+`# research` ("Research and measurement") is rendered as a highlighted block; `# role` ("My role") comes last.
+Both are optional, like every other section.
 
 ### Card layout rule (`featured`)
 

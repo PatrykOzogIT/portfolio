@@ -198,7 +198,10 @@ export const PROJECT_SECTION_KEYS = [
   'problem',
   'features',
   'architecture',
+  /** Measurement and research — rendered as a highlighted block. */
+  'research',
   'challenges',
+  'role',
 ] as const;
 export type ProjectSectionKey = (typeof PROJECT_SECTION_KEYS)[number];
 

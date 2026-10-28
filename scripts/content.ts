@@ -21,10 +21,13 @@ import {
   type ProjectMeta,
   type ProjectSections,
 } from '../src/content/model';
+import sharp from 'sharp';
 import type { ImageManifest } from '../src/content/images';
+import { en } from '../src/content/i18n/en';
+import { pl } from '../src/content/i18n/pl';
 import { SITE_CONFIG } from '../src/content/site.config';
 import { processImages, type ImageRef } from './lib/image-pipeline';
-import { renderMarkdown, splitSections } from './lib/markdown';
+import { figureSources, renderMarkdown, splitSections, type FigureImage } from './lib/markdown';
 import { IMAGE_CACHE_DIR, PUBLIC_DIR, ROOT } from './lib/paths';
 
 /**
@@ -155,7 +158,37 @@ function validateProjects(projects: readonly DiscoveredProject[]) {
   }
 }
 
-async function compileSections(folder: string): Promise<Record<string, ProjectSections> | null> {
+/** Zoom button label of inline figures, per language. */
+const ZOOM_LABEL = { pl: pl.gallery.open, en: en.gallery.open } as const;
+
+/**
+ * Figures used in a project's Markdown (`![alt](projects/…/x.png "Caption")` alone in a paragraph):
+ * every one needs alt text and an existing file; returns them with real sizes for the image pipeline.
+ */
+async function collectFigures(folder: string): Promise<ImageRef[]> {
+  const scope = `project:${folder}`;
+  const refs: ImageRef[] = [];
+  for (const lang of LANGS) {
+    const path = join(PROJECTS_DIR, folder, `${lang}.md`);
+    if (!existsSync(path)) continue;
+    for (const { src, alt } of figureSources(await readFile(path, 'utf8'))) {
+      if (!alt.trim()) fail(`${scope}/${lang}.md`, `Figure ${src} needs alt text.`);
+      const file = PUBLIC_DIRS.map((dir) => join(dir, src)).find((f) => existsSync(f));
+      if (!file) {
+        fail(`${scope}/${lang}.md`, `Figure not found in /public: ${src}`);
+        continue;
+      }
+      const { width, height } = await sharp(file).metadata();
+      refs.push({ scope, src, width: width!, height: height! });
+    }
+  }
+  return refs;
+}
+
+async function compileSections(
+  folder: string,
+  figure: (src: string) => FigureImage | null,
+): Promise<Record<string, ProjectSections> | null> {
   const scope = `project:${folder}`;
   const files = LANGS.map((lang) => ({ lang, path: join(PROJECTS_DIR, folder, `${lang}.md`) }));
   const present = files.filter((f) => existsSync(f.path));
@@ -174,7 +207,10 @@ async function compileSections(folder: string): Promise<Record<string, ProjectSe
     );
     sectionErrors.forEach((e) => fail(`${scope}/${lang}.md`, e));
     keySets.push([...sections.keys()].sort().join(','));
-    result[lang] = Object.fromEntries([...sections].map(([key, md]) => [key, renderMarkdown(md)]));
+    const options = { figure, zoomLabel: ZOOM_LABEL[lang] };
+    result[lang] = Object.fromEntries(
+      [...sections].map(([key, md]) => [key, renderMarkdown(md, options)]),
+    );
   }
   if (new Set(keySets).size > 1)
     fail(scope, 'Every language must contain the same set of sections.');
@@ -246,11 +282,6 @@ validateProjects(projects);
 const published = projects
   .filter((p) => p.meta.published)
   .sort((a, b) => a.meta.order - b.meta.order);
-const sections = new Map<string, Record<string, ProjectSections>>();
-for (const { folder, meta } of published) {
-  const compiled = await compileSections(folder);
-  if (compiled) sections.set(meta.slug, compiled);
-}
 
 function exitOnErrors() {
   if (!errors.length) return;
@@ -260,6 +291,9 @@ function exitOnErrors() {
   process.exit(1);
 }
 
+// Figures inside the Markdown of published projects (they go through the same image pipeline).
+const figureRefs: ImageRef[] = [];
+for (const { folder } of published) figureRefs.push(...(await collectFigures(folder)));
 exitOnErrors();
 
 // Images of the site and of PUBLISHED projects only (unpublished images are never processed or shipped).
@@ -270,9 +304,23 @@ const imageRefs: ImageRef[] = [
       .filter((img) => img !== undefined)
       .map((img) => ({ scope: `project:${folder}`, ...img })),
   ),
+  ...figureRefs,
 ];
 const images = await processImages(imageRefs, PUBLIC_DIRS, IMAGE_CACHE_DIR);
 errors.push(...images.errors);
+exitOnErrors();
+
+// Sections are compiled after the images: figures need their generated widths.
+const figureSizes = new Map(figureRefs.map((r) => [r.src, r]));
+const figure = (src: string): FigureImage | null => {
+  const ref = figureSizes.get(src);
+  return ref ? { width: ref.width, height: ref.height, widths: images.manifest[src] ?? [] } : null;
+};
+const sections = new Map<string, Record<string, ProjectSections>>();
+for (const { folder, meta } of published) {
+  const compiled = await compileSections(folder, figure);
+  if (compiled) sections.set(meta.slug, compiled);
+}
 exitOnErrors();
 
 await generate(published, sections, images.manifest);

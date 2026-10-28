@@ -1,0 +1,7 @@
+flowchart TD
+  S["Każdy przebieg agenta: odczyt wykorzystania<br/>okna 5 h i tygodnia ze strumienia CLI"] --> T{"Powyżej progu?"}
+  T -->|tak| PZ["Pauza: nowe kroki AI nie startują,<br/>bieżący kończy się normalnie"]
+  PZ --> PR["Sonda stanu limitu bez wywołania modelu,<br/>co kilkanaście minut"]
+  PR --> RS["Automatyczne wznowienie<br/>po odnowieniu (opcja)"]
+  T -->|nie| Q["Kolejka: priorytety,<br/>sloty 1–4, blokady zasobów"]
+  Q --> MC["Dobór modelu Architekta<br/>do złożoności zadania"]
